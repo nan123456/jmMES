@@ -51,28 +51,28 @@
                     <td rowspan="10">淬火</td>
                     <td>装炉</td>
                     <td>炉温≤450℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[0]}}℃<button class="updateBtn" @click="updateBtn(0,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="2">请较准确地记录：加热升<br>温到淬火温度的时间</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[0]}} 净时间<button class="updateBtn" @click="updateBtn(0,'time')">更新</button></td>
                     <td rowspan="17"></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[1]}}<button class="updateBtn" @click="updateBtn(1,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>加热温度850℃ ± 10°</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：{{temperature[1]}}℃<button class="updateBtn" @click="updateBtn(1,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">加热时间 ≈ aKD<br>(aKD计算方法参照：热处理规程中说明)</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[2]}} 净时间<button class="updateBtn" @click="updateBtn(2,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[3]}}<button class="updateBtn" @click="updateBtn(3,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">冷却</td>
@@ -97,26 +97,26 @@
                     <td rowspan="7">回火</td>
                     <td>装炉</td>
                     <td>炉温 ≤ 300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[2]}}℃<button class="updateBtn" @click="updateBtn(2,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="3">回火加热温度560℃左右<br>（注意：回火温度应参照淬火硬度<br>和图纸要求的调质硬度做适当调整） </td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[4]}} 净时间<button class="updateBtn" @click="updateBtn(4,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[5]}}<button class="updateBtn" @click="updateBtn(5,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：{{temperature[3]}}℃<button class="updateBtn" @click="updateBtn(3,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">约2 - 3小时</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[6]}} 净时间<button class="updateBtn" @click="updateBtn(6,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[7]}}<button class="updateBtn" @click="updateBtn(7,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却</td>
@@ -139,28 +139,28 @@
                     <td rowspan="9">淬火</td>
                     <td>装炉</td>
                     <td>(易开裂零件)炉温≤300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[0]}}℃<button class="updateBtn" @click="updateBtn(0,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="2">请较准确地记录：加热<br>升温到淬火温度的时间</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[0]}} 净时间<button class="updateBtn" @click="updateBtn(0,'time')">更新</button></td>
                     <td rowspan="15"></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[1]}}<button class="updateBtn" @click="updateBtn(1,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>加热温度870℃ ± 10°</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：  {{temperature[1]}}℃<button class="updateBtn" @click="updateBtn(1,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">加热时间 ≈ aKD<br>(aKD计算方法参照：热处理规程中说明)</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[2]}} 净时间<button class="updateBtn" @click="updateBtn(2,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[3]}}<button class="updateBtn" @click="updateBtn(3,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">冷却</td>
@@ -180,26 +180,26 @@
                     <td rowspan="7">回火</td>
                     <td>装炉</td>
                     <td>炉温 ≤ 300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[2]}}℃<button class="updateBtn" @click="updateBtn(2,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="3">回火加热温度560℃左右<br>（注意：回火温度应参照淬火硬度<br>和图纸要求的调质硬度做适当调整） </td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[4]}} 净时间<button class="updateBtn" @click="updateBtn(4,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[5]}}<button class="updateBtn" @click="updateBtn(5,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：{{temperature[3]}}℃<button class="updateBtn" @click="updateBtn(3,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">约2 - 3小时</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[6]}} 净时间<button class="updateBtn" @click="updateBtn(6,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[7]}}<button class="updateBtn" @click="updateBtn(7,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却</td>
@@ -222,28 +222,28 @@
                     <td rowspan="9">淬火</td>
                     <td>装炉</td>
                     <td>(易开裂零件)炉温≤300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[0]}}℃<button class="updateBtn" @click="updateBtn(0,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="2">请较准确地记录：加热<br>升温到淬火温度的时间</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[0]}} 净时间<button class="updateBtn" @click="updateBtn(0,'time')">更新</button></td>
                     <td rowspan="15"></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[1]}}<button class="updateBtn" @click="updateBtn(1,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>加热温度870℃ ± 10°</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：  {{temperature[1]}}℃<button class="updateBtn" @click="updateBtn(1,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">加热时间 ≈ aKD<br>(aKD计算方法参照：热处理规程中说明)</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[2]}} 净时间<button class="updateBtn" @click="updateBtn(2,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[3]}}<button class="updateBtn" @click="updateBtn(3,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">冷却</td>
@@ -263,26 +263,26 @@
                     <td rowspan="7">回火</td>
                     <td>装炉</td>
                     <td>炉温 ≤ 300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[2]}}℃<button class="updateBtn" @click="updateBtn(2,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="3">回火加热温度560℃左右<br>（注意：回火温度应参照淬火硬度<br>和图纸要求的调质硬度做适当调整） </td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[4]}} 净时间<button class="updateBtn" @click="updateBtn(4,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[5]}}<button class="updateBtn" @click="updateBtn(5,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：{{temperature[3]}}℃<button class="updateBtn" @click="updateBtn(3,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">约2 - 3小时</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[6]}} 净时间<button class="updateBtn" @click="updateBtn(6,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[7]}}<button class="updateBtn" @click="updateBtn(7,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却</td>
@@ -306,28 +306,28 @@
                     <td rowspan="9">淬火</td>
                     <td>装炉</td>
                     <td>(易开裂零件)炉温≤300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[0]}}℃<button class="updateBtn" @click="updateBtn(0,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="2">请较准确地记录：加热<br>升温到淬火温度的时间</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[0]}} 净时间<button class="updateBtn" @click="updateBtn(0,'time')">更新</button></td>
                     <td rowspan="15"></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[1]}}<button class="updateBtn" @click="updateBtn(1,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>加热温度870℃ ± 10°</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：  {{temperature[1]}}℃<button class="updateBtn" @click="updateBtn(1,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">加热时间 ≈ aKD<br>(aKD计算方法参照：热处理规程中说明)</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[2]}} 净时间<button class="updateBtn" @click="updateBtn(2,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[3]}}<button class="updateBtn" @click="updateBtn(3,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">冷却</td>
@@ -347,26 +347,26 @@
                     <td rowspan="7">回火</td>
                     <td>装炉</td>
                     <td>炉温 ≤ 300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[2]}}℃<button class="updateBtn" @click="updateBtn(2,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="3">回火加热温度560℃左右<br>（注意：回火温度应参照淬火硬度<br>和图纸要求的调质硬度做适当调整） </td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[4]}} 净时间<button class="updateBtn" @click="updateBtn(4,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[5]}}<button class="updateBtn" @click="updateBtn(5,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：{{temperature[3]}}℃<button class="updateBtn" @click="updateBtn(3,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">约2 - 3小时</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[6]}} 净时间<button class="updateBtn" @click="updateBtn(6,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[7]}}<button class="updateBtn" @click="updateBtn(7,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却</td>
@@ -390,33 +390,33 @@
                     <td rowspan="10">淬火</td>
                     <td>装炉</td>
                     <td>高合金钢：炉温≤300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[0]}}℃<button class="updateBtn" @click="updateBtn(0,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="2">请较准确地记录：加热<br>升温到淬火温度的时间</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[0]}} 净时间<button class="updateBtn" @click="updateBtn(0,'time')">更新</button></td>
                     <td rowspan="17"></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[1]}}<button class="updateBtn" @click="updateBtn(1,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>加热温度970℃ ± 10°</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：  {{temperature[1]}}℃<button class="updateBtn" @click="updateBtn(1,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">加热时间 ≈ aKD<br>(aKD计算方法参照：热处理规程中说明)</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[2]}} 净时间<button class="updateBtn" @click="updateBtn(2,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[3]}}<button class="updateBtn" @click="updateBtn(3,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>空气</td>
-                    <td>实际空气温度：_______ ℃</td>
+                    <td>实际空气温度：{{temperature[2]}} ℃<button class="updateBtn" @click="updateBtn(2,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却环境干燥无水迹等</td>
@@ -436,26 +436,26 @@
                     <td rowspan="7">回火</td>
                     <td>装炉</td>
                     <td>炉温 ≤ 300℃</td>
-                    <td>实际炉温：_______℃</td>
+                    <td>实际炉温：{{temperature[3]}}℃<button class="updateBtn" @click="updateBtn(3,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="3">回火加热温度700℃左右<br>（注意：回火温度应参照淬火硬度和<br>图纸要求的调质硬度做适当调整）</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[4]}} 净时间<button class="updateBtn" @click="updateBtn(4,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[5]}}<button class="updateBtn" @click="updateBtn(5,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：  {{temperature[4]}}℃<button class="updateBtn" @click="updateBtn(4,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="2">保温</td>
                     <td rowspan="2">约2 - 3小时</td>
-                    <td>起始时间：_______ 净时间</td>
+                    <td>起始时间：{{time[6]}} 净时间<button class="updateBtn" @click="updateBtn(6,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[7]}}<button class="updateBtn" @click="updateBtn(7,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却</td>
@@ -525,7 +525,7 @@
                     <td rowspan="6">淬火</td>
                     <td rowspan="2">加热</td>
                     <td>加热温度（参照规程规定）</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际炉温：{{temperature[0]}}℃<button class="updateBtn2" @click="updateBtn(0,'temperature')">更新</button></td>
                     <td rowspan="13"></td>
                 </tr>
                 <tr>
@@ -554,28 +554,28 @@
                     <td rowspan="6">回火</td>
                     <td>装炉</td>
                     <td>炉温≤100℃</td>
-                    <td>实际温度：_______℃</td>
+                    <td>实际炉温：{{temperature[1]}}℃<button class="updateBtn2" @click="updateBtn(1,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td rowspan="3">加热</td>
                     <td rowspan="3">（注意：回火温度应参照淬火硬度和<br>图纸要求的淬火硬度做适当调整）</td>
-                    <td>起始时间：_______  净时间</td>
+                    <td>起始时间：{{time[0]}} 净时间<button class="updateBtn2" @click="updateBtn(0,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[1]}}<button class="updateBtn2" @click="updateBtn(1,'time')">更新</button></td>
                 </tr>
                 <tr>
-                    <td>实际温度：_______℃</td>
+                    <td>实际温度：{{temperature[2]}}℃<button class="updateBtn2" @click="updateBtn(2,'temperature')">更新</button></td>
                 </tr>
                 <tr>
                     <td>保温</td>
                     <td>约1 - 2小时</td>
-                    <td>起始时间：_______  净时间</td>
+                    <td>起始时间：{{time[2]}} 净时间<button class="updateBtn2" @click="updateBtn(2,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td>冷却</td>
                     <td>空冷  注意：工件放置处应干燥无水迹</td>
-                    <td>结束时间：_______</td>
+                    <td>结束时间：{{time[3]}}<button class="updateBtn2" @click="updateBtn(3,'time')">更新</button></td>
                 </tr>
                 <tr>
                     <td colspan="2">高频淬火深度抽查</td>
@@ -708,12 +708,16 @@ export default {
                 value: '40Cr钢调质热处理（1.25%PAG淬火）报告',
                 label: '40Cr钢调质热处理（1.25%PAG淬火）报告'
                 }],
-                value: ''
+                value: '',
+            temperature:['_______ ','_______ ','_______ ','_______ ','_______ '],
+            time:['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
         }
     },
     methods: {
         //修改下拉选项选择模板
         model(value){
+            this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
+            this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
             switch(value){
                 case "45钢（盐水10%）调质热处理报告":
                     this.model1=true
@@ -777,7 +781,9 @@ export default {
                 "productDrawingNumber": "",
                 "ownPartDrawingNumber": "",
                 "partsDrawingNumber": ""
-            }    
+            }
+            this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
+            this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
         },
         //打开新建焊接模态框
         openHeattreatmentDialog(selectedTreeNode){
@@ -833,6 +839,35 @@ export default {
                     .catch(function (error){
                         console.log(error)
                     })
+        },
+        //点击更新按钮，获取温度与时间
+        updateBtn(value,type){
+            let fd = new FormData()
+            fd.append("flag",type)
+            if(type=='temperature'){
+                axios.post(`${this.baseURL}/basicdata/components/updateTemperatureTime.php`,fd)
+                    .then((response) => {
+                            console.log(response)
+                            let temperature=response.data;
+                            this.$set(this.temperature,value,temperature);
+                            console.log(this.temperature)
+                        })
+                    .catch(function (error){
+                            console.log(error)
+                        })
+            }else if(type=='time'){
+                axios.post(`${this.baseURL}/basicdata/components/updateTemperatureTime.php`,fd)
+                    .then((response) => {
+                            console.log(response)
+                            let time=response.data;
+                            this.$set(this.time,value,time);
+                            console.log(this.time)
+                        })
+                    .catch(function (error){
+                            console.log(error)
+                        })
+            }
+
         }
     }
 }
@@ -891,5 +926,15 @@ input {
   }
   el-dialog__body{
       padding: 0 20px !important;
+  }
+  .updateBtn{
+      position: absolute;
+      right: 360px;
+      width: 40px;
+  }
+  .updateBtn2{
+      position: absolute;
+      right: 140px;
+      width: 40px;
   }
 </style>
