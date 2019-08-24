@@ -126,6 +126,9 @@
           <el-form-item label="规格"  :label-width="formLabelWidth">
             <el-input v-model="addpart.standard"></el-input>
           </el-form-item>
+          <el-form-item label="工单号"  :label-width="formLabelWidth">
+            <el-input v-model="addpart.pNumber"></el-input>
+          </el-form-item>
           <el-form-item label="数量" :label-width="formLabelWidth">
             <el-input v-model="addpart.count"></el-input>
           </el-form-item>
@@ -270,6 +273,7 @@ export default {
       fd.append("modid",this.addpart.modid)
       fd.append("remark",this.addpart.remark)
       fd.append("routel",this.addpart.routel)
+      fd.append("pNumber",this.addpart.pNumber)
       this.dialogaddVisible = false
       axios.post(`${this.baseURL}/part.php`,fd).then((res)=>{
         // console.log(res)
