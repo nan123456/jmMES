@@ -16,7 +16,7 @@
             <el-header>
               <el-row :gutter="20">
                 <el-col :span="2" :offset="20">
-                  <!-- <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true">导入</el-button> -->
+                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true">导入</el-button>
                 </el-col>
               </el-row>
             </el-header>
@@ -55,11 +55,14 @@
         </div>
          <el-dialog title="项目导入" :visible.sync="dialogUpload">
           <el-form >
-            <el-form-item label="项目名称" :label-width="formLabelWidth">
-              <el-input v-model="form.name" placeholder="请输入项目名称,如：过山车" auto-complete="off"></el-input>
+            <el-form-item label="工单号" :label-width="formLabelWidth">
+              <el-input v-model="form.pnumber" placeholder="请输入工单号，如：37#" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="项目编号" :label-width="formLabelWidth">
-              <el-input v-model="form.number" placeholder="请输入项目编号，如:37#KSC-16A" auto-complete="off"></el-input>
+            <el-form-item label="项目名称" :label-width="formLabelWidth">
+              <el-input v-model="form.name" placeholder="请输入项目名称，如：过山车" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="项目图号" :label-width="formLabelWidth">
+              <el-input v-model="form.number" placeholder="请输入项目图号，如:KSC-16A" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="项目类型" :label-width="formLabelWidth">
               <el-input v-model="form.type" placeholder="请输入项目类型，如：过山车" auto-complete="off"></el-input>
@@ -81,7 +84,7 @@
               style="margin-left:120px;">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">只能上传xls文件</div>
+              <div class="el-upload__tip" slot="tip">只能上传xls、xlsx、xlsm文件</div>
             </el-upload>
           </el-form>
         <div slot="footer" class="dialog-footer">

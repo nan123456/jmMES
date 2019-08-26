@@ -56,11 +56,14 @@
         </div>
          <el-dialog title="项目导入" :visible.sync="dialogUpload">
           <el-form >
+            <el-form-item label="工单号" :label-width="formLabelWidth">
+              <el-input v-model="form.worknumber" placeholder="请输入工单号,如：37#" auto-complete="off"></el-input>
+            </el-form-item>
             <el-form-item label="项目名称" :label-width="formLabelWidth">
               <el-input v-model="form.name" placeholder="请输入项目名称,如：过山车" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="项目编号" :label-width="formLabelWidth">
-              <el-input v-model="form.number" placeholder="请输入项目编号，如:37#KSC-16A" auto-complete="off"></el-input>
+            <el-form-item label="项目图号" :label-width="formLabelWidth">
+              <el-input v-model="form.number" placeholder="请输入项目图号，如:KSC-16A" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="项目类型" :label-width="formLabelWidth">
               <el-input v-model="form.type" placeholder="请输入项目类型，如：过山车" auto-complete="off"></el-input>
@@ -82,7 +85,7 @@
               style="margin-left:120px;">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">只能上传xls文件</div>
+              <div class="el-upload__tip" slot="tip">只能上传xls、xlsx、xlsm文件</div>
             </el-upload>
           </el-form>
         <div slot="footer" class="dialog-footer">
@@ -91,7 +94,7 @@
         </div>
         </el-dialog>
         <!-- 导入关键零部件图号表格 -->
-        <el-dialog title="关键零部件导入" :visible.sync="dialogimportant">
+        <!-- <el-dialog title="关键零部件导入" :visible.sync="dialogimportant">
           <el-form >
             <el-upload
               class="upload-demo"
@@ -113,7 +116,7 @@
           <el-button @click="dialogUpload = false">取 消</el-button>
           <el-button type="primary" @click="importantFile">保存</el-button>
         </div>
-        </el-dialog>
+        </el-dialog> -->
     </div>
 </template>
 
