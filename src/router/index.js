@@ -68,11 +68,11 @@ export default new Router({
                     meta: { title: '计划总表' }
                 },
                 // 工艺部
-                {
-                    path: '/craftunreview',
-                    component: resolve => require(['../components/page/project/craft/CraftUnreview.vue'], resolve),
-                    meta: { title: '未审核项目' }
-                },
+                // {
+                //     path: '/craftunreview',
+                //     component: resolve => require(['../components/page/project/craft/CraftUnreview.vue'], resolve),
+                //     meta: { title: '未审核项目' }
+                // },
                 {
                     path: '/craft',
                     component: resolve => require(['../components/page/project/craft/Craft.vue'], resolve),
@@ -84,10 +84,10 @@ export default new Router({
                     meta: { title: '已完成项目' }
                 },
                 {
-                    // vue-schart组件
+                    // 工时统计
                     path: '/charts',
                     component: resolve => require(['../components/page/statistics/BaseCharts.vue'], resolve),
-                    meta: { title: 'schart图表' }
+                    meta: { title: '工时统计' }
                 },
                 {
                     // 消息通知组件
