@@ -36,7 +36,7 @@
               <el-input v-model="partfile.station"></el-input>
             </el-col>
           </el-form-item>
-          <img v-for="i in item"  :src="i" class="img"/>
+          <img v-for="(i,index) in item" :key="index" :src="i" class="img"/>
         </el-form>
       </el-tab-pane>
     </el-tabs>
@@ -78,7 +78,7 @@ export default {
     mylxid: {
       immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
       handler(val) {
-        // console.log(val)
+        console.log(val)
         var fd = new FormData() //定义获取partdata的传值
         fd.append('id',val)
         fd.append('flag','part')

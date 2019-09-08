@@ -128,8 +128,8 @@
             prop="backMark"
             label="退产"
             sortable
-          > -->
-          </el-table-column>
+          >
+          </el-table-column> -->
           <!-- <el-table-column
             fixed="right"
             label="操作"
@@ -877,8 +877,7 @@ export default {
           for(let i=0; i < length2; i++) {
             this.fChild_material.push({text:res.fChild_material[i].f5,value:res.fChild_material[i].f5})
           }
-        }
-        
+        }  
       }
 
       if(res.rows2) {

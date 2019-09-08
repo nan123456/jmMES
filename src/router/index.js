@@ -21,26 +21,26 @@ export default new Router({
                     meta: { title: '系统首页' }
                 },
                 //  销售部
-                {
-                    path: '/marketunreview',
-                    component: resolve => require(['../components/page/project/market/MarketUnreview.vue'], resolve),
-                    meta: { title: '未审核项目' }
-                },
-                {
-                    path: '/market',
-                    component: resolve => require(['../components/page/project/market/Market.vue'], resolve),
-                    meta: { title: '在建项目' }
-                },
-                {
-                    path: '/marketfinished',
-                    component: resolve => require(['../components/page/project/market/MarketFinished.vue'], resolve),
-                    meta: { title: '已完成项目' }
-                },
-                {
-                    path: '/marketcheck',
-                    component: resolve => require(['../components/page/project/market/MarketCheck.vue'], resolve),
-                    meta: { title: '订单管理' }
-                },
+                // {
+                //     path: '/marketunreview',
+                //     component: resolve => require(['../components/page/project/market/MarketUnreview.vue'], resolve),
+                //     meta: { title: '未审核项目' }
+                // },
+                // {
+                //     path: '/market',
+                //     component: resolve => require(['../components/page/project/market/Market.vue'], resolve),
+                //     meta: { title: '在建项目' }
+                // },
+                // {
+                //     path: '/marketfinished',
+                //     component: resolve => require(['../components/page/project/market/MarketFinished.vue'], resolve),
+                //     meta: { title: '已完成项目' }
+                // },
+                // {
+                //     path: '/marketcheck',
+                //     component: resolve => require(['../components/page/project/market/MarketCheck.vue'], resolve),
+                //     meta: { title: '订单管理' }
+                // },
                 // 计划部
                 {
                     path: '/planunreview',
