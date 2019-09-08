@@ -6,10 +6,10 @@
             </el-breadcrumb>
         </div> -->
         <el-tabs v-model="tabName" @tab-click="handleClick">
-          <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane>
+          <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
           <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
-          <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
-          <el-tab-pane label="已完成" name="completed"></el-tab-pane>
+          <!-- <el-tab-pane label="进行中" name="ongoing"></el-tab-pane> -->
+          <!-- <el-tab-pane label="已完成" name="completed"></el-tab-pane> -->
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -84,12 +84,13 @@
               style="margin-left:120px;">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">只能上传xls、xlsx、xlsm文件</div>
+              <div class="el-upload__tip" slot="tip">只能上传xls文件</div>
             </el-upload>
           </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogUpload = false">取 消</el-button>
-          <el-button type="primary" @click="uploadFile">保存</el-button>
+          <el-button @click="dialogUpload = false" v-if="quxiao">取 消</el-button>
+          <el-button type="primary" @click="uploadFile" v-if="save">保存</el-button>
+          <el-button v-if="wait">请稍等</el-button>
         </div>
         </el-dialog>
     </div>
@@ -99,7 +100,7 @@
 import axios from 'axios'
 import Project from '../components/Project'
 import Part from '../components/Part'
-var key = '2'
+var key = '1'
 export default {
   name: "Craft",
   inject:["reload"],
@@ -112,7 +113,7 @@ export default {
         tabName:'ordinary',
         lx:'',
         lxid:'',
-        uploadUrl:`${this.baseURL}/craft/project_upload.php`,
+        uploadUrl:`${this.baseURL}/importERP.php`,
         filterText: '',
         updateTree:true,
         dialogUpload:false,
@@ -122,7 +123,10 @@ export default {
           children: 'children',
           label: 'name',
           isLeaf:'leaf'
-        }
+        },
+        quxiao:true,
+        save:true,
+        wait:false
       };
     },
     mounted:function(){
@@ -165,7 +169,9 @@ export default {
       },
       // 文件上传成功时的钩子
       handleSuc(res,file, fileList) {
-        // console.log(res)
+        this.quxiao=true;
+        this.wait=false;
+        console.log(res)
         if(res.success == 'success'){
           alert("文件上传成功")
         }else  {
@@ -175,8 +181,13 @@ export default {
       },
       // 上传文件前的钩子
       beforeupload (file){
+        alert('时间可能会有点长，请稍等');
+        this.quxiao=false;
+        this.save=false;
+        this.wait=true;
         // console.log(file)
-        this.form.ftype = file.type
+        // this.form.ftype = file.type
+        this.form.fname = file.name
       },
       // 上传文件
       uploadFile(){
@@ -218,7 +229,7 @@ export default {
           }
           // 项目节点
           if(node.level === 2)　{
-            // console.log(node.data.name) 
+            // console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','project')
             fd.append('type',node.data.name) //node.data 父节点所带参数
@@ -233,7 +244,7 @@ export default {
           }
           // tree 3级树节点
           if(node.level === 3)　{
-            // console.log(node.data.id) 
+            console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','mpart')
             fd.append('key',key) //关键零部件判断
@@ -251,7 +262,7 @@ export default {
           }
           // 3级以下树子节点
           if(node.level > 3)　{
-            // console.log(node.data.id) 
+            console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','part')
             fd.append('key',key) //关键零部件判断
@@ -274,7 +285,7 @@ export default {
             var fd = new FormData()
             fd.append('flag','treefilter')
             fd.append('modid',this.filterText)
-            fd.append('state',1)
+            fd.append('state',0)
             axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
               // console.log(res.data.data)
               if(res.data.success == "success"){
@@ -293,5 +304,9 @@ export default {
 <style scoped>
   .el-header{
     height: 0px !important;
+  }
+  .filter-tree{
+    overflow:auto;
+    display: inline-block;
   }
 </style>
