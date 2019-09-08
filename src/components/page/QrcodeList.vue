@@ -27,7 +27,7 @@
                     <td>{{item.next}}</td>
                 <td colspan="2" rowspan="2">
                     <qrcode
-                    :value='`{"id":"${item.partid}","flag":"jmmes","modid":"${item.modid}","pid":"${item.fid}"}`'
+                    :value='`{"id":"${item.partid}","flag":"jmmes","modid":"${item.modid}","pid":"${item.fid}","external":"${item.external}"}`'
                     :options="{ size: 95 }"
                     >
                     </qrcode>
@@ -73,7 +73,7 @@ export default {
         }
     },
 	created () {
-		// console.log(this.$route.query.modid)
+		console.log(this.$route.query.partid)
         // console.log(this.qrcodePer);
         // 获取缓存数据
         this.data = JSON.parse(sessionStorage.getItem('table'))
@@ -84,7 +84,7 @@ export default {
 	},
 	methods: {
 		getData(id) {
-			this.qrcodeCard = '{"id":"'+this.$route.query.id+'","flag":"jmmes","modid":"'+this.$route.query.modid+'","pid":"'+res.data.pid+'"}'
+			this.qrcodeCard = '{"id":"'+this.$route.query.partid+'","flag":"jmmes","modid":"'+this.$route.query.modid+'","pid":"'+res.data.fid+'","external":"'+res.data.external+'"}'
 		}
 	}
 }

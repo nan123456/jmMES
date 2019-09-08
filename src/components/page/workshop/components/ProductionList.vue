@@ -29,17 +29,18 @@
         <i class="el-icon-search el-icon--right"></i>
       </el-button>
       <el-button type="primary"  @click="dialogFormExport=true">导出</el-button>
-      <el-button type="primary" v-if="show_2btn"  @click="dialogVisible = true">排产</el-button>
-      <el-button type="primary" v-if="show_4btn"  @click="dialogFormBack = true">退产</el-button>
-      <el-button type="primary" v-if="show_5btn"  @click="dialogScrap = true">报废排产</el-button>
-      <el-button type="primary" v-if="show_3btn" @click="print()"  >生产计划表</el-button>
-      <el-button type="primary" v-if="show_3btn" @click="print2()"  >产品标志卡</el-button>
-      <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button>
+      <!-- <el-button type="primary" v-if="show_2btn"  @click="dialogVisible = true">排产</el-button> -->
+      <!-- <el-button type="primary" v-if="show_4btn"  @click="dialogFormBack = true">退产</el-button> -->
+      <!-- <el-button type="primary" v-if="show_5btn"  @click="dialogScrap = true">报废排产</el-button> -->
+      <!-- <el-button type="primary" v-if="show_3btn" @click="print()"  >生产计划表</el-button> -->
+      <el-button type="primary" v-if="show_6btn" @click="print2()"  >产品标志卡</el-button>
+      <!-- <el-button type="primary" v-if="show_3btn" @click="print2()"  >产品标志卡</el-button> -->
+      <!-- <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button> -->
       <el-button type="primary" @click="clearFilter">清除过滤</el-button>
     </div>
     <el-tabs v-model="activeName" @tab-click="tabClick">
       <!-- 未排产选项卡 -->
-      <el-tab-pane label="未排产" name="first">
+      <el-tab-pane label="未开工" name="first">
         <el-table
           ref="filterTable"
           :data="tableData.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
@@ -123,20 +124,20 @@
             sortable
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="backMark"
             label="退产"
             sortable
-          >
+          > -->
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             fixed="right"
             label="操作"
             width="100">
             <template slot-scope="scope">
               <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <!-- 数据分页 -->
         <div class="block">
@@ -154,7 +155,8 @@
 
 
       <!-- 已排产选项卡 -->
-      <el-tab-pane label="已排产" name="second">
+      <el-tab-pane label="已就工" name="second">
+
         <!-- element table 
             arrayObject.slice(start,end)方法使数据分页显示
         -->
@@ -273,14 +275,14 @@
             :filter-method="filterHandler2"
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             fixed="right"
             label="操作"
             width="100">
             <template slot-scope="scope">
               <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <!-- 数据分页 -->
         <div class="block">
@@ -297,7 +299,7 @@
       </el-tab-pane>
 
       <!-- 生产中选项卡 -->
-      <el-tab-pane label="生产中" name="third">
+      <el-tab-pane label="已完成" name="third">
         <!-- element table 
             arrayObject.slice(start,end)方法使数据分页显示
         -->
@@ -416,14 +418,14 @@
             :filter-method="filterHandler2"
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             fixed="right"
             label="操作"
             width="100">
             <template slot-scope="scope">
               <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <!-- 数据分页 -->
         <div class="block">
@@ -440,11 +442,11 @@
       </el-tab-pane>
 
        <!-- 报废品选项卡 -->
-      <el-tab-pane label="报废品" name="four">
+      <!-- <el-tab-pane label="报废品" name="four"> -->
         <!-- element table 
             arrayObject.slice(start,end)方法使数据分页显示
         -->
-        <el-table
+        <!-- <el-table
           ref="filterTable4"
           :data="tableData4.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
           style="width: 100%"
@@ -543,9 +545,9 @@
               <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
             </template>
           </el-table-column>
-        </el-table>
+        </el-table> -->
         <!-- 数据分页 -->
-        <div class="block">
+        <!-- <div class="block">
           <el-pagination
             @size-change="handleSizeChange2"
             @current-change="handleCurrentChange2"
@@ -556,7 +558,7 @@
             :total="tableData4.length">
           </el-pagination>
         </div>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
     <!-- form表单编辑 -->
     <el-dialog title="信息详情" :visible.sync="hasInfoDialog">
@@ -615,11 +617,11 @@
         <el-button type="primary" @click="checkComfirm()" >修 改</el-button>
       </div>
     </el-dialog>
-    <el-dialog
+    <!-- <el-dialog
       title="排产"
       :visible.sync="dialogVisible"
-      :before-close="handleClose">
-      <el-form>
+      :before-close="handleClose"> -->
+      <!-- <el-form>
         <el-form-item label="排产日期" :label-width="formLabelWidth">
          <el-date-picker
             v-model="schedule"
@@ -639,7 +641,7 @@
             value-format="yyyy-MM-dd"
           >
           </el-date-picker>
-        </el-form-item>
+        </el-form-item> -->
         <!-- <el-form-item label="工位" :label-width="formLabelWidth">
           <el-checkbox-group v-model="checkList">
             <el-checkbox label="切管"></el-checkbox>
@@ -648,12 +650,12 @@
         </el-form-item>
         <el-form-item label="开料尺寸定额" :label-width="formLabelWidth">
         </el-form-item> -->
-      </el-form>
-      <span slot="footer" class="dialog-footer">
+      <!-- </el-form> -->
+      <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleSchedule">确 定</el-button>
-      </span>
-    </el-dialog>
+      </span> -->
+    <!-- </el-dialog> -->
     <!-- 报废品排产 -->
     <el-dialog
       title="报废品排产"
@@ -763,6 +765,7 @@ export default {
       show_3btn: false,
       show_4btn:false,
       show_5btn:false,
+      show_6btn:true,
       searchOptions: [
         {
           value: 'product_name',
@@ -915,7 +918,7 @@ export default {
         isfinish = '2'
       }
       var fd = new FormData()
-          fd.append("flag","screen")
+          fd.append("flag","Select")
           fd.append("searchValue",this.searchValue)
           fd.append("searchCondition",this.searchCondition)
           fd.append("isfinish",isfinish)
@@ -938,13 +941,15 @@ export default {
       });
       window.open(routeData2.href, '_blank');
     },
+  
+    
     // 打印零件质量记录表
-    print3() {
-      let routeData3 = this.$router.resolve({
-        name: "PartsQuality"
-      });
-      window.open(routeData3.href, '_blank');
-    },
+    // print3() {
+    //   let routeData3 = this.$router.resolve({
+    //     name: "PartsQuality"
+    //   });
+    //   window.open(routeData3.href, '_blank');
+    // },
     importExcel() {
       this.canImport = true;
     },
@@ -1169,6 +1174,7 @@ export default {
         this.show_3btn = true
         this.show_4btn = true
         this.show_5btn = false
+        this.show_6btn = false
         var flag = "Delivered"
             this.getData(flag)
       }else if(tab.name == 'third'){
@@ -1176,6 +1182,7 @@ export default {
         this.show_2btn = false
         this.show_3btn = false
         this.show_5btn = false
+         this.show_6btn = false
         var flag = "Production"
             this.getData(flag)
       }else if(tab.name == 'four'){
@@ -1183,6 +1190,7 @@ export default {
         this.show_2btn = false
         this.show_5btn = true
         this.show_3btn = false
+        this.show_6btn = false
         var flag = "Scrap"
             this.getData(flag)
       }else {
@@ -1190,6 +1198,7 @@ export default {
         this.show_4btn = false
         this.show_2btn = true
         this.show_3btn = false
+        this.show_6btn = true
       }
     },
 
