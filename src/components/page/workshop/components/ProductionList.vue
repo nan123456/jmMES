@@ -39,7 +39,7 @@
       <el-button type="primary" @click="clearFilter">清除过滤</el-button>
     </div>
     <el-tabs v-model="activeName" @tab-click="tabClick">
-      <!-- 未排产选项卡 -->
+      <!-- 未开工选项卡 -->
       <el-tab-pane label="未开工" name="first">
         <el-table
           ref="filterTable"
@@ -923,11 +923,11 @@ export default {
       let isfinish = ''
       let arr = ''
       if(this.activeName=='first'){
-        isfinish = '3'
-      }else if(this.activeName=='second'){
         isfinish = '0'
-      }else{
+      }else if(this.activeName=='second'){
         isfinish = '2'
+      }else if(this.activeName=='third'){
+        isfinish = '1'
       }
       if(value=='K'){
         arr ='("K","K坡")'
@@ -969,7 +969,7 @@ export default {
         .then(this.getDataSucc);
     },
     getDataSucc(res) {
-      if(res.data.success=="error"){
+      if(res.data.success=="error"||!res.data.success){
         alert("暂无数据")
       }
       console.log(res.data)
@@ -1023,14 +1023,16 @@ export default {
     search(){
       var isfinish = ''
       if(this.activeName=='first'){
-        isfinish = '3'
-      }else if(this.activeName=='second'){
         isfinish = '0'
-      }else{
+      }else if(this.activeName=='second'){
         isfinish = '2'
+      }else if(this.activeName=='third'){
+        isfinish = '1'
+      }else if(this.activeName=='exterior'){
+        isfinish = 'w'
       }
       var fd = new FormData()
-          fd.append("flag","Select")
+          fd.append("flag","")
           fd.append("searchValue",this.searchValue)
           fd.append("searchCondition",this.searchCondition)
           fd.append("isfinish",isfinish)
