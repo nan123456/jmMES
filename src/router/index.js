@@ -168,6 +168,12 @@ export default new Router({
                     meta: { title: '权限管理' }
                 },
                 {
+                    // 系统设置模块/过程
+                    path: '/process',
+                    component: resolve => require(['../components/page/system/Process.vue'], resolve),
+                    meta: { title: '过程归档' }
+                },
+                {
                     
                     // 系统设置模块/云平台交互
                     path: '/cloudinteraction',
@@ -220,7 +226,7 @@ export default new Router({
             path: '/QrcodeList',
             name: 'QrcodeList',
             component: resolve => require(['../components/page/QrcodeList.vue'], resolve),
-            meta: { title: '排产产品标识卡' }
+            meta: { title: '产品标识卡' }
         },
         {
             path: '/Circulation',
