@@ -6,7 +6,7 @@
             </el-breadcrumb>
         </div> -->
         <el-tabs v-model="tabName" @tab-click="handleClick">
-          <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane>
+          <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
           <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
         </el-tabs>
         <div class="container">
@@ -94,7 +94,7 @@
 import axios from 'axios'
 import Project from '../components/Project'
 import Part from '../components/Part'
-var key = '2'
+var key = '1'
 export default {
   name: "CraftFinished",
   inject:["reload"],
@@ -236,7 +236,7 @@ export default {
           }
           // 3级以下树子节点
           if(node.level > 3)　{
-            // console.log(node.data.id) 
+            console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','part')
             fd.append('key',key) //关键零部件判断
@@ -276,5 +276,8 @@ export default {
 };
 </script>
 <style scoped>
-  
+  .filter-tree{
+    overflow:auto;
+    display: inline-block;
+  }
 </style>

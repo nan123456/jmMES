@@ -8,8 +8,9 @@
         <el-tabs v-model="tabName" @tab-click="handleClick">
           <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
           <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
-          <!-- <el-tab-pane label="进行中" name="ongoing"></el-tab-pane> -->
-          <!-- <el-tab-pane label="已完成" name="completed"></el-tab-pane> -->
+          <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
+          <el-tab-pane label="已完成" name="completed"></el-tab-pane>
+          <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -136,6 +137,8 @@ export default {
         this.tabName = 'ongoing'
       }else if(key=='4'){
         this.tabName = 'completed'
+      }else if(key=='5'){
+        this.tabName = 'exterior'
       }
     },
     methods: {
@@ -154,6 +157,9 @@ export default {
           break
           case 'momentous':
           key = 1
+          break
+          case 'exterior':
+          key = 5
           break
         }
         this.reload()

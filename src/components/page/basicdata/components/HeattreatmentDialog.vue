@@ -929,7 +929,7 @@ input {
   }
   .updateBtn{
       position: absolute;
-      right: 360px;
+      /* right: 360px; */
       width: 40px;
   }
   .updateBtn2{

@@ -39,7 +39,7 @@
       <el-button type="primary" @click="clearFilter">清除过滤</el-button>
     </div>
     <el-tabs v-model="activeName" @tab-click="tabClick">
-      <!-- 未排产选项卡 -->
+      <!-- 未开工选项卡 -->
       <el-tab-pane label="未开工" name="first">
         <el-table
           ref="filterTable"
@@ -128,8 +128,8 @@
             prop="backMark"
             label="退产"
             sortable
-          > -->
-          </el-table-column>
+          >
+          </el-table-column> -->
           <!-- <el-table-column
             fixed="right"
             label="操作"
@@ -440,7 +440,120 @@
           </el-pagination>
         </div>
       </el-tab-pane>
-
+      
+      <!-- 外协选项卡 -->
+      <el-tab-pane label="外部协助" name="exterior">
+        <el-table
+          ref="filterTable4"
+          :data="tableData4.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
+          style="width: 100%"
+          :row-class-name="tableRowClassName"
+          stripe
+          @selection-change="handleSelectionChange"
+          @filter-change="filterChange"
+        >
+          <!-- reserve-selection属性保持选中状态 -->
+          <el-table-column
+            type="selection"
+            width="55"
+            reserve-selection
+          >
+          </el-table-column>
+          <el-table-column
+            prop="modid"
+            width="60"
+            label="modid"
+            v-if=false
+          >
+          </el-table-column>
+          <el-table-column
+            prop="routeid"
+            width="60"
+            label="routeid"
+            v-if=false
+          >
+          </el-table-column>
+          <el-table-column
+            prop="product_name"
+            label="产品名称"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="number"
+            label="工单"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="figure_number"
+            label="零件图号"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="名称"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="child_material"
+            label="规格"
+            width="180"
+            :filters="fChild_material"
+            :filter-method="filterHandler"
+            column-key="child_material"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="standard"
+            label="开料尺寸"
+            :filters="fStandard"
+            :filter-method="filterHandler"
+            column-key="standard"
+          >
+          </el-table-column>
+          <!-- <el-table-column
+            prop="route"
+            label="加工工艺路线"
+            sortable
+          >
+          </el-table-column> -->
+          <el-table-column
+            prop="count"
+            label="数量"
+            sortable
+          >
+          </el-table-column>
+          <!-- <el-table-column
+            prop="backMark"
+            label="退产"
+            sortable
+          >
+          </el-table-column> -->
+          <!-- <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column> -->
+        </el-table>
+        <!-- 数据分页 -->
+        <div class="block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 25, 50, 100]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData4.length">
+          </el-pagination>
+        </div>
+      </el-tab-pane>
        <!-- 报废品选项卡 -->
       <!-- <el-tab-pane label="报废品" name="four"> -->
         <!-- element table 
@@ -810,11 +923,11 @@ export default {
       let isfinish = ''
       let arr = ''
       if(this.activeName=='first'){
-        isfinish = '3'
-      }else if(this.activeName=='second'){
         isfinish = '0'
-      }else{
+      }else if(this.activeName=='second'){
         isfinish = '2'
+      }else if(this.activeName=='third'){
+        isfinish = '1'
       }
       if(value=='K'){
         arr ='("K","K坡")'
@@ -856,7 +969,7 @@ export default {
         .then(this.getDataSucc);
     },
     getDataSucc(res) {
-      if(res.data.success=="error"){
+      if(res.data.success=="error"||!res.data.success){
         alert("暂无数据")
       }
       console.log(res.data)
@@ -877,8 +990,7 @@ export default {
           for(let i=0; i < length2; i++) {
             this.fChild_material.push({text:res.fChild_material[i].f5,value:res.fChild_material[i].f5})
           }
-        }
-        
+        }  
       }
 
       if(res.rows2) {
@@ -904,21 +1016,23 @@ export default {
         this.tableData3 = res.rows3
       }
       if(res.rows4) {
-        // 生产中
+        // 外协
         this.tableData4 = res.rows4
       }
     },
     search(){
       var isfinish = ''
       if(this.activeName=='first'){
-        isfinish = '3'
-      }else if(this.activeName=='second'){
         isfinish = '0'
-      }else{
+      }else if(this.activeName=='second'){
         isfinish = '2'
+      }else if(this.activeName=='third'){
+        isfinish = '1'
+      }else if(this.activeName=='exterior'){
+        isfinish = 'w'
       }
       var fd = new FormData()
-          fd.append("flag","Select")
+          fd.append("flag","")
           fd.append("searchValue",this.searchValue)
           fd.append("searchCondition",this.searchCondition)
           fd.append("isfinish",isfinish)
@@ -1192,6 +1306,15 @@ export default {
         this.show_3btn = false
         this.show_6btn = false
         var flag = "Scrap"
+            this.getData(flag)
+      }else if(tab.name == 'exterior') {
+        
+        this.show_2btn = false
+        this.show_3btn = true
+        this.show_4btn = true
+        this.show_5btn = false
+        this.show_6btn = true
+        var flag = "exterior"
             this.getData(flag)
       }else {
         this.show_5btn = false
