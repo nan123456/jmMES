@@ -55,6 +55,7 @@
             type="selection"
             width="55"
             reserve-selection
+            :selectable='selectInit'
           >
           </el-table-column>
           <el-table-column
@@ -1331,6 +1332,15 @@ export default {
           return 'warning-row';
         }
         return '';
+      },
+
+      selectInit(row,index){
+        console.log(row.forbidden)
+            if(row.forbidden==1){
+                return false  //不可勾选
+            }else{    
+              return true  //可勾选
+            }
       }
   }
 };
