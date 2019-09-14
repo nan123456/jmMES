@@ -1336,6 +1336,7 @@ export default {
 
       selectInit(row,index){
         console.log(row.forbidden)
+        //后台返回值1不可勾选，0为无工单号可勾选，2为有工单号有工艺卡可勾选，3为该工艺路线不需要工艺卡可勾选
             if(row.forbidden==1){
                 return false  //不可勾选
             }else{    
