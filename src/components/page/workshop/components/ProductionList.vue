@@ -28,7 +28,7 @@
       <el-button type="primary" @click.native="search" style="margin-left: 16px">搜索
         <i class="el-icon-search el-icon--right"></i>
       </el-button>
-      <el-button type="primary"  @click="dialogFormExport=true">导出</el-button>
+      <!-- <el-button type="primary"  @click="dialogFormExport=true">导出</el-button> -->
       <!-- <el-button type="primary" v-if="show_2btn"  @click="dialogVisible = true">排产</el-button> -->
       <!-- <el-button type="primary" v-if="show_4btn"  @click="dialogFormBack = true">退产</el-button> -->
       <!-- <el-button type="primary" v-if="show_5btn"  @click="dialogScrap = true">报废排产</el-button> -->
@@ -1033,7 +1033,7 @@ export default {
         isfinish = 'w'
       }
       var fd = new FormData()
-          fd.append("flag","")
+          fd.append("flag","search")
           fd.append("searchValue",this.searchValue)
           fd.append("searchCondition",this.searchCondition)
           fd.append("isfinish",isfinish)
