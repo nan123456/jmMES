@@ -12,7 +12,7 @@
       <el-button type="primary" class="btn" value = 'I'  @click="select_WS('I')">机械车间</el-button>
       <el-button type="primary" class="btn" value = 'L'  @click="select_WS('L')">结构L</el-button>
       <el-button type="primary" class="btn" value = 'J'  @click="select_WS('J')">探伤</el-button>
-      <el-button type="primary" class="btn" value = 'W'  @click="select_WS('W')">外协W</el-button>
+      <!-- <el-button type="primary" class="btn" value = 'W'  @click="select_WS('W')">外协W</el-button> -->
     </div>
     <br/>
     <div slot="table-actions" class="table-actions" >
@@ -1335,7 +1335,7 @@ export default {
       },
 
       selectInit(row,index){
-        console.log(row.forbidden)
+        // console.log(row.forbidden)
         //后台返回值1不可勾选，0为无工单号可勾选，2为有工单号有工艺卡可勾选，3为该工艺路线不需要工艺卡可勾选
             if(row.forbidden==1){
                 return false  //不可勾选
