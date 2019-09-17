@@ -54,7 +54,7 @@
                 <td>15#</td>
                 <td>16#</td>
                 </tr>
-                <tr v-for="(item,index) in craftsmanshipTableBody_1.rowsData">
+                <tr v-for="(item,index) in craftsmanshipTableBody_1.rowsData" :key="index">
                 <td><input v-model="item.serialNumber" /></td>
                 <td><input v-model="item.processFlow" /></td>
                 <td><input v-model="item.inspectionContent" /></td>
@@ -91,7 +91,7 @@
                 <td>自检</td>
                 <td>签名/日期</td>
                 </tr>
-                <tr  v-for="(item,index) in craftsmanshipTableBody_2.rowsData">
+                <tr  v-for="(item,index) in craftsmanshipTableBody_2.rowsData" :key="index">
                 <td class="serialNumber"><input v-model="item.serialNumber" /></td>
                 <td><input v-model="item.processFlow" /></td>
                 <td><input v-model="item.inspectionContent" /></td>
@@ -180,7 +180,8 @@ export default {
                 "productDrawingNumber": "",
                 "ownPartDrawingNumber": "",
                 "partsDrawingNumber": "",
-                "quantity": ""
+                "quantity": "",
+                "pnumber":""
             },
             craftsmanshipTableBody_1: {
                 rowsData:[
@@ -312,10 +313,24 @@ export default {
                 "review": ""
             }
         },
-        //打开新建焊接模态框
+        //打开新建模态框
         openCraftsmanshipDialog(selectedTreeNode){
             this.selectedTreeNode = selectedTreeNode
-             console.log(selectedTreeNode)
+            //  console.log(selectedTreeNode)
+            var relateId=selectedTreeNode.relateId;
+            let fd = new FormData()
+            fd.append('flag','craft')
+            fd.append('relateId',relateId)
+            axios.post(`${this.baseURL}/basicdata/getTableHead.php`,fd)
+            .then((res) =>{
+                // console.log(res.data)
+                this.craftsmanshipTableHeader.pnumber=res.data.pnumber;
+                this.craftsmanshipTableHeader.productName=res.data.proname;
+                this.craftsmanshipTableHeader.productDrawingNumber=res.data.procode;
+            })
+            .catch(function (error){
+                console.log(error)
+            })
             this.dialogcraftsmanshipVisible = true
             if(this.craftsmanshipTableHeader.contactId){
                 this.resetInputCraftsmanship()

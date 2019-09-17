@@ -527,6 +527,12 @@
             sortable
           >
           </el-table-column>
+          <el-table-column
+            prop="finish"
+            label="是否完成"
+            sortable
+          >
+          </el-table-column>
           <!-- <el-table-column
             prop="backMark"
             label="退产"

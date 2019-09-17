@@ -60,13 +60,31 @@
               <el-input v-model="form.pnumber" placeholder="请输入工单号，如：37#" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="项目名称" :label-width="formLabelWidth">
-              <el-input v-model="form.name" placeholder="请输入项目名称，如：过山车" auto-complete="off"></el-input>
+              <el-input v-model="form.name" placeholder="请输入项目名称，如：中山过山车" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="项目图号" :label-width="formLabelWidth">
               <el-input v-model="form.number" placeholder="请输入项目图号，如:KSC-16A" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="项目类型" :label-width="formLabelWidth">
-              <el-input v-model="form.type" placeholder="请输入项目类型，如：过山车" auto-complete="off"></el-input>
+              <!-- <el-input v-model="form.type" placeholder="请输入项目类型，如：过山车" auto-complete="off"></el-input> -->
+              <el-select v-model="form.type" placeholder="请选择项目类型">
+                <el-option label="转马类"  value="0_转马类"></el-option>
+                <el-option label="滑行类" value="1_滑行类"></el-option>
+                <el-option label="陀螺类" value="2_陀螺类"></el-option>
+                <el-option label="飞行塔类" value="3_飞行塔类"></el-option>
+                <el-option label="赛车类" value="4_赛车类"></el-option>
+                <el-option label="自控飞机类" value="5_自控飞机类"></el-option>
+                <el-option label="观览车类" value="6_观览车类"></el-option>
+                <el-option label="小火车类" value="7_小火车类"></el-option>
+                <el-option label="架空游览车类" value="8_架空游览车类"></el-option>
+                <el-option label="水上游乐设施" value="9_水上游乐设施"></el-option>
+                <el-option label="碰碰车类" value="10_碰碰车类"></el-option>
+                <el-option label="电池车类" value="11_电池车类"></el-option>
+                <el-option label="摇摆类" value="12_摇摆类"></el-option>
+                <el-option label="回旋类" value="13_回旋类"></el-option>
+                <el-option label="其他类" value="14_其他类"></el-option>
+                <el-option label="科技娱乐类" value="15_科技娱乐类"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="项目交付时间" :label-width="formLabelWidth">
               <!-- value-format 参数为设置date的类型 -->

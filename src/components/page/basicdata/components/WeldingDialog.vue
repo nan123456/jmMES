@@ -58,7 +58,7 @@
                     <td colspan="2">检验员确认</td>
                     <td colspan="2">检验员确认</td>
                 </tr>
-                <tr v-for="(item,index) in weldingTableTwo_1">
+                <tr v-for="(item,index) in weldingTableTwo_1" :key="index">
                     <td><input v-model="item.weldNumber" @change="weldNumberChangeCompletion(index)" /></td>
                     <td>
                         <el-select 
@@ -184,7 +184,7 @@
                     <td colspan="6">检验结果</td>
                     <td colspan="4">检验员签名（日期）</td>
                 </tr>
-                <tr v-for="(item,index) in weldingTableTwo_2">            
+                <tr v-for="(item,index) in weldingTableTwo_2" :key="index">            
                     <td rowspan="6" v-if="index == 0">焊中检查</td>
                     <td rowspan="2" v-if="index == 6">焊后检查</td>
                     <td><input v-model="item.serialNumber" /></td>
@@ -212,7 +212,7 @@
                     <td>检验结果</td>
                     <td>检验员签名（日期）</td>
                 </tr>
-                <tr v-for="(item,index) in weldingTableThree_1">
+                <tr v-for="(item,index) in weldingTableThree_1"  :key="index">
                     <td><input v-model="item.weldNumber" /></td>
                     <td><input v-model="item.processRequirements_1" /></td>
                     <td><input v-model="item.testResult_1" /></td>
@@ -241,7 +241,7 @@
                     <td>检验结果</td>
                     <td>检验员签名（日期）</td>
                 </tr>
-                <tr v-for="(item,index) in weldingTableThree_2">
+                <tr v-for="(item,index) in weldingTableThree_2"  :key="index">
                     <td><input v-model="item.weldNumber" /></td>
                     <td><input v-model="item.processRequirements_1" /></td>
                     <td><input v-model="item.testResult_1" /></td>
@@ -481,6 +481,21 @@ export default {
         },
         //打开新建焊接模态框
         openWeldingDialog(selectedTreeNode){
+            // console.log(selectedTreeNode)
+            var relateId=selectedTreeNode.relateId;
+            let fd = new FormData()
+            fd.append('flag','welding')
+            fd.append('relateId',relateId)
+            axios.post(`${this.baseURL}/basicdata/getTableHead.php`,fd)
+            .then((res) =>{
+                // console.log(res.data)
+                this.weldingTableOne.workOrderNumber=res.data.pnumber;
+                this.weldingTableOne.productName=res.data.proname;
+                this.weldingTableOne.productCode=res.data.procode;
+            })
+            .catch(function (error){
+                console.log(error)
+            })
             this.selectedTreeNode = selectedTreeNode           
             this.dialogWeldingVisible = true
             if(this.weldingTableOne.contactId){

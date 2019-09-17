@@ -41,7 +41,7 @@
                 <td>设备</td>
                 <td>工艺示意图</td>
                 </tr>
-                <tr  v-for="(item,index) in machiningTableBody.rowsData">
+                <tr  v-for="(item,index) in machiningTableBody.rowsData" :key="index">
                 <td class="serialNumber"><input v-model="item.serialNumber" /></td>
                 <td><input v-model="item.processFlow" /></td>
                 <td><input v-model="item.workshop" /></td>
@@ -113,7 +113,8 @@ export default {
                 "productDrawingNumber": "",
                 "ownPartDrawingNumber": "",
                 "partsDrawingNumber": "",
-                "quantity": ""
+                "quantity": "",
+                "pnumber":""//工单号
             },
             machiningTableBody: {
                 rowsData:[
@@ -168,10 +169,24 @@ export default {
                 "name2":""
             }
         },
-        //打开新建焊接模态框
+        //打开新建模态框
         openMachiningDialog(selectedTreeNode){
             this.selectedTreeNode = selectedTreeNode
-             console.log(selectedTreeNode)
+            //  console.log(selectedTreeNode)
+            var relateId=selectedTreeNode.relateId;
+            let fd = new FormData()
+            fd.append('flag','maching')
+            fd.append('relateId',relateId)
+            axios.post(`${this.baseURL}/basicdata/getTableHead.php`,fd)
+            .then((res) =>{
+                // console.log(res.data)
+                this.machiningTableHeader.pnumber=res.data.pnumber;
+                this.machiningTableHeader.productName=res.data.proname;
+                this.machiningTableHeader.productDrawingNumber=res.data.procode;
+            })
+            .catch(function (error){
+                console.log(error)
+            })
             this.MachiningVisible = true
             if(this.machiningTableHeader.contactId){
                 this.resetInputMachining()

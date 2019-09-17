@@ -785,10 +785,23 @@ export default {
             this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
             this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
         },
-        //打开新建焊接模态框
+        //打开新建模态框
         openHeattreatmentDialog(selectedTreeNode){
             this.selectedTreeNode = selectedTreeNode
             //  console.log(selectedTreeNode)
+            var relateId=selectedTreeNode.relateId;
+            let fd = new FormData()
+            fd.append('flag','heating')
+            fd.append('relateId',relateId)
+            axios.post(`${this.baseURL}/basicdata/getTableHead.php`,fd)
+            .then((res) =>{
+                // console.log(res.data)
+                this.craftsmanshipTableHeader.partsName=res.data.pnumber;
+                this.craftsmanshipTableHeader.productName=res.data.procode+res.data.proname;
+            })
+            .catch(function (error){
+                console.log(error)
+            })
             this.dialogcraftsmanshipVisible = true
             if(this.craftsmanshipTableHeader.contactId){
                 this.resetInputCraftsmanship()

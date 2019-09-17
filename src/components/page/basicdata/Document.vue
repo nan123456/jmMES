@@ -8,7 +8,7 @@
         <div class="container">
            <el-container style="height: 600px;">
                 <el-aside width="250px">  
-                    <el-button type="primary" @click="openNewTreeDialog">新建节点</el-button>
+                    <!-- <el-button type="primary" @click="openNewTreeDialog">新建节点</el-button> -->
                     <el-button type="danger" v-if="deltetButtonVisible" @click="deltetTreeNode">删除</el-button>
                     <el-dialog
                         title="树节点新建"
