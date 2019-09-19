@@ -96,12 +96,13 @@
           </el-table>
           </el-collapse-item>
           <el-collapse-item title="附件" name="3">
-            <div v-for="(tdata,index) in tableData">
+            <!-- <div v-for="(tdata,index) in tableData" :key="index">
               <span>{{tdata.route}}</span>
-              <div v-for="(photo,i) in photo[index]">
+              <div v-for="(photo,i) in photo[index]" :key="i">
                 <img :src="item[index+i]" class="img"/>
               </div>
-            </div>
+            </div> -->
+            <img :src="photourl" class="img"/>
           </el-collapse-item>
         </el-collapse>
       </el-tab-pane>
@@ -124,7 +125,8 @@ export default {
       item:{},
       photo:[],//按车间顺序照片个数
       activeName: 'third',
-      tableData: []
+      tableData: [],
+      photourl:''
     }
   },// 监听数据的变化
   watch: {
@@ -159,12 +161,14 @@ export default {
       if(res.data.success =='success'){
         this.tableData = res.data.data
       }
-      this.tableData.forEach(element => {
-        this.photo.push(element.photourl.length)
-        for(let i = 0;i<element.photourl.length;i++){
-          this.item.push(element.photourl[i])
-        }
-      });
+      // this.tableData.forEach(element => {
+      //   this.photo.push(element.photourl.length)
+      //   for(let i = 0;i<element.photourl.length;i++){
+      //     this.item.push(element.photourl[i])
+      //   }
+      // });
+      this.photourl=res.data.data[0].photourl;
+      console.log(this.tableData)
       console.log(this.item)
     },
     // 产品标识卡

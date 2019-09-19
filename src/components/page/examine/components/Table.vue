@@ -262,7 +262,7 @@ export default {
         this.rows = ret.data.data : 
         this.rows = ret.data.data
       }else {
-
+        this.rows = '';
       }
     },
 

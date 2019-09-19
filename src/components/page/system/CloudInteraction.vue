@@ -53,7 +53,7 @@
 import axios from 'axios'
 import Parttree from './components/Parttree'
 import Partfile from './components/Partfile'
-var key = '2'
+var key = '1'
 export default {
     components:{
         Parttree,
@@ -153,7 +153,7 @@ export default {
             fd.append('name',node.data.zhname) //node.data 父节点所带参数
             fd.append('number',node.data.number) //node.data 父节点所带参数
             axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
-              // console.log(res)
+              console.log(res)
               if(res.data.success){
                 return resolve (res.data.data)
               }else {
@@ -205,5 +205,9 @@ export default {
 <style scoped>
   .container{
     padding: 10px !important;
+  }
+  .filter-tree{
+    overflow:auto;
+    display: inline-block;
   }
 </style>
