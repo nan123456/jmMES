@@ -96,13 +96,13 @@
           </el-table>
           </el-collapse-item>
           <el-collapse-item title="附件" name="3">
-            <!-- <div v-for="(tdata,index) in tableData" :key="index">
+            <div v-for="(tdata,index) in tableData" :key="index">
               <span>{{tdata.route}}</span>
               <div v-for="(photo,i) in photo[index]" :key="i">
                 <img :src="item[index+i]" class="img"/>
               </div>
-            </div> -->
-            <img :src="photourl" class="img"/>
+            </div>
+            <!-- <img :src="photourl" class="img"/> -->
           </el-collapse-item>
         </el-collapse>
       </el-tab-pane>
@@ -161,13 +161,13 @@ export default {
       if(res.data.success =='success'){
         this.tableData = res.data.data
       }
-      // this.tableData.forEach(element => {
-      //   this.photo.push(element.photourl.length)
-      //   for(let i = 0;i<element.photourl.length;i++){
-      //     this.item.push(element.photourl[i])
-      //   }
-      // });
-      this.photourl=res.data.data[0].photourl;
+      this.tableData.forEach(element => {
+        this.photo.push(element.photourl.length)
+        for(let i = 0;i<element.photourl.length;i++){
+          this.item.push(element.photourl[i])
+        }
+      });
+      // this.photourl=res.data.data[0].photourl;
       console.log(this.tableData)
       console.log(this.item)
     },
