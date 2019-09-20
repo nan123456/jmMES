@@ -16,7 +16,7 @@
               @click="mode(props.row.contactId,props.row.selectedTreeNode)"
               :name="props.row.figure_number"
             >
-              填写工艺卡
+              查看工艺卡
             </el-button>
           </div>
         </span>
@@ -28,7 +28,31 @@
               @click="check(props.row.weldingcontactId)"
               :name="props.row.figure_number"
             >
-              填写工艺卡
+              查看工艺卡
+            </el-button>
+          </div>
+        </span>
+        <span v-if="props.column.field == 'heat'">
+          <div>
+            <el-button 
+              type="primary"
+              v-if="props.row.show_btn2"
+              @click="heat(props.row.heatId,props.row.selectedTreeNode2)"
+              :name="props.row.figure_number"
+            >
+              查看工艺卡
+            </el-button>
+          </div>
+        </span>
+        <span v-if="props.column.field == 'maching'">
+          <div>
+            <el-button 
+              type="primary" 
+              v-if="props.row.show_btn3"
+              @click="mach(props.row.machingId,props.row.selectedTreeNode3)"
+              :name="props.row.figure_number"
+            >
+              查看工艺卡
             </el-button>
           </div>
         </span>
@@ -43,10 +67,11 @@
         
         <span v-else-if="props.column.field == 'result'">
           <a 
-            :href="`http://jmmes.oss-cn-shenzhen.aliyuncs.com/partUpload/${props.row.photourl}`" 
+            :href="`http://47.106.161.130:8081/jmmes/app/uploadfiles/${props.row.photourl}`" 
             target="_blank"
             class="show_img"
             :key="props.index"
+            v-if="props.row.show_img"
           >点击查看</a>
         </span>
         <span v-if="props.column.field == 'checkSituation'">
@@ -68,6 +93,12 @@
 
     <!-- 制造工艺 -->
     <craftsmanship-dialog ref="cratsmanshipcomponent"></craftsmanship-dialog>
+
+    <!-- 热处理信息 -->
+    <heattreatment-dialog ref="heattreatmentcomponent"></heattreatment-dialog>
+
+    <!-- 机械加工工艺 -->
+    <machining-dialog ref="machcomponent"></machining-dialog>
   </div>
 </template>
 
@@ -78,6 +109,8 @@ import { Loading } from 'element-ui';
 import ExamineDialog from './Dialog';
 import WeldingDialog from "../../basicdata/components/WeldingDialog.vue"
 import CraftsmanshipDialog from "../../basicdata/components/CraftsmanshipDialog.vue"
+import HeattreatmentDialog from "../../basicdata/components/HeattreatmentDialog.vue"
+import MachiningDialog from "../../basicdata/components/MachiningDialog.vue"
 
 export default {
   name: 'ExamineTable',
@@ -88,7 +121,9 @@ export default {
     VueGoodTable,
     ExamineDialog,
     WeldingDialog,
-    CraftsmanshipDialog
+    CraftsmanshipDialog,
+    HeattreatmentDialog,
+    MachiningDialog
   },
   data () {
     return {
@@ -147,6 +182,14 @@ export default {
               field: 'check',
               filterable: true,
             },{
+              label: '热处理工艺卡',
+              field: 'heat',
+              filterable: true,
+            },{
+              label: '加工工艺卡',
+              field: 'maching',
+              filterable: true,
+            },{
               label: '完工附件',
               field: 'finish',
               filterable: true,
@@ -196,10 +239,17 @@ export default {
               field: 'check',
               filterable: true,
             },{
+              label: '热处理工艺卡',
+              field: 'heat',
+              filterable: true,
+            },{
+              label: '加工工艺卡',
+              field: 'maching',
+              filterable: true,
+            },{
               label: '检验详情',
               field: 'result',
-            },
-            {
+            },{
               label: '流转单打印',
               field: 'checkSituation',
               filterable: true,
@@ -251,6 +301,21 @@ export default {
       
     },
 
+
+    //热处理工艺卡
+    heat (heatId,selectedTreeNode2) {
+      this.dialog.HeattreatmentDialog = true;
+      this.$refs.heattreatmentcomponent.Handlealter(heatId,selectedTreeNode2)
+    },
+
+
+    //机械加工工艺卡按钮
+    mach (machingId,selectedTreeNode3) {
+      this.dialog.MachiningDialog = true
+      this.$refs.machcomponent.Handlealter(machingId,selectedTreeNode3)
+      
+    },
+
     // 成功回调
     success (ret) {
       this.$nextTick(() => { 
@@ -264,6 +329,7 @@ export default {
       }else {
         this.rows = '';
       }
+      // localStorage.setItem("data",ret.data.data);
     },
 
     // 失败回调
@@ -302,7 +368,9 @@ export default {
 
     this.loadingInstance = Loading.service(this.options)
     var fd = new FormData()
-        fd.append("flag","Select")
+        // fd.append("flag","Select")
+        fd.append("flag","State")
+        fd.append("state",'1')
     axios.post(`${this.baseURL}/examine.php`,fd)
     .then(this.success)
     .catch(this.error)

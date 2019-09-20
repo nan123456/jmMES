@@ -813,6 +813,13 @@ export default {
             axios.get(`${this.baseURL}/basicdata/heattreatment.php?flag=getHeattreatmentInfoData&contactID=${contactId}`)
             .then((response) => {   
                 this.dialogcraftsmanshipVisible = true
+                var temperature_arr=response.data.temperature.split('|');
+                var popped = temperature_arr.pop();
+                this.temperature=temperature_arr;
+                var time_arr=response.data.time.split('|');
+                var popped2 = time_arr.pop();
+                this.time=time_arr;
+                console.log(temperature_arr.length)
                 if(response.data.state == "success"){
                     this.craftsmanshipTableHeader = response.data.data.craftsmanshipTableHeader
                     this.value = response.data.data.value       
@@ -830,6 +837,8 @@ export default {
                 fd.append("treeId",this.selectedTreeNode.relateId)//选中树的id
                 fd.append("heattreatmentTableHeader",JSON.stringify(this.craftsmanshipTableHeader))//头部信息
                 fd.append("model",this.value)//模板信息
+                fd.append("temperature",JSON.stringify(this.temperature))//获取温度值
+                fd.append("time",JSON.stringify(this.time))//获取时间值
                 axios.post(`${this.baseURL}/basicdata/heattreatment.php`,fd)
                     .then((response) => {        
                         console.log(response)                
@@ -860,10 +869,10 @@ export default {
             if(type=='temperature'){
                 axios.post(`${this.baseURL}/basicdata/components/updateTemperatureTime.php`,fd)
                     .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             let temperature=response.data;
                             this.$set(this.temperature,value,temperature);
-                            console.log(this.temperature)
+                            // console.log(this.temperature)
                         })
                     .catch(function (error){
                             console.log(error)
@@ -871,10 +880,10 @@ export default {
             }else if(type=='time'){
                 axios.post(`${this.baseURL}/basicdata/components/updateTemperatureTime.php`,fd)
                     .then((response) => {
-                            console.log(response)
+                            // console.log(response)
                             let time=response.data;
                             this.$set(this.time,value,time);
-                            console.log(this.time)
+                            // console.log(this.time)
                         })
                     .catch(function (error){
                             console.log(error)
