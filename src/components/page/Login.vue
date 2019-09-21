@@ -72,7 +72,7 @@
         width:100%;
         height:100%;
         background-size:cover; 
-        background-image: url("../../assets/background.png");
+        background-image: url("http://47.106.161.130:8081/img/background.png");
     }
     .ms-title{
         /* position: absolute;
