@@ -420,7 +420,7 @@
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>空气</td>
-                    <td>实际空气温度：{{temperature[2]}} ℃<button class="updateBtn" @click="updateBtn(2,'temperature')">更新</button></td>
+                    <td>实际空气温度：_______ ℃</td>
                 </tr>
                 <tr>
                     <td>冷却环境干燥无水迹等</td>
@@ -1168,7 +1168,7 @@ input {
   }
   .updateBtn2{
       position: absolute;
-      right: 140px;
+      /* right: 140px; */
       width: 40px;
   }
   .OtherData{

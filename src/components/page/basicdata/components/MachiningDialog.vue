@@ -234,39 +234,41 @@ export default {
         //制造信息保存
         machiningSaveData(){
             let fd = new FormData()
-            if(this.machiningTableHeader.contactId){//更新保存
-                    fd.append("flag","machiningUpdateData")
-                    fd.append("machiningTableHeader",JSON.stringify(this.machiningTableHeader))//头部信息
-                    fd.append("machiningTableBody",JSON.stringify(this.machiningTableBody.rowsData))//可遍历信息
-                    fd.append("machiningTableFooter",JSON.stringify(this.machiningTableFooter))//尾部信息
-                    if(typeof(this.machiningTableBody.fileOne) != 'string' && this.machiningTableBody.fileOne != ''){
-                        fd.append('myfileone',this.machiningTableBody.fileOne)//装载图片一
-                    }
+            // if(this.machiningTableHeader.contactId){//更新保存
+            //         fd.append("flag","machiningUpdateData")
+            //         fd.append("machiningTableHeader",JSON.stringify(this.machiningTableHeader))//头部信息
+            //         fd.append("machiningTableBody",JSON.stringify(this.machiningTableBody.rowsData))//可遍历信息
+            //         fd.append("machiningTableFooter",JSON.stringify(this.machiningTableFooter))//尾部信息
+            //         if(typeof(this.machiningTableBody.fileOne) != 'string' && this.machiningTableBody.fileOne != ''){
+            //             fd.append('myfileone',this.machiningTableBody.fileOne)//装载图片一
+            //         }
                     
-                    axios.post(`${this.baseURL}/basicdata/maching.php`,fd)
-                    .then((response) => {
-                        if(response.data.state == "success"){
-                            this.$message({
-                                showClose: true,
-                                message: '更改成功',
-                                type: 'success'
-                            })
-                        }else{                            
-                            this.$message({
-                                showClose: true,
-                                message: '更改失败',
-                                type: 'error'
-                            })
-                        }
-                        this.$emit("refreshTable",this.selectedTreeNode)
-                        this.MachiningVisible = false          
-                    })
-                    .catch(function (error){
-                        console.log(error)
-                    })
-                    return
+            //         axios.post(`${this.baseURL}/basicdata/maching.php`,fd)
+            //         .then((response) => {
+            //             if(response.data.state == "success"){
+            //                 this.$message({
+            //                     showClose: true,
+            //                     message: '更改成功',
+            //                     type: 'success'
+            //                 })
+            //             }else{                            
+            //                 this.$message({
+            //                     showClose: true,
+            //                     message: '更改失败',
+            //                     type: 'error'
+            //                 })
+            //             }
+            //             this.$emit("refreshTable",this.selectedTreeNode)
+            //             this.MachiningVisible = false          
+            //         })
+            //         .catch(function (error){
+            //             console.log(error)
+            //         })
+            //         return
                 
-            }else{//新建保存
+            // }else{
+
+                //新建保存
                 fd.append("flag","machingInserData")
                 fd.append("treeId",this.selectedTreeNode.relateId)//选中树的id
                 fd.append("machiningTableHeader",JSON.stringify(this.machiningTableHeader))//头部信息
@@ -299,7 +301,7 @@ export default {
                 })
                 return
                 
-            } 
+            // } 
         },
         //查看及编辑焊接信息
         Handlealter(contactId,selectedTreeNode){
