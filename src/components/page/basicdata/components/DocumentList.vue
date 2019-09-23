@@ -19,7 +19,7 @@
           <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
           <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
           <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
-          <el-button type="success" circle @click="copy(props.row.contactId,props.row.diff)">复制</el-button>
+          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
@@ -53,7 +53,7 @@
           <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
           <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
           <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
-          <el-button type="success" circle @click="copy(props.row.contactId,props.row.diff)">复制</el-button>
+          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
@@ -79,6 +79,24 @@
     <!-- 机加工 -->
     <machining-dialog ref="machining" v-on:refreshTable="GetListData"></machining-dialog>
 
+    <el-dialog
+      title="选择要复制到的项目" 
+      :visible.sync="dialogVisible" 
+      :before-close="handleClose">
+      <el-tree 
+          :data="treeData" 
+          :props="defaultProps" 
+          ref="tree" 
+          node-key="thereId"
+          :show-checkbox ="true"
+          check-strictly 
+          :highlight-current="true">
+      </el-tree>      
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="cancelCopy()">取 消</el-button>
+      <el-button type="primary" @click="copy()">确 定</el-button>
+    </span>
+    </el-dialog>
   </div>
   
 </template>
@@ -90,7 +108,6 @@ import WeldingDialog from "./WeldingDialog"
 import CraftsmanshipDialog from "./CraftsmanshipDialog"
 import HeattreatmentDialog from "./HeattreatmentDialog"
 import MachiningDialog from "./MachiningDialog"
-
 
 export default {
   name: "DocimentList",
@@ -158,8 +175,24 @@ export default {
           field: "operate"
         }
       ],
-      rows: [],      
-      
+      rows: [],    
+      dialogVisible: false,
+      treeData: [
+          {
+              label: '焊接工艺及检验记录',
+              children: []
+          },
+          {
+              label: '机械制造工艺及检验表',
+              children: []
+          },
+      ],
+      defaultProps: {
+          children: 'children',
+          label: 'label'
+      },
+      conid:{},
+      cardtype:{},            
       
     };
   },
@@ -168,10 +201,9 @@ export default {
     WeldingDialog,
     CraftsmanshipDialog,
     HeattreatmentDialog,
-    MachiningDialog   
+    MachiningDialog,  
   },
   created () {
-    
   },
   methods: {
     //异步获取后台数据
@@ -210,6 +242,10 @@ export default {
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then(_ => {
+        this.$message({
+          type: 'info',
+          message: '已取消复制',
+        });          
           done();
         })
         .catch(_ => {});
@@ -233,114 +269,122 @@ export default {
        this.$refs.machining.openMachiningDialog(this.selectedTreeNode) //触发子组件cratsmanshipcomponent的函数，下面类似
     },
     //复制
-    copy(contactId,diff){
-      this.$confirm('将复制该记录, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        switch(diff){
-          case "welding":
-            axios.get(`${this.baseURL}/basicdata/document.php?flag=copyWelding&contactId=${contactId}`)
-            .then((response) => {
-              if(response.data.state == "success"){
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'success',
-                  message: '复制成功'
-                })
-              }else{
-                console.log(response.data.message)
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'error',
-                  message: '复制失败'
-                })
-              }
-            })
-            .catch(function(error){
-              console.log(error)
-            }) 
-            break;
-          case "craftsmanship":
-            axios.get(`${this.baseURL}/basicdata/document.php?flag=copyCraftsmanship&contactId=${contactId}`)
-            .then((response) => {
-              if(response.data.state == "success"){
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'success',
-                  message: '复制成功'
-                })
-              }else{
-                console.log(response.data.message)
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'error',
-                  message: '复制失败'
-                })
-              }
-            })
-            .catch(function(error){
-              console.log(error)
-            }) 
-            break;
-          case "heattreatment":
-            axios.get(`${this.baseURL}/basicdata/heattreatment.php?flag=copyHeattreatment&contactId=${contactId}`)
-            .then((response) => {    
-            console.log(response)          
-              if(response.data.state == "success"){
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'success',
-                  message: '复制成功'
-                })
-              }else{
-                console.log(response.data.message)
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'error',
-                  message: '复制失败'
-                })
-              }
-            })
-            .catch(function(error){
-              console.log(error)
-            }) 
-            break;
-          case "machining":
-            axios.get(`${this.baseURL}/basicdata/maching.php?flag=copyMachining&contactId=${contactId}`)
-            .then((response) => {              
-              if(response.data.state == "success"){
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'success',
-                  message: '复制成功'
-                })
-              }else{
-                console.log(response.data.message)
-                this.GetListData(this.selectedTreeNode)
-                this.$message({
-                  type: 'error',
-                  message: '复制失败'
-                })
-              }
-            })
-            .catch(function(error){
-              console.log(error)
-            }) 
-            break;
+    // copy(contactId,diff){
+      // this.$confirm('将复制该记录, 是否继续?', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning'
+      // }).then(() => {
+        // switch(diff){
+        //   case "welding":
+        //     axios.get(`${this.baseURL}/basicdata/document.php?flag=copyWelding&contactId=${contactId}`)
+        //     .then((response) => {
+        //       if(response.data.state == "success"){
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'success',
+        //           message: '复制成功'
+        //         })
+        //       }else{
+        //         console.log(response.data.message)
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'error',
+        //           message: '复制失败'
+        //         })
+        //       }
+        //     })
+        //     .catch(function(error){
+        //       console.log(error)
+        //     }) 
+        //     break;
+        //   case "craftsmanship":
+        //     axios.get(`${this.baseURL}/basicdata/document.php?flag=copyCraftsmanship&contactId=${contactId}`)
+        //     .then((response) => {
+        //       if(response.data.state == "success"){
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'success',
+        //           message: '复制成功'
+        //         })
+        //       }else{
+        //         console.log(response.data.message)
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'error',
+        //           message: '复制失败'
+        //         })
+        //       }
+        //     })
+        //     .catch(function(error){
+        //       console.log(error)
+        //     }) 
+        //     break;
+        //   case "heattreatment":
+        //     axios.get(`${this.baseURL}/basicdata/heattreatment.php?flag=copyHeattreatment&contactId=${contactId}`)
+        //     .then((response) => {    
+        //     console.log(response)          
+        //       if(response.data.state == "success"){
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'success',
+        //           message: '复制成功'
+        //         })
+        //       }else{
+        //         console.log(response.data.message)
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'error',
+        //           message: '复制失败'
+        //         })
+        //       }
+        //     })
+        //     .catch(function(error){
+        //       console.log(error)
+        //     }) 
+        //     break;
+        //   case "machining":
+        //     axios.get(`${this.baseURL}/basicdata/maching.php?flag=copyMachining&contactId=${contactId}`)
+        //     .then((response) => {              
+        //       if(response.data.state == "success"){
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'success',
+        //           message: '复制成功'
+        //         })
+        //       }else{
+        //         console.log(response.data.message)
+        //         this.GetListData(this.selectedTreeNode)
+        //         this.$message({
+        //           type: 'error',
+        //           message: '复制失败'
+        //         })
+        //       }
+        //     })
+        //     .catch(function(error){
+        //       console.log(error)
+        //     }) 
+        //     break;
 
-        }
-        this.$message({
-          type: 'success',
-          message: '已成功复制'
-        });   
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消复制'
-        });          
-      })
+        // }
+        // this.$message({
+        //   type: 'success',
+        //   message: '已成功复制'
+        // });   
+      // }).catch(() => {
+      //   this.$message({
+      //     type: 'info',
+      //     message: '已取消复制'
+      //   });          
+      // })
+    // },
+    //取消复制
+    cancelCopy(){
+      this.dialogVisible = false;
+      this.$message({
+        type: 'info',
+        message: '已取消复制',
+      });
     },
     // 删除列表中的信息
     deleteStaff(contactId,diff) {
@@ -498,6 +542,52 @@ export default {
           console.log("这个页面全部打印未完成，期待有缘人接手写出来^ _ ^："+this.selectedTreeNode.tableFlag)  
       }
     },
+    //加载树信息
+    getTreeData(contactId,diff){
+      this.dialogVisible=true;
+      axios.get(`${this.baseURL}/basicdata/document.php?flag=getCopyTreeListData&type=${diff}`)
+      .then((response) => {
+          this.treeData = response.data.data;
+          this.conid = contactId;
+          this.cardtype = diff;
+
+      })
+      .catch(function(error){
+          console.log(error)
+      })
+    },
+    copy(row){
+      //获取选中树节点thereId
+      var Nodes = this.$refs.tree.getCheckedKeys()
+      // console.log(Nodes);
+      if(Nodes.includes(undefined)){
+        alert("请只选择具体项目")
+      }else if(Nodes.length > 1){
+        alert("只能选择一个项目")
+      }else{
+        axios.get(`${this.baseURL}/basicdata/document.php?flag=getCopy&type=${Nodes}&contactId=${this.conid}&cardtype=${this.cardtype}`)
+      .then((response) => {
+        if(response.data.state == "success"){
+          this.GetListData(this.selectedTreeNode)
+          this.dialogVisible=false;
+          this.$message({
+            type: 'success',
+            message: '复制成功'
+           })
+          }else{
+            console.log(response.data.message)
+            this.GetListData(this.selectedTreeNode)
+            this.$message({
+              type: 'error',
+              message: '复制失败'
+            })
+          }
+      })
+      .catch(function(error){
+          console.log(error)
+      })
+      }
+    }    
   }
 }
 </script>

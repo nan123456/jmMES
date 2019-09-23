@@ -77,11 +77,11 @@
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>盐水浓度为5% - 10%</td>
-                    <td>实际盐水浓度：_______ %</td>
+                    <td>实际盐水浓度：<input class="OtherData" v-model="modelOther1.BrineStrength">%</td>
                 </tr>
                 <tr>
                     <td>盐水温度在淬火过程中 ＜ 50℃</td>
-                    <td>实际盐水温度：_______ ℃</td>
+                    <td>实际盐水温度：<input class="OtherData" v-model="modelOther1.SaltwaterTemperature"> ℃</td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -91,7 +91,11 @@
                 <tr>
                     <td>硬度抽查</td>
                     <td>≥HRC43</td>
-                    <td>_______  _______  _______</td>
+                    <td>
+                    <input class="OtherData" v-model="modelOther1.hardness1">  
+                    <input class="OtherData" v-model="modelOther1.hardness2">  
+                    <input class="OtherData" v-model="modelOther1.hardness3">
+                    </td>
                 </tr>
                 <tr>
                     <td rowspan="7">回火</td>
@@ -165,16 +169,16 @@
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>PAG浓度为1.25%左右</td>
-                    <td>实际PAG浓度：_______ %</td>
+                    <td>实际PAG浓度：<input class="OtherData" v-model="modelOther5.PAGStrength"> %</td>
                 </tr>
                 <tr>
                     <td>PAG温度在淬火过程中 ＜ 40℃<br>在1.25%PAG冷至液温</td>
-                    <td>实际PAG温度：_______ ℃<br>PAG溶液品质：_______ </td>
+                    <td>实际PAG温度：<input class="OtherData" v-model="modelOther5.PAGTemperature"> ℃<br>PAG溶液品质：<input class="OtherData" v-model="modelOther2.PAGQuality"> </td>
                 </tr>
                 <tr>
                     <td>硬度抽查</td>
                     <td>≥HRC45</td>
-                    <td>_______  _______  _______</td>
+                    <td><input class="OtherData" v-model="modelOther5.hardness1">  <input class="OtherData" v-model="modelOther5.hardness2">  <input class="OtherData" v-model="modelOther5.hardness3"></td>
                 </tr>
                 <tr>
                     <td rowspan="7">回火</td>
@@ -248,16 +252,16 @@
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>PAG浓度为1.25%左右</td>
-                    <td>实际PAG浓度：_______ %</td>
+                    <td>实际PAG浓度：<input class="OtherData" v-model="modelOther3.PAGStrength">%</td>
                 </tr>
                 <tr>
                     <td>PAG温度在淬火过程中 ＜ 40℃<br>在1.25%PAG冷至液温</td>
-                    <td>实际PAG温度：_______ ℃<br>PAG溶液品质：_______ </td>
+                    <td>实际PAG温度<input class="OtherData" v-model="modelOther3.PAGTemperature">℃<br>PAG溶液品质<input class="OtherData" v-model="modelOther3.PAGQuality"></td>
                 </tr>
                 <tr>
                     <td>硬度抽查</td>
                     <td>≥HRC45</td>
-                    <td>_______  _______  _______</td>
+                    <td><input class="OtherData" v-model="modelOther3.hardness1">  <input class="OtherData" v-model="modelOther3.hardness2">  <input class="OtherData" v-model="modelOther3.hardness3"></td>
                 </tr>
                 <tr>
                     <td rowspan="7">回火</td>
@@ -332,16 +336,16 @@
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>PAG浓度为1.25%左右</td>
-                    <td>实际PAG浓度：_______ %</td>
+                    <td>实际PAG浓度：<input class="OtherData" v-model="modelOther6.PAGStrength">%</td>
                 </tr>
                 <tr>
                     <td>PAG温度在淬火过程中 ＜ 40℃<br>在1.25%PAG冷至液温</td>
-                    <td>实际PAG温度：_______ ℃<br>PAG溶液品质：_______ </td>
+                    <td>实际PAG温度：<input class="OtherData" v-model="modelOther6.PAGTemperature">℃<br>PAG溶液品质：<input class="OtherData" v-model="modelOther6.PAGQuality"></td>
                 </tr>
                 <tr>
                     <td>硬度抽查</td>
                     <td>≥HRC45</td>
-                    <td>_______  _______  _______</td>
+                    <td><input class="OtherData" v-model="modelOther6.hardness1">  <input class="OtherData" v-model="modelOther6.hardness2">  <input class="OtherData" v-model="modelOther6.hardness3"></td>
                 </tr>
                 <tr>
                     <td rowspan="7">回火</td>
@@ -420,7 +424,7 @@
                 </tr>
                 <tr>
                     <td>冷却环境干燥无水迹等</td>
-                    <td>实际条件：_______ </td>
+                    <td>实际条件：<input class="OtherData" v-model="modelOther2.Actual"></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -430,7 +434,7 @@
                 <tr>
                     <td>硬度抽查</td>
                     <td>≥HRC38</td>
-                    <td>_______  _______  _______</td>
+                    <td><input class="OtherData" v-model="modelOther2.hardness1">  <input class="OtherData" v-model="modelOther2.hardness2">  <input class="OtherData" v-model="modelOther2.hardness3"></td>
                 </tr>
                 <tr>
                     <td rowspan="7">回火</td>
@@ -529,26 +533,26 @@
                     <td rowspan="13"></td>
                 </tr>
                 <tr>
-                    <td>加热时间：_______秒</td>
+                    <td>加热时间：<input class="OtherData" v-model="modelOther4.heating">秒</td>
                     <td>参照规程中的规定：温度用远红外线枪检测</td>
                 </tr>
                 <tr>
                     <td rowspan="3">冷却</td>
                     <td>在浓度为1.25%左右PAG里</td>
-                    <td>实际PAG浓度：_______%</td>
+                    <td>实际PAG浓度：<input class="OtherData" v-model="modelOther4.PAGStrength">%</td>
                 </tr>
                 <tr>
                     <td>在“快速淬火油”里</td>
-                    <td>实际油品质：_______</td>
+                    <td>实际油品质：<input class="OtherData" v-model="modelOther4.Oilquality"></td>
                 </tr>
                 <tr>
                     <td>在浓度为10%左右的盐水里</td>
-                    <td>实际盐水浓度：_______%</td>
+                    <td>实际盐水浓度：<input class="OtherData" v-model="modelOther4.BrineStrength">%</td>
                 </tr>
                 <tr>
                     <td>硬度抽查</td>
                     <td>≥HRC50</td>
-                    <td>_______  _______  _______</td>
+                    <td><input class="OtherData" v-model="modelOther4.hardness1">  <input class="OtherData" v-model="modelOther4.hardness2">  <input class="OtherData" v-model="modelOther4.hardness3"></td>
                 </tr>
                 <tr>
                     <td rowspan="6">回火</td>
@@ -580,7 +584,7 @@
                 <tr>
                     <td colspan="2">高频淬火深度抽查</td>
                     <td>一般在0.5 - 1.5mm左右为宜</td>
-                    <td>实际深度约：_______  _______</td>
+                    <td>实际深度约：<input class="OtherData" v-model="modelOther4.depth1">  <input class="OtherData" v-model="modelOther4.depth2"></td>
                 </tr>
             </table>
             
@@ -603,16 +607,106 @@
                 </tr>
                 <tr>
                     <td>是否合格</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
+                    <td>
+                        <el-select v-model="selectData.value" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                       
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value1" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value2" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value3" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value4" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value5" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value6" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value7" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value8" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
+                    <td>
+                        <el-select v-model="selectData.value9" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                         
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">热处理人员签名</td>
@@ -708,9 +802,80 @@ export default {
                 value: '40Cr钢调质热处理（1.25%PAG淬火）报告',
                 label: '40Cr钢调质热处理（1.25%PAG淬火）报告'
                 }],
-                value: '',
             temperature:['_______ ','_______ ','_______ ','_______ ','_______ '],
-            time:['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
+            time:['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ '],
+            modelOther1:{
+                "BrineStrength" : "",
+                "SaltwaterTemperature" : "",
+                "hardness1" : "",
+                "hardness2" : "",
+                "hardness3" : "",
+            },
+            modelOther2:{
+                "Actual" : "",
+                "hardness1" : "",
+                "hardness2" : "",
+                "hardness3" : "",
+            },
+            modelOther3:{
+                "PAGStrength" : "",
+                "PAGTemperature" : "",
+                "PAGQuality" : "",
+                "hardness1" : "",
+                "hardness2" : "",
+                "hardness3" : "",
+            },
+            modelOther4:{
+                "heating" : "",
+                "PAGStrength" : "",
+                "Oilquality" : "",
+                "BrineStrength" : "",
+                "hardness1" : "",
+                "hardness2" : "",
+                "hardness3" : "",
+                "depth1" : "",
+                "depth2" : "",
+            },
+            modelOther5:{
+                "PAGStrength" : "",
+                "PAGTemperature" : "",
+                "PAGQuality" : "",
+                "hardness1" : "",
+                "hardness2" : "",
+                "hardness3" : "",
+            },
+            modelOther6:{
+                "PAGStrength" : "",
+                "PAGTemperature" : "",
+                "PAGQuality" : "",
+                "hardness1" : "",
+                "hardness2" : "",
+                "hardness3" : "",
+            },                                                
+            selectData:{
+                "value" : "",
+                "value1" : "",
+                "value2" : "",
+                "value3" : "",
+                "value4" : "",
+                "value5" : "",
+                "value6" : "",
+                "value7" : "",
+                "value8" : "",
+                "value9" : "",
+            },
+            selectoptions:[{
+                value: '',
+                label: ''
+            },{
+                value: 'yes',
+                label: '是'
+            },{
+                value: 'no',
+                label: '否'
+            }
+            ],
+            value:"45钢（盐水10%）调质热处理报告"
         }
     },
     methods: {
@@ -726,6 +891,7 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=false
+                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "2Cr13钢调质热处理（空冷淬火）报告":
                     this.model1=false
@@ -734,6 +900,7 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=false
+                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "42CrMo钢调质热处理（1.25%PAG淬火）报告":
                     this.model1=false
@@ -742,6 +909,7 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=false
+                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "高频淬火 --- 热处理报告":
                     this.model1=false
@@ -750,6 +918,7 @@ export default {
                     this.model4=true
                     this.model5=false
                     this.model6=false
+                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "40CrNiMo钢调质热处理（1.25%PAG淬火）报告":
                     this.model1=false
@@ -758,6 +927,7 @@ export default {
                     this.model4=false
                     this.model5=true
                     this.model6=false
+                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "40Cr钢调质热处理（1.25%PAG淬火）报告":
                     this.model1=false
@@ -766,6 +936,7 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=true
+                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
             }
         },
@@ -822,8 +993,28 @@ export default {
                 console.log(temperature_arr.length)
                 if(response.data.state == "success"){
                     this.craftsmanshipTableHeader = response.data.data.craftsmanshipTableHeader
-                    this.value = response.data.data.value       
-                              
+                    this.value = response.data.data.value
+                    switch(this.value){
+                        case("45钢（盐水10%）调质热处理报告"):
+                            this.modelOther1 = JSON.parse(response.data.otherData);
+                            break;
+                        case("2Cr13钢调质热处理（空冷淬火）报告"):
+                            this.modelOther2 = JSON.parse(response.data.otherData);
+                            break;
+                        case("42CrMo钢调质热处理（1.25%PAG淬火）报告"):
+                            this.modelOther3 = JSON.parse(response.data.otherData);
+                            break;
+                        case("高频淬火 --- 热处理报告"):
+                            this.modelOther4 = JSON.parse(response.data.otherData);
+                            break;
+                        case("40CrNiMo钢调质热处理（1.25%PAG淬火）报告"):
+                            this.modelOther5 = JSON.parse(response.data.otherData);
+                            break;
+                        case("40Cr钢调质热处理（1.25%PAG淬火）报告"):
+                            this.modelOther6 = JSON.parse(response.data.otherData);
+                            break;                                                                                                                       
+                    }
+                    this.selectData = JSON.parse(response.data.selectvalue);
                 }
             })
             .catch(function(error){
@@ -834,11 +1025,32 @@ export default {
         craftsmanshipSaveData(){
             let fd = new FormData()
             fd.append("flag","heattreatmentDataOne")
+                switch(this.value){
+                    case("45钢（盐水10%）调质热处理报告"):
+                        fd.append("otherData",JSON.stringify(this.modelOther1));//其他数据(下面也是)
+                        break;
+                    case("2Cr13钢调质热处理（空冷淬火）报告"):
+                        fd.append("otherData",JSON.stringify(this.modelOther2));
+                        break;
+                    case("42CrMo钢调质热处理（1.25%PAG淬火）报告"):
+                        fd.append("otherData",JSON.stringify(this.modelOther3));
+                        break;
+                    case("高频淬火 --- 热处理报告"):
+                        fd.append("otherData",JSON.stringify(this.modelOther4));
+                        break;
+                    case("40CrNiMo钢调质热处理（1.25%PAG淬火）报告"):
+                        fd.append("otherData",JSON.stringify(this.modelOther5));
+                        break;
+                    case("40Cr钢调质热处理（1.25%PAG淬火）报告"):
+                        fd.append("otherData",JSON.stringify(this.modelOther6));
+                        break;                                                                                                                       
+                }            
                 fd.append("treeId",this.selectedTreeNode.relateId)//选中树的id
                 fd.append("heattreatmentTableHeader",JSON.stringify(this.craftsmanshipTableHeader))//头部信息
                 fd.append("model",this.value)//模板信息
                 fd.append("temperature",JSON.stringify(this.temperature))//获取温度值
                 fd.append("time",JSON.stringify(this.time))//获取时间值
+                fd.append("selectvalue",JSON.stringify(this.selectData))//获取select值
                 axios.post(`${this.baseURL}/basicdata/heattreatment.php`,fd)
                     .then((response) => {        
                         console.log(response)                
@@ -958,5 +1170,16 @@ input {
       position: absolute;
       right: 140px;
       width: 40px;
+  }
+  .OtherData{
+    width: 25%;
+    border-bottom: 1px solid #000000;  
+    border-top:0px;  
+    border-left:0px;  
+    border-right:0px; 
+    text-align: center;
+  }
+  .selectbox{
+      width: 100%;
   }
 </style>

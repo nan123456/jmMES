@@ -67,7 +67,7 @@
                 prop="child_material"
                 label="规格"
                 width="180"
-                :filters="FChild_material"
+                :filters="fChild_material"
                 :filter-method="filterHandler"
                 column-key="child_material"
             >
@@ -158,7 +158,7 @@ export default {
             if (res.rows) {
                 // 未排产
                 this.tableData = res.rows
-                if(res.fStandard&&res.fChild_material){
+                if(res.fChild_material){
                 let columns = this.columns
                 let data_length = res.rows.length
                 // checkbox 规格赋值
