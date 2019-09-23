@@ -420,7 +420,7 @@
                 <tr>
                     <td rowspan="2">冷却</td>
                     <td>空气</td>
-                    <td>实际空气温度：_______ ℃</td>
+                    <td>实际空气温度：<input class="OtherData" v-model="modelOther2.airtemperature"> ℃</td>
                 </tr>
                 <tr>
                     <td>冷却环境干燥无水迹等</td>
@@ -812,6 +812,7 @@ export default {
                 "hardness3" : "",
             },
             modelOther2:{
+                "airtemperature" : "",
                 "Actual" : "",
                 "hardness1" : "",
                 "hardness2" : "",
