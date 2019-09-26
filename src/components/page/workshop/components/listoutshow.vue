@@ -10,8 +10,8 @@
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
           <el-button type="primary"   @click="listQRcode(props.row)">二维码</el-button>
-          <!-- <el-button type="primary"   @click="equipmentBarcode(props.row)">条形码</el-button>
-          <el-button type="primary"   @click="handleTabledata(props.row)">查看</el-button> -->
+          <!-- <el-button type="primary"   @click="equipmentBarcode(props.row)">条形码</el-button> -->
+          <el-button type="primary"   @click="handleTabledata(props.row)">查看详情</el-button>
           <el-button type="primary" icon="el-icon-edit" circle @click="handleData(props.row)"></el-button>
           <el-button type="danger" icon="el-icon-delete" circle @click="deletelist(props.row)" ></el-button>
 
@@ -38,6 +38,18 @@
           <el-button @click="dialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="updateDataInfo()">确 定</el-button>
         </div>
+    </el-dialog>
+     <!-- 装配清单记录 -->
+    <el-dialog title="清单详情" :visible.sync="dialogTableVisible">
+        <el-form :model="form">
+          <vue-good-table 
+            :columns="checkcolumns" 
+            :rows="checkrows" 
+            @on-column-filter="selectionChanged"
+            :search-options="{enabled: true}"
+            :pagination-options="{enabled: true,mode: 'records',perPage: 5,perPageDropdown: [5],dropdownAllowAll: false,}"
+          />
+        </el-form>
     </el-dialog>
   </div>
 
@@ -94,26 +106,26 @@ export default {
         value:'',
       rows: [],
       checkcolumns: [
-        // {
-        //   label: "设备编号",
-        //   field: "number",
-        // },
-        // {
-        //   label: "设备名称",
-        //   field: "name"
-        // },
-        // {
-        //   label: "点检结果",
-        //   field: "checkresult"
-        // },
-        // {
-        //   label: "点检时间",
-        //   field: "checkdate"
-        // },
-        // {
-        //   label: "点检人",
-        //   field: "checkperson"
-        // }
+        {
+          label: "序号",
+          field: "num",
+        },
+        {
+          label: "部件名称",
+          field: "name"
+        },
+        {
+          label: "图号",
+          field: "figure_number"
+        },
+        {
+          label: "规格",
+          field: "child_material"
+        },
+        {
+          label: "数量",
+          field: "count"
+        }
       ],
       checkrows: []
     };
@@ -242,14 +254,15 @@ export default {
       this.dialogFormVisible = true
     },
     // // 点检记录异步数据获取
-    // handleTabledata(row) {
-    //   // console.log(row.id)
-    //   var fd = new FormData()
-    //   this.checkrows = []
-    //   fd.append("id",row.id)
-    //   axios.post(`${this.baseURL}/basicdata/equipment.php`,fd).then(this.getcheckDataSucc)
-    //   this.dialogTableVisible = true
-    // },
+    handleTabledata(row) {
+      // console.log(row.id)
+      var fd = new FormData()
+      this.checkrows = []
+      fd.append("id",row.id)
+      fd.append("flag",'detail')
+      axios.post(`${this.baseURL}/listout/creatlist.php`,fd).then(this.getcheckDataSucc)
+      this.dialogTableVisible = true
+    },
     getcheckDataSucc(res) {
       // console.log(res.data)
       res = res.data
