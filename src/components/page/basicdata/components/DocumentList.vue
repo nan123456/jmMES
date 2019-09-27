@@ -67,6 +67,38 @@
         <el-button type="primary" v-if="newButtonShow[0] || newButtonShow[1] || newButtonShow[2] || newButtonShow[3]" @click="handlePrinterAll">打印</el-button>
       </div>
     </vue-good-table>
+
+    <!-- 全部信息表格 -->
+    <vue-good-table
+    v-if="selectedTreeNode.tableFlag==0" 
+    :columns="columns2" 
+    :rows="rows"
+    @on-column-filter="selectionChanged"
+    :search-options="{
+      enabled: true,
+      placeholder: '搜索此表格'
+    }"
+    :pagination-options="{
+      enabled: true,
+      mode: 'records'
+    }"
+    >
+    <template slot="table-row" slot-scope="props">
+      <span v-if="props.column.field == 'operate'">
+        <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
+        <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
+        <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
+        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+      </span>
+      <span v-else>
+        {{props.formattedRow[props.column.field]}}
+      </span>
+    </template>
+    <div slot="table-actions">
+      <el-button type="primary" v-if="newButtonShow[4]" @click="getCopyAlltypeTreeData()">项目复制至</el-button>
+    </div>            
+    </vue-good-table>
+
     <!-- 焊接信息 -->
     <welding-dialog ref="weldcomponent" v-on:refreshTable="GetListData"></welding-dialog>
 
@@ -94,7 +126,8 @@
       </el-tree>      
     <span slot="footer" class="dialog-footer">
       <el-button @click="cancelCopy()">取 消</el-button>
-      <el-button type="primary" @click="copy()">确 定</el-button>
+      <el-button type="primary" @click="copy()" v-if="copyButtonShow[0]">确 定</el-button>
+      <el-button type="primary" @click="copyAll()" v-if="copyButtonShow[1]">确 定</el-button>
     </span>
     </el-dialog>
   </div>
@@ -114,10 +147,11 @@ export default {
   data() {
     return {
       selectedTreeNode : {//左边树选中的节点（表类型，对应的id）
-        tableFlag : "",
+        tableFlag : "5",
         relateId : ""
       },
-      newButtonShow :[false,false,false,false],                  
+      newButtonShow :[false,false,false,false,false],
+      copyButtonShow :[false,false],                  
       fileinfo:"",
       formLabelWidth: "120px",
       searchItem: "",
@@ -175,6 +209,33 @@ export default {
           field: "operate"
         }
       ],
+      columns2: [
+        
+        {
+          label: "工艺卡类型",
+          field: "TypeCard"
+        },
+        {
+          label: "产品型号名称",
+          field: "productName"
+        },
+        {
+          label: "零件图号",
+          field: "productDrawingNumber"
+        },
+        {
+          label: "零部件名称",
+          field: "ownPartName"
+        },
+        {
+          label: "创建日期",
+          field: "ctime"
+        },
+        {
+          label: "操作",
+          field: "operate"
+        }
+      ],
       rows: [],    
       dialogVisible: false,
       treeData: [
@@ -208,25 +269,32 @@ export default {
   methods: {
     //异步获取后台数据
     GetListData (selectedTreeNode) {
+      // console.log(selectedTreeNode.tableFlag)
+      this.rows = [];
       this.selectedTreeNode = selectedTreeNode
       axios.get(`${this.baseURL}/basicdata/document.php?flag=getTableListData&tableFlag=${this.selectedTreeNode.tableFlag}&relateId=${this.selectedTreeNode.relateId}`)
       .then((response) => {
         this.rows = response.data.data        
         switch(this.selectedTreeNode.tableFlag){//显示那种表的新建按钮
           case 1://焊接           
-            this.newButtonShow = [true,false,false,false]
+            this.newButtonShow = [true,false,false,false,false]
             break
           case 2://制造
-             this.newButtonShow = [false,true,false,false]
+             this.newButtonShow = [false,true,false,false,false]
             break
           case 3://热处理
-             this.newButtonShow = [false,false,true,false]
+             this.newButtonShow = [false,false,true,false,false]
             break
           case 4://机加工
-             this.newButtonShow = [false,false,false,true]
+             this.newButtonShow = [false,false,false,true,false]
+            break
+          case 0://全部类型
+            this.newButtonShow = [false,false,false,false,true]
+            this.OldrelateId = this.selectedTreeNode.relateId
+            // console.log(this.OldrelateId)
             break
           default:
-             this.newButtonShow = [false,false,false,false]
+             this.newButtonShow = [false,false,false,false,false]
         }
       })
       .catch(function(error){
@@ -542,8 +610,9 @@ export default {
           console.log("这个页面全部打印未完成，期待有缘人接手写出来^ _ ^："+this.selectedTreeNode.tableFlag)  
       }
     },
-    //加载树信息
+    //加载树信息(不包括Alltype)
     getTreeData(contactId,diff){
+      this.copyButtonShow = [true,false];
       this.dialogVisible=true;
       axios.get(`${this.baseURL}/basicdata/document.php?flag=getCopyTreeListData&type=${diff}`)
       .then((response) => {
@@ -555,6 +624,19 @@ export default {
       .catch(function(error){
           console.log(error)
       })
+    },
+    //加载Alltype树信息
+    getCopyAlltypeTreeData(){
+      this.copyButtonShow = [false,true];
+      this.dialogVisible=true; 
+      axios.get(`${this.baseURL}/basicdata/document.php?flag=getCopyAlltypeTreeData`)
+      .then((response) => {
+          this.treeData = response.data.data;
+
+      })
+      .catch(function(error){
+          console.log(error)
+      })           
     },
     copy(row){
       //获取选中树节点thereId
@@ -587,6 +669,38 @@ export default {
           console.log(error)
       })
       }
+    },
+    copyAll(){
+      //获取选中树节点thereId
+      var Nodes = this.$refs.tree.getCheckedKeys()
+      // console.log(Nodes);
+      if(Nodes.includes(undefined)){
+        alert("请只选择具体项目")
+      }else if(Nodes.length > 1){
+        alert("只能选择一个项目")
+      }else{
+        axios.get(`${this.baseURL}/basicdata/document.php?flag=getAllCopy&thereId=${Nodes}&OldrelateId=${this.OldrelateId}`)
+      .then((response) => {
+        if(response.data.state == "success"){
+          this.GetListData(this.selectedTreeNode)
+          this.dialogVisible=false;
+          this.$message({
+            type: 'success',
+            message: '复制成功'
+           })
+          }else{
+            console.log(response.data.message)
+            this.GetListData(this.selectedTreeNode)
+            this.$message({
+              type: 'error',
+              message: '复制失败'
+            })
+          }
+      })
+      .catch(function(error){
+          console.log(error)
+      })
+      }      
     }    
   }
 }

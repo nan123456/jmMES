@@ -991,7 +991,7 @@ export default {
                 var time_arr=response.data.time.split('|');
                 var popped2 = time_arr.pop();
                 this.time=time_arr;
-                console.log(temperature_arr.length)
+                // console.log(temperature_arr.length)
                 if(response.data.state == "success"){
                     this.craftsmanshipTableHeader = response.data.data.craftsmanshipTableHeader
                     this.value = response.data.data.value

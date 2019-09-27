@@ -9,7 +9,17 @@
            <el-container style="height: 600px;">
                 <el-aside width="250px">  
                     <!-- <el-button type="primary" @click="openNewTreeDialog">新建节点</el-button> -->
-                    <el-button type="danger" v-if="deltetButtonVisible" @click="deltetTreeNode">删除</el-button>
+                    <!-- <el-button type="danger" v-if="deltetButtonVisible" @click="deltetTreeNode">删除</el-button> -->
+                    <div>
+                        <el-input
+                        placeholder="搜索项目名"  
+                        clearable  
+                        v-model="vaguelydata" 
+                        style="width:44%"
+                        ></el-input>
+                        <el-button type="primary" @click="VaguelySelect()">搜索</el-button>
+                        <el-button type="danger" @click="getTreeData();vaguelydata=''">取消</el-button>
+                    </div>
                     <el-dialog
                         title="树节点新建"
                         :visible.sync="dialogNewTreeVisible"
@@ -97,7 +107,8 @@ export default {
                     label: '机械制造工艺及检验表',
                     children: []
                 },
-            ]
+            ],
+            vaguelydata: "",
         }
     },
     created() {
@@ -119,11 +130,12 @@ export default {
             if(data.tableFlag==1){
                 let selectedTreeNode = {
                     label : data.label,
-                    tableFlag : data.tableFlag,
+                    tableFlag : 0,
                     relateId : data.relateId
                 }
-                this.selectedTreeNode = selectedTreeNode
-                this.deltetButtonVisible = true
+                this.$refs.docList.GetListData(selectedTreeNode)
+                // this.selectedTreeNode = selectedTreeNode
+                // this.deltetButtonVisible = true
             }
             if(!data.children){
                 let selectedTreeNode = {
@@ -266,6 +278,18 @@ export default {
                 this.saveButtonShow = false
             })
             
+        },
+        //树节点模糊查询
+        VaguelySelect(){
+            axios.get(`${this.baseURL}/basicdata/document.php?flag=VaguelySelect&vaguelydata=${this.vaguelydata}`)
+            .then((response) => {
+                this.treeData = response.data.data
+            })
+            .catch(function(error){
+                console.log(error)
+            })
+            console.log(this.treeData)
+            // console.log(this.vaguelydata)            
         }
     }
 }
