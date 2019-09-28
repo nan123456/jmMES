@@ -162,6 +162,10 @@ export default {
           field: "productcode"
         },
         {
+          label: "工单号",
+          field: "pnumber"
+        },
+        {
           label: "工艺卡号",
           field: "processnumber"
         },
@@ -189,6 +193,10 @@ export default {
           field: "partsDrawingNumber"
         },
         {
+          label: "工单号",
+          field: "pnumber"
+        },
+        {
           label: "零件图号",
           field: "productDrawingNumber"
         },
@@ -214,6 +222,10 @@ export default {
         {
           label: "工艺卡类型",
           field: "TypeCard"
+        },
+        {
+          label: "工单号",
+          field: "pnumber"
         },
         {
           label: "产品型号名称",

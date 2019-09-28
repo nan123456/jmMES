@@ -11,6 +11,7 @@
           <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
           <el-tab-pane label="已完成" name="completed"></el-tab-pane>
           <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
+          <el-tab-pane label="全部部件" name="all"></el-tab-pane>
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -157,6 +158,8 @@ export default {
         this.tabName = 'completed'
       }else if(key=='5'){
         this.tabName = 'exterior'
+      }else if(key=='6'){
+        this.tabName = 'all'
       }
     },
     methods: {
@@ -178,6 +181,9 @@ export default {
           break
           case 'exterior':
           key = 5
+          break
+          case 'all':
+          key = 6
           break
         }
         this.reload()

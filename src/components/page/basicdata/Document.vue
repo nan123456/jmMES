@@ -20,7 +20,7 @@
                         <el-button type="primary" @click="VaguelySelect()">搜索</el-button>
                         <el-button type="danger" @click="getTreeData();vaguelydata=''">取消</el-button>
                     </div>
-                    <el-dialog
+                    <!-- <el-dialog
                         title="树节点新建"
                         :visible.sync="dialogNewTreeVisible"
                         width="30%">
@@ -56,7 +56,7 @@
                                 <el-button @click="dialogNewTreeVisible = false">取消</el-button>
                             </el-form-item>
                         </el-form>
-                    </el-dialog>               
+                    </el-dialog>                -->
                     <!-- tree控件 -->
                     <el-tree 
                         :data="treeData" 
