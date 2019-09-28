@@ -36,7 +36,7 @@
             </table>
             <table class="craftsmanshipTableHeader">
                 <tr>
-                    <td><h1>操&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;程&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;201  年  月  日</h1></td>
+                    <td><h1>操&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;程&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectData.date}}</h1></td>
                 </tr>
             </table>
             <table class="craftsmanshipTableHeader" v-if="model1">
@@ -710,9 +710,9 @@
                 </tr>
                 <tr>
                     <td colspan="2">热处理人员签名</td>
-                    <td colspan="6"><input type="text"></td>
+                    <td colspan="6"><input type="text" v-model="selectData.Autograph"></td>
                     <td colspan="2">自检时间</td>
-                    <td>201&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日</td>
+                    <td><input style="width:50%" v-model="selectData.Year">年<br/><input style="width:30%" v-model="selectData.Month">月<br/><input style="width:30%" v-model="selectData.Day">日</td>
                 </tr>
                 <tr>
                     <td rowspan="2" colspan="2">热处理最终结论</td>
@@ -721,28 +721,37 @@
                     <td colspan="3">报废</td>
                 </tr>
                 <tr>
-                    <td colspan="3">_______件</td>
-                    <td colspan="3">_______件</td>
-                    <td colspan="3">_______件</td>
+                    <td colspan="3"><input class="OtherData" v-model="selectData.Qualified">件</td>
+                    <td colspan="3"><input class="OtherData" v-model="selectData.Rework">件</td>
+                    <td colspan="3"><input class="OtherData" v-model="selectData.Scrap">件</td>
                 </tr>
                 <tr>
                     <td>检验员抽检硬度</td>
-                    <td colspan="10">1:HB_______ &nbsp;&nbsp;2:HB_______ &nbsp;&nbsp;3:HB_______ &nbsp;&nbsp;4:HB_______ &nbsp;&nbsp;5:HB_______ &nbsp;&nbsp;</td>
+                    <td colspan="10">1:HB<input class="HB" v-model="selectData.HB1"> &nbsp;&nbsp;2:HB<input class="HB" v-model="selectData.HB2"> &nbsp;&nbsp;3:HB<input class="HB" v-model="selectData.HB3"> &nbsp;&nbsp;4:HB<input class="HB" v-model="selectData.HB4"> &nbsp;&nbsp;5:HB<input class="HB" v-model="selectData.HB5"> &nbsp;&nbsp;</td>
                 </tr>
                 <tr>
                     <td>是否合格</td>
-                    <td>口是&nbsp;&nbsp;口否</td>
+                    <td>
+                        <el-select v-model="selectData.value10" placeholder="" class="selectbox">
+                            <el-option
+                            v-for="item in selectoptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                        
+                    </td>
                     <td>检验员签名</td>
-                    <td colspan="2"></td>
+                    <td colspan="2"><input type="text" v-model="selectData.Inspector"></td>
                     <td>车间责任人</td>
-                    <td colspan="2"></td>
+                    <td colspan="2"><input type="text" v-model="selectData.Conscientious"></td>
                     <td>审核</td>
-                    <td colspan="2"></td>
+                    <td colspan="2"><input type="text" v-model="selectData.Examine"></td>
                 </tr>
                 <tr>
                     <td colspan="8"></td>
                     <td>日期</td>
-                    <td colspan="2">201&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日</td>
+                    <td colspan="2">{{selectData.date}}</td>
                 </tr>
             </table>
             <div slot="footer" class="dialog-footer">
@@ -773,7 +782,6 @@ export default {
             model5:false,
             model6:false,
             dialogcraftsmanshipVisible: false,//制造工艺dialog
-            tablecraftsmanshipBodyVisible: [true,false,false],//模板显示选择
             craftsmanshipTableHeader: {
                 "contactId" : "",//保存记录后返回的id
                 "productName": "",
@@ -854,6 +862,10 @@ export default {
                 "hardness3" : "",
             },                                                
             selectData:{
+                "Year" : "",
+                "Month" : "",
+                "Day" : "",
+                "date" : "____年__月__日",
                 "value" : "",
                 "value1" : "",
                 "value2" : "",
@@ -864,6 +876,18 @@ export default {
                 "value7" : "",
                 "value8" : "",
                 "value9" : "",
+                "value10" : "",
+                "Qualified" : "",
+                "Rework" : "",
+                "Scrap" : "",
+                "HB1" : "",
+                "HB2" : "",
+                "HB3" : "",
+                "HB4" : "",
+                "HB5" : "",
+                "Inspector" : "",
+                "Conscientious" : "",
+                "Examine" : "",
             },
             selectoptions:[{
                 value: '',
@@ -882,6 +906,7 @@ export default {
     methods: {
         //修改下拉选项选择模板
         model(value){
+            resetInputCraftsmanship()
             this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
             this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
             switch(value){
@@ -892,7 +917,6 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=false
-                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "2Cr13钢调质热处理（空冷淬火）报告":
                     this.model1=false
@@ -901,7 +925,6 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=false
-                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "42CrMo钢调质热处理（1.25%PAG淬火）报告":
                     this.model1=false
@@ -910,7 +933,6 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=false
-                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "高频淬火 --- 热处理报告":
                     this.model1=false
@@ -919,7 +941,6 @@ export default {
                     this.model4=true
                     this.model5=false
                     this.model6=false
-                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "40CrNiMo钢调质热处理（1.25%PAG淬火）报告":
                     this.model1=false
@@ -928,7 +949,6 @@ export default {
                     this.model4=false
                     this.model5=true
                     this.model6=false
-                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
                 case "40Cr钢调质热处理（1.25%PAG淬火）报告":
                     this.model1=false
@@ -937,14 +957,12 @@ export default {
                     this.model4=false
                     this.model5=false
                     this.model6=true
-                    this.selectData={"value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "",}
                     break;
             }
         },
 
         //重置焊接模态框的输入框
         resetInputCraftsmanship() {            
-            this.tablecraftsmanshipBodyVisible = [true,false,false]
             this.craftsmanshipTableHeader = {
                 "contactId" : "",//保存记录后返回的id
                 "productName": "",
@@ -956,9 +974,16 @@ export default {
             }
             this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
             this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
-        },
+            this.selectData={"Day" : "","Month" : "","Year" : "","date" : "____年__月__日","value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "","value10" : "","Qualified" : "","Rework" : "","Scrap" : "","HB1" : "","HB2" : "","HB3" : "","HB4" : "","HB5" : "","Inspector" : "","Conscientious" : "","Examine" : "",}
+            this.modelOther1={"BrineStrength" : "","SaltwaterTemperature" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
+            this.modelOther2={"airtemperature" : "","Actual" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
+            this.modelOther3={"PAGStrength" : "","PAGTemperature" : "","PAGQuality" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
+            this.modelOther4={"heating" : "","PAGStrength" : "","Oilquality" : "","BrineStrength" : "","hardness1" : "","hardness2" : "","hardness3" : "","depth1" : "","depth2" : "",},
+            this.modelOther5={"PAGStrength" : "","PAGTemperature" : "","PAGQuality" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
+            this.modelOther6={"PAGStrength" : "","PAGTemperature" : "","PAGQuality" : "","hardness1" : "","hardness2" : "","hardness3" : "",}            
+            },
         //打开新建模态框
-        openHeattreatmentDialog(selectedTreeNode){
+        openHeattreatmentDialog(selectedTreeNode){          
             this.selectedTreeNode = selectedTreeNode
             //  console.log(selectedTreeNode)
             var relateId=selectedTreeNode.relateId;
@@ -1024,6 +1049,12 @@ export default {
         },
         //保存表格信息
         craftsmanshipSaveData(){
+            //赋值当前时间
+            var now = new Date(); //当前日期
+            var nowDay = now.getDate(); //当前日
+            var nowMonth = (now.getMonth()+1) < 10?'0'+ (now.getMonth()+1):now.getMonth()+1; //当前月
+            var nowYear = now.getFullYear(); //当前年
+            this.selectData.date = nowYear+'年'+nowMonth+'月'+nowDay+'日'            
             let fd = new FormData()
             fd.append("flag","heattreatmentDataOne")
                 switch(this.value){
@@ -1182,5 +1213,13 @@ input {
   }
   .selectbox{
       width: 100%;
+  }
+  .HB{
+    width: 10%;
+    border-bottom: 1px solid #000000;  
+    border-top:0px;  
+    border-left:0px;  
+    border-right:0px; 
+    text-align: center;      
   }
 </style>
