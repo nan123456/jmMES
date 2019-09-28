@@ -66,13 +66,20 @@
         </span>
         
         <span v-else-if="props.column.field == 'result'">
-          <a 
-            :href="`http://47.106.161.130:8081/jmmes/app/uploadfiles/${props.row.photourl}`" 
+          <!-- <a 
             target="_blank"
             class="show_img"
             :key="props.index"
             v-if="props.row.show_img"
-          >点击查看</a>
+          > 点击查看</a> -->
+          
+          <router-link
+            :to="{path:'Photo',query: {url: props.row.photourl}}"
+            class="show_img"
+            :key="props.index"
+            v-if="props.row.show_img"
+            target="_blank"          
+          >点击查看</router-link>
         </span>
         <span v-if="props.column.field == 'checkSituation'">
           <el-button 

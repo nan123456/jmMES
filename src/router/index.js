@@ -288,7 +288,13 @@ export default new Router({
             name: 'PartsQuality',
             component: resolve => require(['../components/page/PartsQuality.vue'], resolve),
             meta: { title: '零件' }
-        }
+        },
+        {
+            // 检验模块内查看图片
+            path: '/Photo',
+            component: resolve => require(['../components/page/examine/Photo.vue'],resolve),
+            meta: {title: '图片'}
+        },
         // ,
         // {
         //     path: '*',
