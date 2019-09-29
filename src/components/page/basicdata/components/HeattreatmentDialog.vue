@@ -1049,62 +1049,115 @@ export default {
         },
         //保存表格信息
         craftsmanshipSaveData(){
-            //赋值当前时间
-            var now = new Date(); //当前日期
-            var nowDay = now.getDate(); //当前日
-            var nowMonth = (now.getMonth()+1) < 10?'0'+ (now.getMonth()+1):now.getMonth()+1; //当前月
-            var nowYear = now.getFullYear(); //当前年
-            this.selectData.date = nowYear+'年'+nowMonth+'月'+nowDay+'日'            
             let fd = new FormData()
-            fd.append("flag","heattreatmentDataOne")
-                switch(this.value){
-                    case("45钢（盐水10%）调质热处理报告"):
-                        fd.append("otherData",JSON.stringify(this.modelOther1));//其他数据(下面也是)
-                        break;
-                    case("2Cr13钢调质热处理（空冷淬火）报告"):
-                        fd.append("otherData",JSON.stringify(this.modelOther2));
-                        break;
-                    case("42CrMo钢调质热处理（1.25%PAG淬火）报告"):
-                        fd.append("otherData",JSON.stringify(this.modelOther3));
-                        break;
-                    case("高频淬火 --- 热处理报告"):
-                        fd.append("otherData",JSON.stringify(this.modelOther4));
-                        break;
-                    case("40CrNiMo钢调质热处理（1.25%PAG淬火）报告"):
-                        fd.append("otherData",JSON.stringify(this.modelOther5));
-                        break;
-                    case("40Cr钢调质热处理（1.25%PAG淬火）报告"):
-                        fd.append("otherData",JSON.stringify(this.modelOther6));
-                        break;                                                                                                                       
-                }            
-                fd.append("treeId",this.selectedTreeNode.relateId)//选中树的id
-                fd.append("heattreatmentTableHeader",JSON.stringify(this.craftsmanshipTableHeader))//头部信息
-                fd.append("model",this.value)//模板信息
-                fd.append("temperature",JSON.stringify(this.temperature))//获取温度值
-                fd.append("time",JSON.stringify(this.time))//获取时间值
-                fd.append("selectvalue",JSON.stringify(this.selectData))//获取select值
-                axios.post(`${this.baseURL}/basicdata/heattreatment.php`,fd)
-                    .then((response) => {        
-                        console.log(response)                
-                        if(response.data.state == "success"){
-                            this.$message({
-                                showClose: true,
-                                message: '新增成功',
-                                type: 'success'
-                            })                            
-                        }else{
-                            this.$message({
-                                showClose: true,
-                                message: '新增失败',
-                                type: 'error'
-                            })
-                        } 
-                        this.$emit("refreshTable",this.selectedTreeNode)
-                        this.dialogcraftsmanshipVisible = false                                           
-                    })
-                    .catch(function (error){
-                        console.log(error)
-                    })
+            if(this.craftsmanshipTableHeader.contactId){//保存更新
+                fd.append("flag","updateData")
+                    switch(this.value){
+                        case("45钢（盐水10%）调质热处理报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther1));//其他数据(下面也是)
+                            break;
+                        case("2Cr13钢调质热处理（空冷淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther2));
+                            break;
+                        case("42CrMo钢调质热处理（1.25%PAG淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther3));
+                            break;
+                        case("高频淬火 --- 热处理报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther4));
+                            break;
+                        case("40CrNiMo钢调质热处理（1.25%PAG淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther5));
+                            break;
+                        case("40Cr钢调质热处理（1.25%PAG淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther6));
+                            break;                                                                                                                       
+                    }
+                    fd.append("contactId",this.craftsmanshipTableHeader.contactId)//该数据ID            
+                    // fd.append("treeId",this.selectedTreeNode.relateId)//选中树的id
+                    fd.append("heattreatmentTableHeader",JSON.stringify(this.craftsmanshipTableHeader))//头部信息
+                    // fd.append("model",this.value)//模板信息
+                    fd.append("temperature",JSON.stringify(this.temperature))//获取温度值
+                    fd.append("time",JSON.stringify(this.time))//获取时间值
+                    fd.append("selectvalue",JSON.stringify(this.selectData))//获取select值
+                    axios.post(`${this.baseURL}/basicdata/heattreatment.php`,fd)
+                        .then((response) => {        
+                            console.log(response)                
+                            if(response.data.state == "success"){
+                                this.$message({
+                                    showClose: true,
+                                    message: '保存成功',
+                                    type: 'success'
+                                })                            
+                            }else{
+                                this.$message({
+                                    showClose: true,
+                                    message: '保存失败',
+                                    type: 'error'
+                                })
+                            } 
+                            this.$emit("refreshTable",this.selectedTreeNode)
+                            this.dialogcraftsmanshipVisible = false                                           
+                        })
+                        .catch(function (error){
+                            console.log(error)
+                        })
+            }else{//新建保存
+                //赋值当前时间
+                var now = new Date(); //当前日期
+                var nowDay = now.getDate(); //当前日
+                var nowMonth = (now.getMonth()+1) < 10?'0'+ (now.getMonth()+1):now.getMonth()+1; //当前月
+                var nowYear = now.getFullYear(); //当前年
+                this.selectData.date = nowYear+'年'+nowMonth+'月'+nowDay+'日'            
+                fd.append("flag","heattreatmentDataOne")
+                    switch(this.value){
+                        case("45钢（盐水10%）调质热处理报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther1));//其他数据(下面也是)
+                            break;
+                        case("2Cr13钢调质热处理（空冷淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther2));
+                            break;
+                        case("42CrMo钢调质热处理（1.25%PAG淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther3));
+                            break;
+                        case("高频淬火 --- 热处理报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther4));
+                            break;
+                        case("40CrNiMo钢调质热处理（1.25%PAG淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther5));
+                            break;
+                        case("40Cr钢调质热处理（1.25%PAG淬火）报告"):
+                            fd.append("otherData",JSON.stringify(this.modelOther6));
+                            break;                                                                                                                       
+                    }            
+                    fd.append("treeId",this.selectedTreeNode.relateId)//选中树的id
+                    fd.append("heattreatmentTableHeader",JSON.stringify(this.craftsmanshipTableHeader))//头部信息
+                    fd.append("model",this.value)//模板信息
+                    fd.append("temperature",JSON.stringify(this.temperature))//获取温度值
+                    fd.append("time",JSON.stringify(this.time))//获取时间值
+                    fd.append("selectvalue",JSON.stringify(this.selectData))//获取select值
+                    axios.post(`${this.baseURL}/basicdata/heattreatment.php`,fd)
+                        .then((response) => {        
+                            console.log(response)                
+                            if(response.data.state == "success"){
+                                this.$message({
+                                    showClose: true,
+                                    message: '新增成功',
+                                    type: 'success'
+                                })                            
+                            }else{
+                                this.$message({
+                                    showClose: true,
+                                    message: '新增失败',
+                                    type: 'error'
+                                })
+                            } 
+                            this.$emit("refreshTable",this.selectedTreeNode)
+                            this.dialogcraftsmanshipVisible = false                                           
+                        })
+                        .catch(function (error){
+                            console.log(error)
+                        })
+            }
         },
         //点击更新按钮，获取温度与时间
         updateBtn(value,type){
