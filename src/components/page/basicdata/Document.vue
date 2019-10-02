@@ -127,6 +127,7 @@ export default {
         },
         //选中树节点
         handleNodeClick(data) {
+            // console.log(data)
             if(data.tableFlag==1){
                 let selectedTreeNode = {
                     label : data.label,
@@ -136,14 +137,20 @@ export default {
                 this.$refs.docList.GetListData(selectedTreeNode)
                 // this.selectedTreeNode = selectedTreeNode
                 // this.deltetButtonVisible = true
-            }
-            if(!data.children){
+            }else if(!data.children){
                 let selectedTreeNode = {
                     label : data.label,
                     tableFlag : data.thereFlag,
                     relateId : data.thereId
                 }
                 this.$refs.docList.GetListData(selectedTreeNode)
+            }else{
+                // console.log(data)
+                let selectedTreeNode = {
+                    label : data.label,
+                    tableFlag : 'b',
+                }
+                this.$refs.docList.GetClassData(selectedTreeNode)                
             }
             // if(!data.children){                
                 // let selectedTreeNode = {
@@ -157,77 +164,77 @@ export default {
             // }           
         },
         //删除树节点
-        deltetTreeNode(){
-            this.$confirm(`即将删除节点“${this.selectedTreeNode.label}”, 是否继续?`, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                switch(this.selectedTreeNode.tableFlag){
-                    case 1://焊接                                 
-                        axios.get(`${this.baseURL}/basicdata/document.php?flag=deleteTreeNodeWelding&relateId=${this.selectedTreeNode.relateId}`)
-                        .then((response) => {
-                            if(response.data.state == "success"){
-                                this.$message({
-                                    type: 'success',
-                                    message: '删除成功'                                    
-                                })
-                                let selectedTreeNode = {
-                                    label : "",
-                                    tableFlag : "",
-                                    relateId : ""
-                                }
-                                this.selectedTreeNode = selectedTreeNode
-                                this.$refs.docList.GetListData(selectedTreeNode)
-                                this.getTreeData()
-                            }else{
-                                console.log(response)
-                                this.$message({
-                                    type: 'error',
-                                    message: '删除失败'                                    
-                                })
-                            }                            
-                        })
-                        .catch(function(error){
-                            console.log(error)
-                        })
-                        break
-                    case 2://制造
-                        axios.get(`${this.baseURL}/basicdata/document.php?flag=deleteTreeNodeCraftsmanship&relateId=${this.selectedTreeNode.relateId}`)
-                        .then((response) => {
-                            if(response.data.state == "success"){
-                                this.$message({
-                                    type: 'success',
-                                    message: '删除成功'                                    
-                                })
-                                let selectedTreeNode = {
-                                    label : "",
-                                    tableFlag : "",
-                                    relateId : ""
-                                }
-                                this.selectedTreeNode = selectedTreeNode
-                                this.$refs.docList.GetListData(selectedTreeNode)
-                                this.getTreeData()
-                            }else{
-                                console.log(response)
-                                this.$message({
-                                    type: 'error',
-                                    message: '删除失败'                                    
-                                })
-                            }                            
-                        })
-                        .catch(function(error){
-                            console.log(error)
-                        })
-                        break                       
-                }
-            }).catch((error) => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });          
-            })
-        },
+        // deltetTreeNode(){
+        //     this.$confirm(`即将删除节点“${this.selectedTreeNode.label}”, 是否继续?`, '提示', {
+        //         confirmButtonText: '确定',
+        //         cancelButtonText: '取消',
+        //         type: 'warning'
+        //     }).then(() => {
+        //         switch(this.selectedTreeNode.tableFlag){
+        //             case 1://焊接                                 
+        //                 axios.get(`${this.baseURL}/basicdata/document.php?flag=deleteTreeNodeWelding&relateId=${this.selectedTreeNode.relateId}`)
+        //                 .then((response) => {
+        //                     if(response.data.state == "success"){
+        //                         this.$message({
+        //                             type: 'success',
+        //                             message: '删除成功'                                    
+        //                         })
+        //                         let selectedTreeNode = {
+        //                             label : "",
+        //                             tableFlag : "",
+        //                             relateId : ""
+        //                         }
+        //                         this.selectedTreeNode = selectedTreeNode
+        //                         this.$refs.docList.GetListData(selectedTreeNode)
+        //                         this.getTreeData()
+        //                     }else{
+        //                         console.log(response)
+        //                         this.$message({
+        //                             type: 'error',
+        //                             message: '删除失败'                                    
+        //                         })
+        //                     }                            
+        //                 })
+        //                 .catch(function(error){
+        //                     console.log(error)
+        //                 })
+        //                 break
+        //             case 2://制造
+        //                 axios.get(`${this.baseURL}/basicdata/document.php?flag=deleteTreeNodeCraftsmanship&relateId=${this.selectedTreeNode.relateId}`)
+        //                 .then((response) => {
+        //                     if(response.data.state == "success"){
+        //                         this.$message({
+        //                             type: 'success',
+        //                             message: '删除成功'                                    
+        //                         })
+        //                         let selectedTreeNode = {
+        //                             label : "",
+        //                             tableFlag : "",
+        //                             relateId : ""
+        //                         }
+        //                         this.selectedTreeNode = selectedTreeNode
+        //                         this.$refs.docList.GetListData(selectedTreeNode)
+        //                         this.getTreeData()
+        //                     }else{
+        //                         console.log(response)
+        //                         this.$message({
+        //                             type: 'error',
+        //                             message: '删除失败'                                    
+        //                         })
+        //                     }                            
+        //                 })
+        //                 .catch(function(error){
+        //                     console.log(error)
+        //                 })
+        //                 break                       
+        //         }
+        //     }).catch((error) => {
+        //         this.$message({
+        //             type: 'info',
+        //             message: '已取消删除'
+        //         });          
+        //     })
+        // },
         //打开新建节点框
         openNewTreeDialog() {
             this.treeForm ={

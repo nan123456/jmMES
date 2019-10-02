@@ -99,6 +99,23 @@
     </div>            
     </vue-good-table>
 
+    <!-- 类项目表格 -->
+    <vue-good-table
+    v-if="selectedTreeNode.tableFlag=='b'" 
+    :columns="columns3" 
+    :rows="rows"
+    @on-column-filter="selectionChanged"
+    :search-options="{
+      enabled: true,
+      placeholder: '搜索此表格'
+    }"
+    :pagination-options="{
+      enabled: true,
+      mode: 'records'
+    }"
+    >          
+    </vue-good-table>
+
     <!-- 焊接信息 -->
     <welding-dialog ref="weldcomponent" v-on:refreshTable="GetListData"></welding-dialog>
 
@@ -147,7 +164,7 @@ export default {
   data() {
     return {
       selectedTreeNode : {//左边树选中的节点（表类型，对应的id）
-        tableFlag : "5",
+        tableFlag : "a",
         relateId : ""
       },
       newButtonShow :[false,false,false,false,false],
@@ -217,8 +234,7 @@ export default {
           field: "operate"
         }
       ],
-      columns2: [
-        
+      columns2: [        
         {
           label: "工艺卡类型",
           field: "TypeCard"
@@ -247,6 +263,24 @@ export default {
           label: "操作",
           field: "operate"
         }
+      ],
+      columns3: [
+        {
+          label: "工单号",
+          field: "pNumber"
+        },
+        {
+          label: "产品型号",
+          field: "number"
+        },        
+        {
+          label: "项目名称",
+          field: "name"
+        },        
+        {
+          label: "创建日期",
+          field: "ctime"
+        },
       ],
       rows: [],    
       dialogVisible: false,
@@ -313,6 +347,20 @@ export default {
         console.log(error)
       })
     },
+    //异步获取类项目表格
+    GetClassData(selectedTreeNode){
+      console.log(selectedTreeNode)
+      this.rows = [];
+      this.selectedTreeNode = selectedTreeNode
+      axios.get(`${this.baseURL}/basicdata/document.php?flag=GetClassData&label=${this.selectedTreeNode.label}`)
+      .then((response) => {
+        this.rows = response.data.data
+        })
+      .catch(function(error){
+        console.log(error)
+      })        
+    },
+
     //good-table表格的搜索功能
     selectionChanged(params) {
       // console.log(params.columnFilters);
