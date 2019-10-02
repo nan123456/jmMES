@@ -27,7 +27,7 @@
                   <el-form :inline="true">
                     <el-form-item>
                       <el-input 
-                        placeholder="输入关键字"
+                        placeholder="输入modID"
                         v-model="filterText"
                         style="width:150px">
                       </el-input>
