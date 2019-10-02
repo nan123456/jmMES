@@ -75,7 +75,7 @@
                         </el-select>
                     </td>
                     <td>
-                        <el-select 
+                        <!-- <el-select 
                             v-model="item.materialAndSpecifications_1_thickness" 
                             size="mini" 
                             placeholder=""
@@ -86,7 +86,8 @@
                             :label="item.label"
                             :value="item.value">
                             </el-option>
-                        </el-select>
+                        </el-select> -->
+                        <el-input v-model="item.materialAndSpecifications_1_thickness" size="mini"></el-input>
                     </td>
                     <td>
                         <el-select 
@@ -103,7 +104,7 @@
                         </el-select>
                     </td>
                     <td>
-                        <el-select 
+                        <!-- <el-select 
                             v-model="item.materialAndSpecifications_2_thickness" 
                             size="mini" 
                             placeholder=""
@@ -114,7 +115,8 @@
                             :label="item.label"
                             :value="item.value">
                             </el-option>
-                        </el-select>
+                        </el-select> -->
+                        <el-input v-model="item.materialAndSpecifications_2_thickness" size="mini"></el-input>
                     </td>
                     <td>
                         <el-select
@@ -227,7 +229,17 @@
                 <tr>
                     <td rowspan="2">焊缝编号</td>
                     <td colspan="3">层间清理</td>
-                    <td colspan="3">焊脚尺寸</td>
+                    <td colspan="3">
+                        <el-select 
+                            v-model="weldingTableOne.weldingfoot">
+                            <el-option
+                            v-for="item in weldingfootOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                            </el-option>
+                        </el-select>                        
+                    </td>
                     <td colspan="3">焊缝外观质量</td>
                 </tr>
                 <tr>
@@ -265,12 +277,34 @@
             <table class="tableFour">
                 <tr>
                     <td class="weldingsequence">焊接顺序</td>
+                    <!-- <td rowspan="2"> -->
+                        <!-- <el-upload
+                    class="upload-demo"
+                    drag
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload> -->
+                    <!-- </td> -->
                     <td rowspan="2" id="imageBox" ref="imageBox" @drop="drop($event,'0')" @dragover="allowDrop($event)" v-html="weldngTableFour.imgHtml"></td>
                 </tr>
                 <tr>
                     <td>
                         <input class="weldingsequenceinput" v-model="weldngTableFour.weldingSequence" />
                     </td>
+                </tr>                
+            </table>
+            <table class="tableFive">
+                <tr>
+                    <td colspan="2">编制（日期）</td>
+                    <td colspan="2">审核（日期）</td>
+                    <td colspan="4" rowspan="2"><h1>中山市金马科技娱乐设备股份有限公司</h1></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" style="text-align: center" v-model="weldingTableOne.Organization"></td>
+                    <td colspan="2"><input type="text" style="text-align: center" v-model="weldingTableOne.examine"></td>                  
                 </tr>
             </table>
             <div slot="footer" class="dialog-footer">
@@ -306,7 +340,10 @@ export default {
                 productName: "",
                 productCode: "",
                 partName: "",
-                partDrawingNumber: ""
+                partDrawingNumber: "",
+                weldingfoot :"焊脚尺寸",
+                Organization : "",
+                examine : "",
             },
             weldingTableTwo_1: [
                 {"weldNumber":"","materialAndSpecifications_1":"","materialAndSpecifications_1_thickness":"","materialAndSpecifications_2":"","materialAndSpecifications_2_thickness":"","weldingMethod":"","grooveForm":"","consumables":"","specifications":"","weldingLevel_numberOfLayers":"","weldingLevel_numberOftracks":"","protectiveGas":"","weldingCurrent":"","actualCurrent_1":"","actualCurrent_2":"","weldingVoltage":"","actualVoltage_1":"","actualVoltage_2":"","specificationNumber":"","ratingNumber":"","flawDetectionRequirements":"","steelStamp":""},
@@ -347,23 +384,25 @@ export default {
             weldingTableThree_3: {
                 "finalInspectionResult":"",
                 "inspectorSingnature":"",
-                "date":""
+                "date":"",               
             },
             weldngTableFour: {
                 "weldingSequence":"",
                 "weldNumberMap":"",
-                "imgHtml":""
+                "imgHtml":"",
             },
             //材质及规格选项
-            materialOptions: [ { "value": "Q235-B" },{ "value": "Q345-B" },{ "value": "20#" },{ "value": "40Cr#" },{ "value": "45#" },{ "value": "2Cr13" },{ "value": "0Cr18Ni9" }],
+            materialOptions: [ { "value": "" },{ "value": "Q235-B" },{ "value": "Q345-B" },{ "value": "20#" },{ "value": "40Cr#" },{ "value": "45#" },{ "value": "2Cr13" },{ "value": "0Cr18Ni9" }],
             //板厚度选项
             thicknessOptions:[{value:"1"},{value:"2"},{value:"3"},{value:"4"},{value:"5"},{value:"6"},{value:"7"},{value:"8"},{value:"9"},{value:"10"},{value:"11"},{value:"12"},{value:"13"},{value:"14"},{value:"15"},{value:"16"},{value:"17"},{value:"18"},{value:"19"},{value:"20"},{value:"21"},{value:"22"},{value:"23"},{value:"24"}],
             //焊接方法选项
-            weldingMethodOptions: [{value:"FCAW"},{value:"GMAW"},{value:"SMAW"},{value:"SAW"},{value:"GTAW"}],
+            weldingMethodOptions: [{value:""},{value:"FCAW"},{value:"GMAW"},{value:"SMAW"},{value:"SAW"},{value:"GTAW"}],
             //坡口形式选项
-            grooveFormOptions: [{value:"对接焊缝"},{value:"角焊缝"},{value:"组合焊缝"},{value:"塞焊缝"},{value:"槽焊缝"}],
+            grooveFormOptions: [{value:""},{value:"对接焊缝"},{value:"角焊缝"},{value:"组合焊缝"},{value:"塞焊缝"},{value:"槽焊缝"}],
             //探伤要求选项
-            flawDetectionRequirementsOptions: [{value:"MT"},{value:"PT"},{value:"MT/UT"},{value:"MT/RT"},{value:"MT/UT/RT"},{value:"MT/UT/20%RT"},{value:"PT/RT"}],
+            flawDetectionRequirementsOptions: [{value:""},{value:"MT"},{value:"PT"},{value:"MT/UT"},{value:"MT/RT"},{value:"MT/UT/RT"},{value:"MT/UT/20%RT"},{value:"PT/RT"}],
+            //焊脚选项
+            weldingfootOptions:[{value:"焊脚尺寸"},{value:"焊缝宽度"}],
         }
     },
     methods:{
@@ -379,7 +418,10 @@ export default {
                 productName: "",
                 productCode: "",
                 partName: "",
-                partDrawingNumber: ""
+                partDrawingNumber: "",
+                weldingfoot :"焊脚尺寸",
+                Organization : "",
+                examine : "",                 
             }
             this.weldingTableTwo_1 = [
                 {"weldNumber":"","materialAndSpecifications_1":"","materialAndSpecifications_1_thickness":"","materialAndSpecifications_2":"","materialAndSpecifications_2_thickness":"","weldingMethod":"","grooveForm":"","consumables":"","specifications":"","weldingLevel_numberOfLayers":"","weldingLevel_numberOftracks":"","protectiveGas":"","weldingCurrent":"","actualCurrent_1":"","actualCurrent_2":"","weldingVoltage":"","actualVoltage_1":"","actualVoltage_2":"","specificationNumber":"","ratingNumber":"","flawDetectionRequirements":"","steelStamp":""},
@@ -420,12 +462,12 @@ export default {
             this.weldingTableThree_3 = {
                 "finalInspectionResult":"",
                 "inspectorSingnature":"",
-                "date":""
+                "date":"",               
             }
             this.weldngTableFour = {
                 "weldingSequence":"",
                 "weldNumberMap":"",
-                "imgHtml":""
+                "imgHtml":"",
             }
         },
         //阻止默认行为
@@ -434,6 +476,7 @@ export default {
         },
         //接收拖曳对象
 		drop(ev,imgflag){
+            console.log(ev)
             ev.preventDefault()//阻止浏览器默认行为
             var files = ev.dataTransfer.files
             if(files.length){
@@ -947,7 +990,7 @@ input {
     height: 450px;
 }
 
-.tableOne,.tableTwo,.tableThree,.tableFour,.craftsmanshipTableHeader,.craftsmanshipTableBody_1,.craftsmanshipTableFooter{
+.tableOne,.tableTwo,.tableThree,.tableFour,.tableFive,.craftsmanshipTableHeader,.craftsmanshipTableBody_1,.craftsmanshipTableFooter{
     border-collapse: collapse;
     text-align: center;
     width: 100%;
