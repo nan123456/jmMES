@@ -12,6 +12,7 @@
           <el-tab-pane label="已完成" name="completed"></el-tab-pane>
           <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
           <el-tab-pane label="全部部件" name="all"></el-tab-pane>
+          <el-tab-pane label="PLM获取部件" name="plm"></el-tab-pane>
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -27,7 +28,7 @@
                   <el-form :inline="true">
                     <el-form-item>
                       <el-input 
-                        placeholder="输入关键字"
+                        placeholder="输入modID"
                         v-model="filterText"
                         style="width:150px">
                       </el-input>
@@ -160,6 +161,8 @@ export default {
         this.tabName = 'exterior'
       }else if(key=='6'){
         this.tabName = 'all'
+      }else if(key=='7'){
+        this.tabName = 'plm'
       }
     },
     methods: {
@@ -184,6 +187,9 @@ export default {
           break
           case 'all':
           key = 6
+          break
+          case 'plm':
+          key = 7
           break
         }
         this.reload()
@@ -277,7 +283,7 @@ export default {
             console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','mpart')
-            fd.append('key',key) //关键零部件判断
+            fd.append('key',key) 
             fd.append('id',node.data.id) //node.data 父节点所带参数
             fd.append('name',node.data.zhname) //node.data 父节点所带参数
             fd.append('number',node.data.number) //node.data 父节点所带参数
@@ -295,7 +301,7 @@ export default {
             console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','part')
-            fd.append('key',key) //关键零部件判断
+            fd.append('key',key) 
             fd.append('pid',node.data.pid) //node.data 父节点所带参数
             fd.append('modid',node.data.modid) //node.data 父节点所带参数
             fd.append('name',node.data.name) //node.data 父节点所带参数
