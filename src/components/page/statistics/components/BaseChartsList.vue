@@ -1,16 +1,23 @@
 <template>
     <div>
+        <div class="searchWord">
+                <el-input v-model="search" style="display: inline-block;width: 85%" 
+                    placeholder="请输入搜索内容">
+                </el-input>
+                <el-button type="primary" @click="getselectData()">搜索</el-button>
+                <el-button type="danger" @click="getData('Undelivered'),search='',pageSize=10">重置</el-button>
+            </div>       
         <el-table 
         :data="tableData.slice( (currentPage-1)*pageSize, currentPage*pageSize)" 
-        style="width: 100%" 
+        style="width: 100%"        
         stripe 
         >
-            <el-table-column
+            <!-- <el-table-column
                 type="selection"
                 width="55"
                 reserve-selection
             >
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
                 prop="modid"
                 width="60"
@@ -130,6 +137,7 @@ export default {
             fChild_material: [],
             tableData: [],
             FChild_material: [],
+            search: '',
         }
     },
     components: {
@@ -153,9 +161,10 @@ export default {
              if(res.data.success=="error"){
                  alert("暂无数据")
              }
-             console.log(res.data)
+            //  console.log(res.data)
              res = res.data
             if (res.rows) {
+                this.fChild_material = [],
                 // 未排产
                 this.tableData = res.rows
                 if(res.fChild_material){
@@ -187,6 +196,15 @@ export default {
         handleCurrentChange(val) {
         this.currentPage = val;
         },
+        //获取模糊查询数据
+        getselectData() {
+            var fd = new FormData()
+                fd.append("flag",'selectData')
+                fd.append("select",this.search)
+            axios
+                .post(`${this.baseURL}/basecharts/list.php`,fd)
+                .then(this.getDataSucc);
+         },        
     },
 }
 </script>
