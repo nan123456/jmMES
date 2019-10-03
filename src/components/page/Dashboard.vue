@@ -11,12 +11,23 @@
           <div class="schart-box">
             <!-- <div class="content-title">零部件不合格次数统计图</div> -->
             <schart class="schart" canvasId="pie" :data="data2" type="pie" :options="options3"></schart>
-          </div>
+          </div><br>
+          <div class="schart-box">
+            <el-select v-model="value" placeholder="请选择" @change="seld()">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :value="item.value"
+                :label="item.lable">
+              </el-option>
+            </el-select>
+            <schart class="schart" canvasId="bar" :data="data3" type="pie" :options="options1"></schart>
+          </div>          
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="24">
-      <div class="container">
+    <!-- <el-row :gutter="24"> -->
+      <!-- <div class="container">
         <div class="schart-box">
           <el-select v-model="value" placeholder="请选择" @change="seld()">
             <el-option
@@ -27,15 +38,15 @@
             </el-option>
           </el-select>
           <schart class="schart" canvasId="bar" :data="data3" type="pie" :options="options1"></schart>
-        </div>
-        <div class="schart-box">
+        </div> -->
+        <!-- <div class="schart-box">
           <schart class="schart" canvasId="line" :data="data1" type="line" :options="options2"></schart>
         </div>
         <div class="schart-box">
           <schart class="schart" canvasId="ring" :data="data2" type="ring" :options="options4"></schart>
-        </div>
-      </div>
-    </el-row>
+        </div> -->
+      <!-- </div> -->
+    <!-- </el-row> -->
   </div>
 </template>
 
@@ -51,7 +62,7 @@ export default {
   data() {
     return {
        options: [],
-        value: '',
+        value: '62',
       data1: [
         { name: "电流安全上限", value: 220 },
         { name: "电流实际最大值", value: 200 },
@@ -99,6 +110,7 @@ export default {
     axios.post(`${this.baseURL}/echarts.php`).then(response => {
       this.data2 = response.data;
     });
+    this.seld();   
   },
   methods: {
    seld(){

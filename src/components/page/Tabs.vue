@@ -420,7 +420,7 @@ export default {
   cursor: pointer;
 }
 .el-tabs--card {
-  height: 420px;
+  height: 892px;
   overflow: scroll;
 }
 .el-card__body {
