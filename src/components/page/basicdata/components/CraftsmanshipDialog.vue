@@ -446,7 +446,7 @@ export default {
                 }
                 //模板二保存-更新
                 if(this.tablecraftsmanshipBodyVisible[1]){
-                    fd.append("flag","craftsmanshipUpdateDataOne")
+                    fd.append("flag","craftsmanshipUpdateDataTwo")
                     fd.append("craftsmanshipTableHeader",JSON.stringify(this.craftsmanshipTableHeader))//头部信息
                     fd.append("craftsmanshipTableBody_2",JSON.stringify(this.craftsmanshipTableBody_2.rowsData))//可遍历信息
                     fd.append("craftsmanshipTableBodyResult",JSON.stringify(this.craftsmanshipTableBodyResult))//结论与不符合确认
