@@ -78,9 +78,9 @@
                 <td colspan="4">不符合确认</td>
                 <td colspan="10">{{ craftsmanshipTableBodyResult.inconsistentConfirmation }}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" @drop="drop($event,'5')" @dragover="allowDrop($event)" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='width:100%;max-height:100%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
-            </tr>
+            </tr> -->
         </table>
         <!-- 模板一 end -->
         <!-- 模板二 start -->
