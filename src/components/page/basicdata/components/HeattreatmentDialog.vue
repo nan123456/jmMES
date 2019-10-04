@@ -906,7 +906,7 @@ export default {
     methods: {
         //修改下拉选项选择模板
         model(value){
-            resetInputCraftsmanship()
+            this.resetInputCraftsmanship()
             this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
             this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
             switch(value){
@@ -962,7 +962,7 @@ export default {
         },
 
         //重置焊接模态框的输入框
-        resetInputCraftsmanship() {            
+        resetInputCraftsmanship(){            
             this.craftsmanshipTableHeader = {
                 "contactId" : "",//保存记录后返回的id
                 "productName": "",
@@ -981,7 +981,7 @@ export default {
             this.modelOther4={"heating" : "","PAGStrength" : "","Oilquality" : "","BrineStrength" : "","hardness1" : "","hardness2" : "","hardness3" : "","depth1" : "","depth2" : "",},
             this.modelOther5={"PAGStrength" : "","PAGTemperature" : "","PAGQuality" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
             this.modelOther6={"PAGStrength" : "","PAGTemperature" : "","PAGQuality" : "","hardness1" : "","hardness2" : "","hardness3" : "",}            
-            },
+        },
         //打开新建模态框
         openHeattreatmentDialog(selectedTreeNode){          
             this.selectedTreeNode = selectedTreeNode
