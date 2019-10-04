@@ -24,7 +24,7 @@
               </el-row>
             </el-header>
             <el-container style="height: 600px;">
-              <el-aside width="250px">
+              <el-aside width="300px">
                   <el-form :inline="true">
                     <el-form-item>
                       <el-input 
@@ -32,20 +32,29 @@
                         v-model="filterText"
                         style="width:150px">
                       </el-input>
-                      <el-button type="primary" @click="handleFifter()">查询</el-button>
+                      <el-button type="primary" @click="handleFifter()" class="tree_btn">查询</el-button>
+                      <el-button @click="resolve()" class="tree_btn">重置</el-button>
                       </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
                   <el-tree
-                    v-if="updateTree"
+                    v-show="updateTree1"
                     class="filter-tree"
                     lazy
-                    :load="loadNode"
+                    :load="loadNode1"
                     :props="defaultProps"
                     @node-click="handleNodeClick"
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">
+                  </el-tree>
+                  <!-- 搜索tree控件 -->
+                  <el-tree
+                    v-show="updateTree2"
+                    class="filter-tree"
+                    :data="result_arr"
+                    :props="defaultProps"
+                    @node-click="handleNodeClick">
                   </el-tree>
                 </el-aside>
                 <!-- 内容 -->
@@ -136,7 +145,8 @@ export default {
         lxid:'',
         uploadUrl:`${this.baseURL}/importERP.php`,
         filterText: '',
-        updateTree:true,
+        updateTree1:true,
+        updateTree2:false,
         dialogUpload:false,
         form:{},
         formLabelWidth: "120px",
@@ -147,7 +157,9 @@ export default {
         },
         quxiao:true,
         save:true,
-        wait:false
+        wait:false,
+        arr:[],
+        result_arr:[]
       };
     },
     mounted:function(){
@@ -196,12 +208,46 @@ export default {
       },
       // 过滤查询
       handleFifter() {
-        // console.log(this.filterText)
-          this.updateTree = !this.updateTree
-          // 增加延时确保tree组件重新渲染
-          setTimeout(()=>{
-            this.updateTree = !this.updateTree
-          },500)
+            this.updateTree1=false;
+            this.updateTree2=true;
+            var fd = new FormData()
+            fd.append('flag','treefilter')
+            fd.append('modid',this.filterText)
+            fd.append('state',0)
+            axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
+              // console.log(res.data.data[0])
+              if(res.data.success == "success"){
+                for(var i=0;i<res.data.data.length;i++){
+                  // console.log(i)
+                  // console.log(res.data.data[i])
+                  // console.log(res.data.data[i])
+                  this.arr[i]=res.data.data[i];   
+                }  
+                // console.log(this.nest(this.arr));
+                this.result_arr=[];
+                this.result_arr.push(this.nest(this.arr));
+                // console.log(this.result_arr)
+              }
+            })
+      },
+      //重制树
+      resolve(){
+        this.updateTree1=true;
+        this.updateTree2=false;
+      },
+      //查询出来的一维数组转为嵌套数组
+      nest(arrs){
+        var result = arrs[0];
+        var key ='children';
+        var i=0;
+        for(i=0;i<arrs.length-1;i++){
+          arrs[i+1][key]=[result];
+          result=arrs[i+1]
+          // console.log(i)
+          // console.log(result)
+        }
+          // console.log(result)
+          return result;
       },
       // 文件上传成功时的钩子
       handleSuc(res,file, fileList) {
@@ -240,10 +286,9 @@ export default {
 
 
       // Tree 控件显示
-      loadNode(node, resolve){
+      loadNode1(node, resolve){
         // 判断当前是否为查询状态
         // console.log(this.filterText)
-        if(!this.filterText){
           // 定义0级节点
           if(node.level === 0) {
             return resolve([{name:'大类',id:0,lx:'dl'}])   
@@ -316,23 +361,6 @@ export default {
               }
             })
           }
-        } else {
-          if(node.level === 0) {
-            var fd = new FormData()
-            fd.append('flag','treefilter')
-            fd.append('modid',this.filterText)
-            fd.append('state',0)
-            axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
-              // console.log(res.data.data)
-              if(res.data.success == "success"){
-                return resolve(res.data.data)
-              }else {
-                return resolve([])
-              }
-            })
-            // console.log(node.data.id)     
-          }
-        }
       }
     }
 };
@@ -344,5 +372,9 @@ export default {
   .filter-tree{
     overflow:auto;
     display: inline-block;
+  }
+  .tree_btn{
+    width: 60px;
+    text-align: center;
   }
 </style>
