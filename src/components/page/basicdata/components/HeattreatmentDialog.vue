@@ -590,7 +590,7 @@
             
             <table class="craftsmanshipTableHeader">
                 <tr>
-                    <td colspan="11"><h1>“自检”调质处理后硬度记录（不足10件按实数检验）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;技术要求：</h1></td>
+                    <td colspan="11"><h3>“自检”调质处理后硬度记录（不足10件按实数检验）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;技术要求：<input class="technical" v-model="selectData.technical"></h3></td>
                 </tr>
                 <tr>
                     <td>序号</td>
@@ -888,6 +888,7 @@ export default {
                 "Inspector" : "",
                 "Conscientious" : "",
                 "Examine" : "",
+                "technical" : ""
             },
             selectoptions:[{
                 value: '',
@@ -907,8 +908,8 @@ export default {
         //修改下拉选项选择模板
         model(value){
             this.resetInputCraftsmanship()
-            this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
-            this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
+            this.craftsmanshipTableHeader.partsName=localStorage.partsName;
+            this.craftsmanshipTableHeader.productName=localStorage.productName;            
             switch(value){
                 case "45钢（盐水10%）调质热处理报告":
                     this.model1=true
@@ -974,7 +975,7 @@ export default {
             }
             this.temperature=['_______ ','_______ ','_______ ','_______ ','_______ ']
             this.time=['_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ','_______ ']
-            this.selectData={"Day" : "","Month" : "","Year" : "","date" : "____年__月__日","value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "","value10" : "","Qualified" : "","Rework" : "","Scrap" : "","HB1" : "","HB2" : "","HB3" : "","HB4" : "","HB5" : "","Inspector" : "","Conscientious" : "","Examine" : "",}
+            this.selectData={"Day" : "","Month" : "","Year" : "","date" : "____年__月__日","value" : "","value1" : "","value2" : "","value3" : "","value4" : "","value5" : "","value6" : "","value7" : "","value8" : "","value9" : "","value10" : "","Qualified" : "","Rework" : "","Scrap" : "","HB1" : "","HB2" : "","HB3" : "","HB4" : "","HB5" : "","Inspector" : "","Conscientious" : "","Examine" : "","technical" : ""}
             this.modelOther1={"BrineStrength" : "","SaltwaterTemperature" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
             this.modelOther2={"airtemperature" : "","Actual" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
             this.modelOther3={"PAGStrength" : "","PAGTemperature" : "","PAGQuality" : "","hardness1" : "","hardness2" : "","hardness3" : "",},
@@ -992,9 +993,11 @@ export default {
             fd.append('relateId',relateId)
             axios.post(`${this.baseURL}/basicdata/getTableHead.php`,fd)
             .then((res) =>{
+                localStorage.partsName=res.data.pnumber;
+                localStorage.productName=res.data.procode+res.data.proname;
                 // console.log(res.data)
-                this.craftsmanshipTableHeader.partsName=res.data.pnumber;
-                this.craftsmanshipTableHeader.productName=res.data.procode+res.data.proname;
+                this.craftsmanshipTableHeader.partsName=localStorage.partsName;
+                this.craftsmanshipTableHeader.productName=localStorage.productName;
             })
             .catch(function (error){
                 console.log(error)
@@ -1006,6 +1009,7 @@ export default {
         },
         //查看及编辑焊接信息
         Handlealter(contactId,selectedTreeNode){
+            this.resetInputCraftsmanship()
             this.selectedTreeNode = selectedTreeNode
             axios.get(`${this.baseURL}/basicdata/heattreatment.php?flag=getHeattreatmentInfoData&contactID=${contactId}`)
             .then((response) => {   
@@ -1275,4 +1279,12 @@ input {
     border-right:0px; 
     text-align: center;      
   }
+  .technical{
+    width: 20%;
+    border-bottom: 1px solid #000000;  
+    border-top:0px;  
+    border-left:0px;  
+    border-right:0px; 
+    text-align: center;      
+  }  
 </style>

@@ -22,7 +22,7 @@
       </template>
       <div slot="table-actions">
         <el-button type="primary" @click="creatData()">新建</el-button>
-        <el-button type="primary">导入</el-button>
+        <!-- <el-button type="primary">导入</el-button> -->
       </div>
     </vue-good-table>
     <!-- 设备详情 -->

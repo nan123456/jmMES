@@ -26,7 +26,7 @@
             <el-container style="height: 600px;">
               <el-aside width="300px">
                   <el-form :inline="true">
-                    <el-form-item>
+                    <el-form-item v-show="inputshow">
                       <el-input 
                         placeholder="输入modID"
                         v-model="filterText"
@@ -34,7 +34,7 @@
                       </el-input>
                       <el-button type="primary" @click="handleFifter()" class="tree_btn">查询</el-button>
                       <el-button @click="resolve()" class="tree_btn">重置</el-button>
-                      </el-form-item>
+                    </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
                   <el-tree
@@ -48,6 +48,7 @@
                     :auto-expand-parent="false"
                     ref="tree">
                   </el-tree>
+
                   <!-- 搜索tree控件 -->
                   <el-tree
                     v-show="updateTree2"
@@ -56,11 +57,26 @@
                     :props="defaultProps"
                     @node-click="handleNodeClick">
                   </el-tree>
+
+                  <!-- plm获取树 -->
+                  <el-tree
+                    v-show="updateTree3"
+                    class="filter-tree"
+                    lazy
+                    :load="loadNode2"
+                    :props="defaultProps"
+                    @node-click="handleNodeClick"
+                    :accordion="true"
+                    :auto-expand-parent="false"
+                    ref="tree">
+                  </el-tree>
+
                 </el-aside>
                 <!-- 内容 -->
                 <el-main>
                   <project v-if="this.lx=='xm'" :lxid="lxid"></project>
                   <part v-if="this.lx=='bj'" :lxid="lxid"></part>
+                  <plm-part v-if="this.lx=='plm_part'" :lxid="lxid"></plm-part>
                 </el-main>
             </el-container>
           </el-container>
@@ -130,13 +146,15 @@
 import axios from 'axios'
 import Project from '../components/Project'
 import Part from '../components/Part'
+import PlmPart from '../components/PLM_Part'
 var key = '1'
 export default {
   name: "Craft",
   inject:["reload"],
   components:{
     Project,
-    Part
+    Part,
+    PlmPart
   },
   data() {
       return {
@@ -147,6 +165,7 @@ export default {
         filterText: '',
         updateTree1:true,
         updateTree2:false,
+        updateTree3:false,
         dialogUpload:false,
         form:{},
         formLabelWidth: "120px",
@@ -158,6 +177,7 @@ export default {
         quxiao:true,
         save:true,
         wait:false,
+        inputshow:true,
         arr:[],
         result_arr:[]
       };
@@ -183,28 +203,56 @@ export default {
         this.tabName=tab.name
         switch (tab.name){
           case 'completed':
-          key = 4
+          key = 4;
+          this.inputshow=true;
+          this.updateTree1=true;
+          this.updateTree2=false;
+          this.updateTree3=false;
           break
           case 'ongoing':
-          key = 3
+          key = 3;
+          this.inputshow=true;
+          this.updateTree1=true;
+          this.updateTree2=false;
+          this.updateTree3=false;
           break
           case 'ordinary':
-          key = 2
+          key = 2;
+          this.inputshow=true;
+          this.updateTree1=true;
+          this.updateTree2=false;
+          this.updateTree3=false;
           break
           case 'momentous':
-          key = 1
+          key = 1;
+          this.inputshow=true;
+          this.updateTree1=true;
+          this.updateTree2=false;
+          this.updateTree3=false;
           break
           case 'exterior':
-          key = 5
+          key = 5;
+          this.inputshow=true;
+          this.updateTree1=true;
+          this.updateTree2=false;
+          this.updateTree3=false;
           break
           case 'all':
-          key = 6
+          key = 6;
+          this.inputshow=true;
+          this.updateTree1=true;
+          this.updateTree2=false;
+          this.updateTree3=false;
           break
           case 'plm':
-          key = 7
+          key = 7;
+          this.inputshow=false;
+          this.updateTree1=false;
+          this.updateTree2=false;
+          this.updateTree3=true;
           break
         }
-        this.reload()
+        // this.reload()
       },
       // 过滤查询
       handleFifter() {
@@ -287,8 +335,6 @@ export default {
 
       // Tree 控件显示
       loadNode1(node, resolve){
-        // 判断当前是否为查询状态
-        // console.log(this.filterText)
           // 定义0级节点
           if(node.level === 0) {
             return resolve([{name:'大类',id:0,lx:'dl'}])   
@@ -350,6 +396,74 @@ export default {
             fd.append('pid',node.data.pid) //node.data 父节点所带参数
             fd.append('modid',node.data.modid) //node.data 父节点所带参数
             fd.append('name',node.data.name) //node.data 父节点所带参数
+            fd.append('figure_number',node.data.figure_number) //node.data 父节点所带参数
+            fd.append('level',node.level)  //判断当前节点处于何级
+            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+              // console.log(res)
+              if(res.data.success){
+                return resolve (res.data.data)
+              }else {
+                return resolve([])
+              }
+            })
+          }
+      },
+
+
+      loadNode2(node, resolve){
+          // 定义0级节点
+          if(node.level === 0) {
+            return resolve([{name:'大类',id:0,lx:'dl'}])      
+          }
+          // 大类节点
+          if(node.level === 1&node.data.id === 0 ){
+            // console.log(node.data.id)
+            var fd = new FormData()
+            fd.append("flag","plm_type")
+            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+              // console.log(res.data)
+              if(res.data.success){
+                return resolve (res.data.data)
+              }else {
+                return resolve([])
+              }
+            })  
+          }
+          // 项目节点
+          if(node.level === 2)　{
+            console.log(node.data) 
+            var fd = new FormData()
+            fd.append('flag','plm_project')
+            fd.append('type',node.data.name) //node.data 父节点所带参数
+            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+              // console.log(res)
+              if(res.data.success){
+                return resolve (res.data.data)
+              }else {
+                return resolve([])
+              }
+            })
+          }
+          // tree 3级树节点
+          if(node.level === 3)　{
+            console.log(node.data) 
+            var fd = new FormData()
+            fd.append('flag','plm_mpart')
+            fd.append('number',node.data.number) //node.data 父节点所带参数
+            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+              // console.log(res)
+              if(res.data.success){
+                return resolve (res.data.data)
+              }else {
+                return resolve([])
+              }
+            })
+          }
+          // 3级以下树子节点
+          if(node.level > 3)　{
+            console.log(node.data) 
+            var fd = new FormData()
+            fd.append('flag','plm_part')
             fd.append('figure_number',node.data.figure_number) //node.data 父节点所带参数
             fd.append('level',node.level)  //判断当前节点处于何级
             axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
