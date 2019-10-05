@@ -245,6 +245,8 @@ export default {
                     
                     axios.post(`${this.baseURL}/basicdata/maching.php`,fd)
                     .then((response) => {
+                        console.log(response);
+                        
                         if(response.data.state == "success"){
                             this.$message({
                                 showClose: true,
@@ -307,7 +309,9 @@ export default {
         Handlealter(contactId,selectedTreeNode){
             this.selectedTreeNode = selectedTreeNode
             axios.get(`${this.baseURL}/basicdata/maching.php?flag=getMachiningInfoData&contactID=${contactId}`)
-            .then((response) => {     
+            .then((response) => {  
+                console.log(response);
+                   
                 if(response.data.state == "success"){
                     this.MachiningVisible = true
                     this.machiningTableHeader = response.data.data.machiningTableHeader

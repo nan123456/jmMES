@@ -651,6 +651,10 @@ export default {
           var myUrl = '#/Craftsmanshipprinter?contactId='+contactId
           window.open(myUrl,'_blank')
           break
+        case "machining":
+          var myUrl = '#/Machiningprinter?contactId='+contactId
+          window.open(myUrl,'_blank')
+          break
         default:
           console.log("这个页面打印未完成，期待有缘人接手写出来^ _ ^")
       }
@@ -666,6 +670,7 @@ export default {
           var myUrl = '#/CraftsmanshipprinterAll?relateId='+this.selectedTreeNode.relateId
           window.open(myUrl,'_blank')
           break
+          
         default:
           console.log("这个页面全部打印未完成，期待有缘人接手写出来^ _ ^："+this.selectedTreeNode.tableFlag)  
       }

@@ -1,6 +1,6 @@
 <template>
     <div class="main" >
-        <div v-for="(cra,carindex) in craftsmanship">
+        <div v-for="(cra,carindex) in craftsmanship" :key="carindex">
             <!-- 头部信息 start -->
             <table class="tableHeader">
                 <tr>
@@ -55,7 +55,7 @@
                     <td>15#</td>
                     <td>16#</td>
                 </tr>
-                <tr v-for="(item,index) in cra.craftsmanshipTableBody_1.rowsData">
+                <tr v-for="(item,index) in cra.craftsmanshipTableBody_1.rowsData" :key="index">
                     <td>{{ item.serialNumber }}</td>
                     <td>{{ item.processFlow }}</td>
                     <td>{{ item.inspectionContent }}</td>
@@ -94,7 +94,7 @@
                     <td>自检</td>
                     <td>签名/日期</td>
                 </tr>
-                <tr  v-for="(item,index) in cra.craftsmanshipTableBody_2.rowsData">
+                <tr  v-for="(item,index) in cra.craftsmanshipTableBody_2.rowsData" :key="index">
                     <td class="serialNumber">{{ item.serialNumber }}</td>
                     <td>{{ item.processFlow }}</td>
                     <td>{{ item.inspectionContent }}</td>

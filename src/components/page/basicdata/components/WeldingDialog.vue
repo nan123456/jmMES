@@ -58,7 +58,7 @@
                     <td colspan="2">检验员确认</td>
                     <td colspan="2">检验员确认</td>
                 </tr>
-                <tr v-for="(item,index) in weldingTableTwo_1" :key="index">
+                <tr v-for="(item,index) in weldingTableTwo_1" :key="index" >
                     <td><input v-model="item.weldNumber" @change="weldNumberChangeCompletion(index)" /></td>
                     <td>
                         <el-select 
