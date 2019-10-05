@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- table上部按钮 -->
-    <div slot="table-actions" class="table-actions" >
+    <div slot="table-actions" class="table-actions" v-if='show_div1'>
       <el-button type="danger" value = 'ALL'  @click="select_WS('ALL')">全部车间</el-button>
       <el-button type="primary" class="btn" value = 'K'  @click="select_WS('K')">K开料车间</el-button>
       <el-button type="primary" class="btn" value = 'TK'  @click="select_WS('TK')">TK开料车间</el-button>
@@ -257,7 +257,7 @@
             sortable
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="station"
             label="工位"
             sortable
@@ -276,7 +276,7 @@
             sortable
             :filter-method="filterHandler2"
           >
-          </el-table-column>
+          </el-table-column> -->
           <!-- <el-table-column
             fixed="right"
             label="操作"
@@ -400,7 +400,7 @@
             sortable
           >
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="station"
             label="工位"
             sortable
@@ -412,7 +412,7 @@
             label="需求区"
             sortable
           >
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="schedule_date"
             label="完成时间"
@@ -887,6 +887,7 @@ export default {
       show_4btn:false,
       show_5btn:false,
       show_6btn:true,
+      show_div1:true,
       searchOptions: [
         {
           value: 'product_name',
@@ -1297,6 +1298,7 @@ export default {
         this.show_4btn = true
         this.show_5btn = false
         this.show_6btn = false
+        this.show_div1 = true
         var flag = "Delivered"
             this.getData(flag)
       }else if(tab.name == 'third'){
@@ -1304,7 +1306,8 @@ export default {
         this.show_2btn = false
         this.show_3btn = false
         this.show_5btn = false
-         this.show_6btn = false
+        this.show_6btn = false
+        this.show_div1 = true
         var flag = "Production"
             this.getData(flag)
       }else if(tab.name == 'four'){
@@ -1313,6 +1316,7 @@ export default {
         this.show_5btn = true
         this.show_3btn = false
         this.show_6btn = false
+        this.show_div1 = true
         var flag = "Scrap"
             this.getData(flag)
       }else if(tab.name == 'exterior') {
@@ -1322,6 +1326,7 @@ export default {
         this.show_4btn = true
         this.show_5btn = false
         this.show_6btn = true
+        this.show_div1 = false
         var flag = "exterior"
             this.getData(flag)
       }else {
@@ -1330,6 +1335,7 @@ export default {
         this.show_2btn = true
         this.show_3btn = false
         this.show_6btn = true
+        this.show_div1 = true
       }
     },
 

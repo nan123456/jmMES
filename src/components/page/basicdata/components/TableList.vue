@@ -25,7 +25,7 @@
         <el-button type="primary" @click="enter()">导入</el-button>
       </div>
     </vue-good-table>
-    <el-dialog title="信息详情" :visible.sync="dialogFormVisible">
+    <el-dialog title="信息详情" :visible.sync="dialogFormVisible" :before-close="handleClose">
         <el-form :model="form">
           <el-form-item label="工号" :label-width="formLabelWidth">
             <el-input v-model="dialogFormdata.gNum" auto-complete="off"></el-input>
@@ -64,7 +64,7 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button @click="handleClose">取 消</el-button>
           <el-button type="primary" @click="updateDataInfo()">确 定</el-button>
         </div>
     </el-dialog>
@@ -210,7 +210,8 @@ export default {
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then(_ => {
-          done();
+          this.dialogFormVisible = false;
+          this.getStuffInfoData();
         })
         .catch(_ => {});
     },
@@ -269,13 +270,6 @@ export default {
     },
     selectionChanged(params) {
         console.log(params.columnFilters)
-    },
-    handleClose(done) {
-        this.$confirm("确认关闭？")
-            .then(_ => {
-                done();
-            })
-            .catch(_ => {});
     },
     //选择文件时触发
     onchangeFunc(file,fileList){
