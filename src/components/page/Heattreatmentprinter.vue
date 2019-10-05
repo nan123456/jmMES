@@ -857,5 +857,8 @@ export default {
     }
     .td1{
         width: 17.5mm;
+    }
+    tr{
+        height: 9.5mm;
     }        
 </style>
