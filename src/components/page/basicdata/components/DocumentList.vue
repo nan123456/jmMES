@@ -651,6 +651,10 @@ export default {
           var myUrl = '#/Craftsmanshipprinter?contactId='+contactId
           window.open(myUrl,'_blank')
           break
+        case "heattreatment":
+          var myUrl = '#/Heattreatmentprinter?contactId='+contactId
+          window.open(myUrl,'_blank')
+          break  
         default:
           console.log("这个页面打印未完成，期待有缘人接手写出来^ _ ^")
       }
