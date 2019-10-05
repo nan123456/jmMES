@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody style="font-size:5pt;">
-                    <tr v-for="(item,index) in weldingTableTwo_1">
+                    <tr v-for="(item,index) in weldingTableTwo_1" :key="index">
                         <td  style="height:10mm;">{{ item.weldNumber }}&nbsp;</td>
                         <td>{{ returnValueMaterialAndSpecifications(item.materialAndSpecifications_1,item.materialAndSpecifications_1_thickness) }}</td>                        
                         <td>{{ returnValueMaterialAndSpecifications(item.materialAndSpecifications_2,item.materialAndSpecifications_2_thickness) }}</td>                        
@@ -88,7 +88,8 @@
                     <td colspan="4">检验员签名（日期）</td>
                 </tr>
                 <tbody style="font-size:5pt;">
-                    <tr v-for="(item,index) in weldingTableTwo_2">
+                    <tr v-for="(item,index) in weldingTableTwo_2" :key="
+                    index">
                         <td rowspan="6" v-if="index == 0">焊中检查</td>
                         <td rowspan="2" v-if="index == 6">焊后检查</td>
                         <td>{{ item.serialNumber }}</td>
@@ -157,7 +158,7 @@
                     <td>检验员签名（日期）</td>
                 </tr>
                 <tbody class="tabbodytwofont">
-                <tr v-for="(item,index) in weldingTableThree_1">
+                <tr v-for="(item,index) in weldingTableThree_1" :key="index">
                     <td>{{ item.weldNumber }}&nbsp;</td>
                     <td>{{ item.processRequirements_1 }}</td>
                     <td>{{ item.testResult_1 }}</td>
@@ -186,7 +187,7 @@
                     <td>检验结果</td>
                     <td>检验员签名（日期）</td>
                 </tr>
-                <tr v-for="(item,index) in weldingTableThree_2">
+                <tr v-for="(item,index) in weldingTableThree_2" :key="index">
                     <td>{{ item.weldNumber }}&nbsp;</td>
                     <td>{{ item.processRequirements_1 }}</td>
                     <td>{{ item.testResult_1 }}</td>
@@ -379,7 +380,7 @@ export default {
             }            
         },
         //返回焊材及规格
-        returnValueConsumablesAndSpecifications(v1,v2){            
+        returnValueConsumablesAndSpecifications(v1,v2){              
             if(v1 && v2){
                 return v1+"-"+v2
             }else{
