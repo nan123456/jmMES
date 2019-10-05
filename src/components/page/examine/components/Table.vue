@@ -57,12 +57,20 @@
           </div>
         </span>
         <span v-if="props.column.field == 'finish'">
-          <el-button 
+          <!-- <el-button 
             type="primary"
             @click="print1(props.row)"
           >
             查看
-          </el-button>
+          </el-button> -->
+          <router-link
+            :to="{path:'Photo',query: {url: props.row.photourl}}"
+            :key="props.index"
+            target="_blank">
+          <el-button 
+            type="primary">
+            查看
+          </el-button></router-link>          
         </span>
         
         <span v-else-if="props.column.field == 'result'">
@@ -256,11 +264,12 @@ export default {
             },{
               label: '检验详情',
               field: 'result',
-            },{
-              label: '流转单打印',
-              field: 'checkSituation',
-              filterable: true,
-            }
+            },
+            // {
+            //   label: '流转单打印',
+            //   field: 'checkSituation',
+            //   filterable: true,
+            // }
           ]);
 
       return head;

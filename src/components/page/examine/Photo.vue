@@ -1,6 +1,6 @@
 <template>
-    <div class="demo-image__lazy">
-        <img v-for="(value,index) in urls" :key="index" :src="value" style="width:50%;height:50%">
+    <div style="overflow:auto;display:inline-block;height:3000px ">
+        <img v-for="(value,index) in urls" :key="index" :src="value" style="width:400px;height:400px">
     </div>    
 </template>
 
