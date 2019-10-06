@@ -208,6 +208,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.reload()
           break
           case 'ongoing':
           key = 3;
@@ -215,6 +216,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.reload()
           break
           case 'ordinary':
           key = 2;
@@ -222,6 +224,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.reload()
           break
           case 'momentous':
           key = 1;
@@ -229,6 +232,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.reload()
           break
           case 'exterior':
           key = 5;
@@ -236,6 +240,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.reload()
           break
           case 'all':
           key = 6;
@@ -243,6 +248,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.reload()
           break
           case 'plm':
           key = 7;

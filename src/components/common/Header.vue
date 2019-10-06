@@ -50,7 +50,7 @@
     export default {
         data() {
             return {
-                collapse: false,
+                collapse: true,
                 fullscreen: false,
                 name: 'linxin',
                 message: 2
