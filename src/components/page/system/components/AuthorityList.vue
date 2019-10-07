@@ -42,7 +42,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="显示模块" :visible.sync="Displaymodule">
+    <el-dialog  title="显示模块" :visible.sync="Displaymodule">
       <el-form :model="form">
         <el-tree 
           :data="data" 
@@ -53,7 +53,7 @@
           node-key="value"></el-tree>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="Displaymodule = false">取 消</el-button>
+        <el-button @click="Displaymodule = false ">取 消</el-button>
         <el-button type="primary" @click="sureModule()">确 定</el-button>
       </div>
     </el-dialog>
@@ -297,7 +297,7 @@ export default {
           field: "operate"
         }
       ],
-      rows: []
+      rows: [],
     };
   },
   components: {
@@ -374,10 +374,27 @@ export default {
     },
     //显示模块设置
     authority(row){
-      this.Displaymodule = true     //点击执行打开显示模块设置模态框
+      
       var storage = window.localStorage
       var gNum = row.specification
+      var that = this
       storage.gNum = gNum
+      var fd = new FormData()
+          fd.append("flag","Showseemodule")
+          fd.append("gNum",gNum)
+          axios.post(`${this.baseURL}/system/authoritylist.php`,fd).then(function(res){
+            if(res.data.success ==="success"){
+              var seeModuleValue = res.data.seeModuleValue.split(",");
+              console.log(seeModuleValue);
+               that.$refs.tree.setCheckedKeys(seeModuleValue)
+            }else{
+              alert("错误") 
+            }
+        })
+        // setTimeout(function () {
+              that.Displaymodule = true
+            // },00);    
+             //点击执行打开显示模块设置模态框 
     },
     //显示模块设置内容修改
     sureModule(row){
