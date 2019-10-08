@@ -250,7 +250,7 @@
             <table class="tabbodythree">
                 <tr>
                     <td class="weldingsequence" style="height:8mm;">焊接顺序</td>
-                    <td rowspan="2" id="imageBox" ref="imageBox" v-html="`<img  src='${baseURL}/${weldngTableFour.weldNumberMap}' style='max-width:100%;max-height:100%;pointer-events:none;display:${isEmpty(weldngTableFour.weldNumberMap)};' />`" style="width:80%;height:15cm;">&nbsp;</td>
+                    <td rowspan="2" class="img1" id="imageBox" ref="imageBox" v-html="`<img  src='${baseURL}/${weldngTableFour.weldNumberMap}' style='max-width:100%;max-height:100%;pointer-events:none;display:${isEmpty(weldngTableFour.weldNumberMap)};' />`" style="width:80%;height:15cm;">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>{{ weldngTableFour.weldingSequence }}</td>

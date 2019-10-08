@@ -50,7 +50,12 @@
                 <td rowspan="20" v-if="index==0"></td>
                 </tr>  
                 <tr>
-                    <td colspan="5" class="machiningTableBody_1_img" @drop="drop($event,'1')" @dragover="allowDrop($event)" v-html="machiningTableBody.imgHtmlOne">&nbsp;</td>
+                    <!-- <td colspan="5" class="machiningTableBody_1_img" @drop="drop($event,'1')" @dragover="allowDrop($event)" v-html="machiningTableBody.imgHtmlOne">&nbsp;</td> -->
+                    <td colspan="5">
+                        上传/更改图片：
+                        <input type="file" @change="upload_img($event,'1')" style="width:200px">
+                        <div class="machiningTableBody_1_img" v-html="machiningTableBody.imgHtmlOne"></div>
+                    </td>
                 </tr>
             </table>
             <table class="machiningTableFooter">
@@ -195,6 +200,42 @@ export default {
         //阻止默认行为
         allowDrop(ev){
             ev.preventDefault()
+        },
+        //点击按钮上传图片
+		upload_img(ev,imgflag){
+            var files=ev.target.files;
+            console.log(files)
+            if(files.length){
+                var file_img = files[0]
+                switch(imgflag){
+                case "1":
+                    this.machiningTableBody.fileOne = file_img
+                    break;
+                }
+                
+                var reader = new FileReader();
+                //判断文件类型
+                if (file_img.type.match(/image*/)){
+                    reader.onload = function (e){
+                    // var imageBox = document.getElementById("imageBox")
+                    // var temp_html = '<img src="'+ e.target.result +'" />'
+                    var img = document.createElement('img')//创建标签img
+                    img.src = e.target.result
+                    // img.style.width = '100%'
+                    // img.style.height = '100%'
+                    img.style.maxWidth = '100%'
+                    img.style.maxHeight = '100%'
+                    img.style.pointerEvents = 'none'//事件无效化，穿透底层
+                    var tdDoc = ev.target.nextElementSibling
+                    // console.log(ev.target.nextElementSibling)
+                    tdDoc.innerHTML = ""
+                    tdDoc.appendChild(img)
+                    };
+                    reader.readAsDataURL(file_img);
+                }else{
+                    alert("此" + file_img.name + "不是图片文件！");
+                }
+            }
         },
         //接收拖曳对象
 		drop(ev,imgflag){

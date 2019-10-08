@@ -288,11 +288,19 @@
                     <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                     </el-upload> -->
                     <!-- </td> -->
-                    <td rowspan="2" id="imageBox" ref="imageBox" @drop="drop($event,'0')" @dragover="allowDrop($event)" v-html="weldngTableFour.imgHtml"></td>
+                    <!-- <td rowspan="2" id="imageBox" ref="imageBox" @drop="drop($event,'0')" @dragover="allowDrop($event)" v-html="weldngTableFour.imgHtml"></td> -->
+                    <td>
+                            上传/更改图片：
+                            <input type="file" @change="upload_img($event,'0')" style="width:200px">
+                            <!-- <div id="imageBox" ref="imageBox" @drop="drop($event,'0')" @dragover="allowDrop($event)" v-html="weldngTableFour.imgHtml"></div>                            -->
+                    </td>
                 </tr>
                 <tr>
                     <td>
                         <input class="weldingsequenceinput" v-model="weldngTableFour.weldingSequence" />
+                    </td>
+                    <td>
+                        <div  id="imageBox" ref="imageBox" class="craftsmanshipTableBody_2_img" @drop="drop($event,'0')" @dragover="allowDrop($event)" v-html="weldngTableFour.imgHtml"></div>
                     </td>
                 </tr>                
             </table>
@@ -468,6 +476,58 @@ export default {
                 "weldingSequence":"",
                 "weldNumberMap":"",
                 "imgHtml":"",
+            }
+        },
+        //点击按钮上传图片
+		upload_img(ev,imgflag){
+            var files=ev.target.files;
+            console.log(files)
+            if(files.length){
+                var file_img = files[0]
+                switch(imgflag){
+                case "0":
+                    this.weldngTableFour.weldNumberMap = file_img
+                    break;
+                case "1":
+                    this.craftsmanshipTableBody_2.fileOne = file_img
+                    break;
+                case "2":
+                    this.craftsmanshipTableBody_2.fileTwo = file_img
+                    break;
+                case "3":
+                    this.craftsmanshipTableBody_2.fileThree = file_img
+                    break;
+                case "4":
+                    this.craftsmanshipTableBody_3.fileOne = file_img
+                    break;
+                case "5":
+                this.craftsmanshipTableBody_1.fileOne = file_img
+                break;
+                }
+                
+                var reader = new FileReader();
+                //判断文件类型
+                if (file_img.type.match(/image*/)){
+                    reader.onload = function (e){
+                    // var imageBox = document.getElementById("imageBox")
+                    // var temp_html = '<img src="'+ e.target.result +'" />'
+                    var img = document.createElement('img')//创建标签img
+                    img.src = e.target.result
+                    // img.style.width = '100%'
+                    // img.style.height = '100%'
+                    img.style.maxWidth = '100%'
+                    img.style.maxHeight = '100%'
+                    img.style.pointerEvents = 'none'//事件无效化，穿透底层
+                    // var tdDoc = ev.target.nextElementSibling
+                    var tdDoc =  document.getElementById("imageBox")
+                    console.log(tdDoc)
+                    tdDoc.innerHTML = ""
+                    tdDoc.appendChild(img)
+                    };
+                    reader.readAsDataURL(file_img);
+                }else{
+                    alert("此" + file_img.name + "不是图片文件！");
+                }
             }
         },
         //阻止默认行为
@@ -1025,7 +1085,6 @@ input {
     height: 500px;
   }
   .craftsmanshipTableBody_2_img{
-    width: 33%;
     height: 500px;
   }
   .serialNumber{

@@ -109,85 +109,40 @@ export default {
           value:"1" 
         },
         {
-          label: "销售模块",
-          value:"2",
+          label: "制造模块",
+          value:"13",
           children: [
             {
-              label: "订单管理",
-              value:"3"
+              label: "车间计划",
+              value:"14"
             },
             {
-              label: "未审核项目",
-              value:"4"
+              label: "电子看板",
+              value:"15"
+            },
+            {
+              label: "设备安全点检",
+              value:"16"
             },
             {
               label: "在建项目",
-              value:"5"
+              value:"17"
             },
             {
-              label: "已完成项目",
-              value:"6"
-            }
-          ]
-        },
-        {
-          label: "计划模块",
-          value:"7",
-          children: [
-            {
-              label: "订单查看",
-              value:"8"
-            },
-            {
-              label: "计划总表",
-              value:"9"
-            },
-            {
-              label: "未审核项目",
-              value:"10"
-            },
-            {
-              label: "在建项目",
-              value:"11"
-            },{
-              label: "已完成项目",
-              value:"12"
+              label: "装配出仓",
+              value:"31"
             }
           ]
         },
         {
           label: "工艺模块",
-          value:"13",
-          children: [
-            {
-              label: "工艺卡管理",
-              value:"14"
-            },{
-              label: "未审核项目",
-              value:"15"
-            },{
-              label: "在建项目",
-              value:"16"
-            },{
-              label: "已完成项目",
-              value:"17"
-            }
-          ]
-        },
-        {
-          label: "制造模块",
           value:"18",
           children: [
             {
-              label: "设备安全点检",
+              label: "工艺卡管理",
               value:"19"
-            },
-            {
-              label: "电子看板",
-              value:"20"
-            },
-            {
-              label: "车间计划",
+            },{
+              label: "已完成项目",
               value:"21"
             }
           ]
@@ -196,7 +151,7 @@ export default {
           value:"22"
         },
         {
-          label: "统计分析",
+          label: "工时统计",
           value:"23"
         },
         {
@@ -216,11 +171,7 @@ export default {
               value:"27"
             },
             {
-              label: "数据备份与还原",
-              value:"28"
-            },
-            {
-              label: "云平台交互",
+              label: "数据归档",
               value:"29"
             }
           ]

@@ -100,13 +100,9 @@ export default {
             },
             treeData: [
                 {
-                    label: '焊接工艺及检验记录',
+                    label: '请稍等',
                     children: []
-                },
-                {
-                    label: '机械制造工艺及检验表',
-                    children: []
-                },
+                }
             ],
             vaguelydata: "",
         }

@@ -79,7 +79,13 @@
                 <td colspan="10"><input v-model="craftsmanshipTableBodyResult.inconsistentConfirmation" /></td>
                 </tr>
                 <tr>
-                <td colspan="14" ref="firstfive" id="firstfive" class="craftsmanshipTableBody_1_img" @drop="drop($event,'5')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_1.imgHtml"></td>
+                    <!-- <input type="file" @change="upload_img($event,'5')" style="width:200px"> -->
+                    <!-- <td colspan="14" ref="firstfive" id="firstfive" class="craftsmanshipTableBody_1_img" @drop="drop($event,'5')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_1.imgHtml"></td> -->
+                    <td colspan="14">
+                        上传/更改图片：
+                        <input type="file" @change="upload_img($event,'5')" style="width:200px">
+                        <div ref="firstfive" id="firstfive" class="craftsmanshipTableBody_1_img" @drop="drop($event,'5')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_1.imgHtml"></div>
+                    </td>
                 </tr>
             </table>
             <table class="craftsmanshipTableBody_2" v-if="tablecraftsmanshipBodyVisible[1]">
@@ -110,14 +116,34 @@
                 <td>&nbsp;</td>
                 </tr>
                 <tr>
-                <td colspan="2" ref="secondmodelimgone" id="secondmodelimgone" class="craftsmanshipTableBody_2_img" @drop="drop($event,'1')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_2.imgHtmlOne">&nbsp;</td>
-                <td colspan="2" ref="secondmodelimgtwo" id="secondmodelimgtwo" class="craftsmanshipTableBody_2_img" @drop="drop($event,'2')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_2.imgHtmlTwo">&nbsp;</td>
-                <td colspan="2" ref="secondmodelimgthree" id="secondmodelimgthree" class="craftsmanshipTableBody_2_img" @drop="drop($event,'3')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_2.imgHtmlTherr">&nbsp;</td>
+                <!-- <td colspan="2" ref="secondmodelimgone" id="secondmodelimgone" class="craftsmanshipTableBody_2_img" @drop="drop($event,'1')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_2.imgHtmlOne">&nbsp;</td> -->
+                <td colspan="2">
+                    上传/更改图片：
+                    <input type="file" @change="upload_img($event,'1')" style="width:200px">
+                    <div colspan="2" ref="secondmodelimgone" id="secondmodelimgone" class="craftsmanshipTableBody_2_img"  v-html="craftsmanshipTableBody_2.imgHtmlOne">&nbsp;</div>
+                </td>
+                <!-- <td colspan="2" ref="secondmodelimgtwo" id="secondmodelimgtwo" class="craftsmanshipTableBody_2_img" @drop="drop($event,'2')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_2.imgHtmlTwo">&nbsp;</td> -->
+                <td colspan="2">
+                    上传/更改图片：
+                    <input type="file" @change="upload_img($event,'2')" style="width:200px">
+                    <div colspan="2" ref="secondmodelimgtwo" id="secondmodelimgtwo" class="craftsmanshipTableBody_2_img"  v-html="craftsmanshipTableBody_2.imgHtmlTwo">&nbsp;</div>
+                </td>
+                <!-- <td colspan="2" ref="secondmodelimgthree" id="secondmodelimgthree" class="craftsmanshipTableBody_2_img" @drop="drop($event,'3')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_2.imgHtmlTherr">&nbsp;</td> -->
+                <td colspan="2">
+                    上传/更改图片：
+                    <input type="file" @change="upload_img($event,'3')" style="width:200px">
+                    <div colspan="2" ref="secondmodelimgthree" id="secondmodelimgthree" class="craftsmanshipTableBody_2_img"  v-html="craftsmanshipTableBody_2.imgHtmlTherr">&nbsp;</div>
+                </td>
                 </tr>
             </table>
             <table class="craftsmanshipTableBody_3" v-if="tablecraftsmanshipBodyVisible[2]">
                 <tr>
-                <td ref="thirdmodelimg" id="thirdmodelimg" @drop="drop($event,'4')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_3.imgHtml"></td>
+                <!-- <td ref="thirdmodelimg" id="thirdmodelimg" @drop="drop($event,'4')" @dragover="allowDrop($event)" v-html="craftsmanshipTableBody_3.imgHtml"> -->
+                <td>
+                    上传/更改图片：
+                    <input type="file" @change="upload_img($event,'4')" style="width:200px">
+                    <div ref="thirdmodelimg" id="thirdmodelimg" class="craftsmanshipTableBody_3_img"  v-html="craftsmanshipTableBody_3.imgHtml"></div>
+                </td>
                 </tr>
             </table>
             <table class="craftsmanshipTableFooter">
@@ -135,7 +161,7 @@
                 <td><input v-model="craftsmanshipTableFooter.changeTheFileNumber"/></td>
                 <td><input v-model="craftsmanshipTableFooter.signature"/></td>
                 <td><input v-model="craftsmanshipTableFooter.date"/></td>
-                <td colspan="2">编制（日期） </td>
+                <td colspan="2">编制（日期）</td>
                 <td colspan="2">审核（日期）</td>
                 </tr>
                 <tr>
@@ -242,6 +268,7 @@ export default {
         }
     },
     methods: {
+
         //重置焊接模态框的输入框
         resetInputCraftsmanship() {            
             this.tablecraftsmanshipBodyVisible = [true,false,false]
@@ -323,7 +350,7 @@ export default {
             fd.append('relateId',relateId)
             axios.post(`${this.baseURL}/basicdata/getTableHead.php`,fd)
             .then((res) =>{
-                // console.log(res.data)
+                console.log(res.data)
                 this.craftsmanshipTableHeader.pnumber=res.data.pnumber;
                 this.craftsmanshipTableHeader.productName=res.data.proname;
                 this.craftsmanshipTableHeader.productDrawingNumber=res.data.procode;
@@ -340,10 +367,62 @@ export default {
         allowDrop(ev){
             ev.preventDefault()
         },
+        //点击按钮上传图片
+		upload_img(ev,imgflag){
+            var files=ev.target.files;
+            console.log(files)
+            if(files.length){
+                var file_img = files[0]
+                switch(imgflag){
+                case "0":
+                    this.weldngTableFour.weldNumberMap = file_img
+                    break;
+                case "1":
+                    this.craftsmanshipTableBody_2.fileOne = file_img
+                    break;
+                case "2":
+                    this.craftsmanshipTableBody_2.fileTwo = file_img
+                    break;
+                case "3":
+                    this.craftsmanshipTableBody_2.fileThree = file_img
+                    break;
+                case "4":
+                    this.craftsmanshipTableBody_3.fileOne = file_img
+                    break;
+                case "5":
+                this.craftsmanshipTableBody_1.fileOne = file_img
+                break;
+                }
+                
+                var reader = new FileReader();
+                //判断文件类型
+                if (file_img.type.match(/image*/)){
+                    reader.onload = function (e){
+                    // var imageBox = document.getElementById("imageBox")
+                    // var temp_html = '<img src="'+ e.target.result +'" />'
+                    var img = document.createElement('img')//创建标签img
+                    img.src = e.target.result
+                    // img.style.width = '100%'
+                    // img.style.height = '100%'
+                    img.style.maxWidth = '100%'
+                    img.style.maxHeight = '100%'
+                    img.style.pointerEvents = 'none'//事件无效化，穿透底层
+                    var tdDoc = ev.target.nextElementSibling
+                    // console.log(ev.target.nextElementSibling)
+                    tdDoc.innerHTML = ""
+                    tdDoc.appendChild(img)
+                    };
+                    reader.readAsDataURL(file_img);
+                }else{
+                    alert("此" + file_img.name + "不是图片文件！");
+                }
+            }
+        },
         //接收拖曳对象
 		drop(ev,imgflag){
             ev.preventDefault()//阻止浏览器默认行为
             var files = ev.dataTransfer.files
+            console.log(files)
             if(files.length){
                 var file_img = files[0]
                 switch(imgflag){
@@ -381,12 +460,13 @@ export default {
                     img.style.maxHeight = '100%'
                     img.style.pointerEvents = 'none'//事件无效化，穿透底层
                     var tdDoc = ev.toElement
+                    // console.log(tdDoc)
                     tdDoc.innerHTML = ""
                     tdDoc.appendChild(img)
                     };
                     reader.readAsDataURL(file_img);
                 }else{
-                    console.log("此" + file_img.name + "不是图片文件！");
+                    alert("此" + file_img.name + "不是图片文件！");
                 }
             }
         },
@@ -718,10 +798,16 @@ input {
     height: 500px;
   }
   .craftsmanshipTableBody_2_img{
-    width: 33%;
+    width: 400px;
     height: 500px;
   }
   .serialNumber{
     width: 50px;
+  }
+  .craftsmanshipTableBody_3_img{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    height: 450px;
   }
 </style>
