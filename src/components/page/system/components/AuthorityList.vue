@@ -114,19 +114,19 @@ export default {
           children: [
             {
               label: "车间计划",
-              value:"14"
-            },
-            {
-              label: "电子看板",
               value:"15"
             },
             {
-              label: "设备安全点检",
+              label: "电子看板",
               value:"16"
             },
             {
-              label: "在建项目",
+              label: "设备安全点检",
               value:"17"
+            },
+            {
+              label: "在建项目",
+              value:"14"
             },
             {
               label: "装配出仓",

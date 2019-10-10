@@ -33,7 +33,7 @@
       <!-- <el-button type="primary" v-if="show_4btn"  @click="dialogFormBack = true">退产</el-button> -->
       <!-- <el-button type="primary" v-if="show_5btn"  @click="dialogScrap = true">报废排产</el-button> -->
       <!-- <el-button type="primary" v-if="show_3btn" @click="print()"  >生产计划表</el-button> -->
-      <el-button type="primary" v-if="show_6btn" @click="print2()"  >产品标志卡</el-button>
+      <el-button type="primary" v-if="show_6btn" @click="print2()"  >产品标志卡打印</el-button>
       <!-- <el-button type="primary" v-if="show_3btn" @click="print2()"  >产品标志卡</el-button> -->
       <!-- <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button> -->
       <!-- <el-button type="primary" @click="clearFilter">清除过滤</el-button> -->

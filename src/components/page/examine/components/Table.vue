@@ -131,6 +131,7 @@ export default {
   name: 'ExamineTable',
   props: {
     item: String,
+    selectvalue: String,
   },
   components: {
     VueGoodTable,
@@ -161,6 +162,11 @@ export default {
             {
               label: '部件编号',
               field: 'number',
+              filterable: true,
+            },
+            {
+              label: '所属项目',
+              field: 'project',
               filterable: true,
             },
             {
@@ -214,6 +220,11 @@ export default {
             {
               label: '部件编号',
               field: 'number',
+              filterable: true,
+            },
+            {
+              label: '所属项目',
+              field: 'project',
               filterable: true,
             },
             {
@@ -337,7 +348,7 @@ export default {
       this.$nextTick(() => { 
         this.loadingInstance.close();
       })
-      console.log(ret.data.data)
+      // console.log(ret.data.data)
       if(ret.data.success == 'success'){
         this.item == '未检验'?
         this.rows = ret.data.data : 
@@ -358,13 +369,39 @@ export default {
       console.log(e);
     },
   },
+
+  mounted () {
+    localStorage.item=this.item
+    var state = localStorage.item
+    console.log(state)
+    if(state == "未检验"){
+      state = 1
+    }else if(state =="合格"){
+      state = 3
+    }else{
+      state = 4
+    }
+    localStorage.selectvalue=this.selectvalue
+    var selectvalue=localStorage.selectvalue
+    this.loadingInstance = Loading.service(this.options)
+    var fd = new FormData()
+        // fd.append("flag","Select")
+        fd.append("flag","State")
+        fd.append("state",state)
+        fd.append("selectvalue",selectvalue)
+    axios.post(`${this.baseURL}/examine.php`,fd)
+    .then(this.success)
+    .catch(this.error)
+  },
   watch: {
 
     // 切换页面加载数据
     item: function() {
-
       this.loadingInstance = Loading.service(this.options)
-      var state = this.item
+      localStorage.item=this.item
+      var state = localStorage.item
+      var selectvalue = localStorage.selectvalue
+      console.log(selectvalue)
       if(state == "未检验"){
         state = 1
       }else if(state =="合格"){
@@ -375,22 +412,33 @@ export default {
       var fd = new FormData()
           fd.append("flag","State")
           fd.append("state",state)
+          fd.append("selectvalue",selectvalue)
       axios.post(`${this.baseURL}/examine.php`,fd)
       .then(this.success)
       .catch(this.error)
-    }
+    },
+    selectvalue: function() {
+      this.loadingInstance = Loading.service(this.options)
+      localStorage.selectvalue=this.selectvalue
+      var selectvalue = localStorage.selectvalue
+      var state = localStorage.item
+      console.log(state)
+      if(state == "未检验"){
+        state = 1
+      }else if(state =="合格"){
+        state = 3
+      }else{
+        state = 4
+      }
+      var fd = new FormData()
+          fd.append("flag","State")
+          fd.append("state",state)
+          fd.append("selectvalue",selectvalue)
+      axios.post(`${this.baseURL}/examine.php`,fd)
+      .then(this.success)
+      .catch(this.error)
+    },
   },
-  mounted () {
-
-    this.loadingInstance = Loading.service(this.options)
-    var fd = new FormData()
-        // fd.append("flag","Select")
-        fd.append("flag","State")
-        fd.append("state",'1')
-    axios.post(`${this.baseURL}/examine.php`,fd)
-    .then(this.success)
-    .catch(this.error)
-  }
 }
 </script>
 
