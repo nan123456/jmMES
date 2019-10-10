@@ -19,7 +19,7 @@
             <el-header>
               <el-row :gutter="20">
                 <el-col :span="2" :offset="20">
-                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true">导入</el-button>
+                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true" v-if="this.lx!=='xm'&&this.lx!=='bj'&&this.lx!=='plm_part'">导入</el-button>
                 </el-col>
               </el-row>
             </el-header>
@@ -30,10 +30,10 @@
                       <el-input 
                         placeholder="输入modID"
                         v-model="filterText"
-                        style="width:150px">
+                        style="width:130px">
                       </el-input>
-                      <el-button type="primary" @click="handleFifter()" class="tree_btn">查询</el-button>
-                      <el-button @click="resolve()" class="tree_btn">重置</el-button>
+                      <el-button type="primary" @click="handleFifter()" class="tree_btn" style="margin-left:5px">查询</el-button>
+                      <el-button @click="resolve()" class="tree_btn" style="margin-righr:-2">重置</el-button>
                     </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
