@@ -8,11 +8,11 @@
         <el-tabs v-model="tabName" @tab-click="handleClick">
           <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
           <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
-          <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
+          <!-- <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
           <el-tab-pane label="已完成" name="completed"></el-tab-pane>
           <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
           <el-tab-pane label="全部部件" name="all"></el-tab-pane>
-          <el-tab-pane label="PLM获取部件" name="plm"></el-tab-pane>
+          <el-tab-pane label="PLM获取部件" name="plm"></el-tab-pane> -->
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -44,6 +44,8 @@
                     :load="loadNode1"
                     :props="defaultProps"
                     @node-click="handleNodeClick"
+                    node-key="id"
+                    :default-expanded-keys="[0]"
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">

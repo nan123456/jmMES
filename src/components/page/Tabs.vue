@@ -82,10 +82,12 @@
           <el-form-item>
             <el-input placeholder="输入关键字" v-model="filterText" style="width:250px;height:35px"></el-input>
             <el-button type="primary" @click="handleFifter()">查询</el-button>
+            <el-button type="primary" @click="reload()">重置</el-button>
             <el-button type="danger" @click="allRead()">全部标为已读</el-button>
+            
           </el-form-item>
         </el-form>
-        <el-table ref="filterTable" :data="unread" style="width: 100%">
+        <el-table ref="filterTable" :data="unread" style="width: 100%" >
           <el-table-column prop="address" label="部件信息" :formatter="formatter"></el-table-column>
           <el-table-column
             prop="workshop"
@@ -169,9 +171,8 @@
         </div>
       </el-tab-pane>
 
-      <el-tab-pane :label="`全部消息(${recycle.length})`" name="third">
+      <!-- <el-tab-pane :label="`全部消息(${recycle.length})`" name="third">
         <el-table ref="filterTable" :data="recycle" style="width: 100%">
-          <!-- <el-table-column prop="name" label="" width="180"></el-table-column> -->
           <el-table-column prop="address" label="部件信息" :formatter="formatter"></el-table-column>
           <el-table-column
             prop="workshop"
@@ -203,7 +204,7 @@
           ></el-table-column>
           <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
         </el-table>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
   </div>
 </template>

@@ -3,7 +3,7 @@
             <table  style="width: 300px;" >
                 <tr style="text-align: center;">
                     <td colspan="6">
-                        <p style="font-size: 30px;">设备安全检点</p>
+                        <p style="font-size: 30px;">设备安全点检</p>
                     </td>
                 </tr>
                 <tr style="text-align: center;">

@@ -5,11 +5,12 @@
                 <el-breadcrumb-item><i class="el-icon-tickets"></i> 云平台交互</el-breadcrumb-item>
             </el-breadcrumb>
         </div> -->
-        <div class="container">
-            <el-button type="primary" @click="dowmload">下载</el-button>
+        <!-- <div class="container">
+            
 
             
-        </div>
+        </div> -->
+        <el-button type="primary" @click="dowmload" class="right" disabled>下载</el-button>
         <div class="container">
           <el-container style="height: 600px;">
             <el-container style="height: 600px;">
@@ -33,6 +34,8 @@
                     :load="loadNode"
                     :props="defaultProps"
                     @node-click="handleNodeClick"
+                    node-key="id"
+                    :default-expanded-keys="[0]"
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">
@@ -236,9 +239,15 @@ export default {
 <style scoped>
   .container{
     padding: 10px !important;
+
   }
   .filter-tree{
     overflow:auto;
     display: inline-block;
+  }
+  .right{
+    float: right;
+    margin-right:10px; 
+    margin-top:10px;
   }
 </style>
