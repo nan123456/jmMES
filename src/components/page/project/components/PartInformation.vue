@@ -70,8 +70,8 @@
             <el-button type="primary" v-if="showQrcode" @click="handleQrcode(data.id)">产品标识卡</el-button>
             <el-button type="primary" v-if="showWelding" @click="handleWelding(data.figure_number,data.pNumber)">焊接工艺卡</el-button>
             <el-button type="primary" v-if="showCrafts" @click="handleCrafts(data.figure_number,data.pNumber)">机械制造卡</el-button>
-            <el-button type="primary" v-if="showWelding" @click="handleHeating(data.figure_number,data.pNumber)">热处理工艺卡</el-button>
-            <el-button type="primary" v-if="showCrafts" @click="handleMaching(data.figure_number,data.pNumber)">机械加工卡</el-button>
+            <el-button type="primary" v-if="showHot" @click="handleHeating(data.figure_number,data.pNumber)">热处理工艺卡</el-button>
+            <el-button type="primary" v-if="showMach" @click="handleMaching(data.figure_number,data.pNumber)">机械加工卡</el-button>
             <el-button type="danger" v-if="showDel" @click="handleDelClick(data.id)">删除</el-button>
           </el-form-item>
           
@@ -185,6 +185,8 @@ export default {
       showQrcode:true,
       showWelding:true,
       showCrafts:true,
+      showHot:true,
+      showMach:true,
       showDel:false,
 
       columns: [
@@ -227,6 +229,54 @@ export default {
         fd.append("id",val.id)
         fd.append("flag","back")
         axios.post(`${this.baseURL}/part.php`,fd).then(this.getFidSucc)
+        //判断是否存在焊接工艺卡
+        fd.append("flag","welding")
+        fd.append("figure_number",val.figure_number)
+        fd.append("pnumber",val.pNumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
+          console.log(res)
+          if(res.data.success=='success'){
+            this.showWelding = true
+          }else {
+            this.showWelding = false
+          }
+        })
+        //判断是否存在机械工艺卡
+        var fd1 = new FormData()
+        fd1.append("flag","crafts")
+        fd1.append("figure_number",val.figure_number)
+        fd1.append("pnumber",val.pnumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd1).then((res)=>{
+          if(res.data.success=='success'){
+            this.showCrafts = true
+          }else {
+            this.showCrafts = false
+          }
+        })
+        //热处理
+        var fd2 = new FormData()
+        fd2.append("flag","heating")
+        fd2.append("figure_number",val.figure_number)
+        fd2.append("pnumber",val.pnumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd2).then((res)=>{
+          if(res.data.success=='success'){
+            this.showHot = true
+          }else {
+            this.showHot = false
+          }
+        })
+        //机加工
+        var fd3 = new FormData()
+        fd3.append("flag","maching")
+        fd3.append("figure_number",val.figure_number)
+        fd3.append("pnumber",val.pnumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd3).then((res)=>{
+          if(res.data.success=='success'){
+            this.showMach = true
+          }else {
+            this.showMach = false
+          }
+        })
       }  
     }
   },
@@ -234,8 +284,8 @@ export default {
     AuthorityInfo(){
       if(this.$route.path =="/plan" ||this.$route.path =="/craft"){
         this.showAddPart=true
-        this.showSave=true
-        this.showDel=true
+        this.showSave=false
+        this.showDel=false
       }
     },
     // 获取父id
@@ -423,7 +473,7 @@ export default {
       fd.append("id",id)
       fd.append("flag","show")
       axios.post(`${this.baseURL}/craft/route.php`,fd).then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         this.routeid = res.data.id
         this.nextid = res.data.nextid
         this.state = res.data.state

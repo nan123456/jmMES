@@ -223,12 +223,12 @@ export default {
     AuthorityInfo(){
       console.log(this.$route.path)//获取当前URL 
       if(this.$route.path =="/planunreview" || this.$route.path =="/plan"){
-        this.showSave=true
+        this.showSave=false
         this.showAdd=true
         this.showReview=true
         this.showDel=true
       }else if(this.$route.path =="/craft" ||this.$route.path =="/craftunreview"){
-        this.showSave=true
+        this.showSave=false
         this.showAdd=true
         this.showDel=true
       }
