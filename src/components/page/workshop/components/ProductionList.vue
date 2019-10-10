@@ -76,13 +76,17 @@
           <el-table-column
             prop="product_name"
             label="产品名称"
-            sortable
+            :filters="product_name"
+            :filter-method="filterHandler"
+            column-key="product_name"
           >
           </el-table-column>
           <el-table-column
             prop="number"
             label="工单"
-            sortable
+            :filters="pNumber"
+            :filter-method="filterHandler"
+            column-key="pNumber"
           >
           </el-table-column>
           <el-table-column
@@ -100,18 +104,14 @@
           <el-table-column
             prop="child_material"
             label="规格"
+            sortable
             width="180"
-            :filters="fChild_material"
-            :filter-method="filterHandler"
-            column-key="child_material"
           >
           </el-table-column>
           <el-table-column
             prop="standard"
             label="开料尺寸"
-            :filters="fStandard"
-            :filter-method="filterHandler"
-            column-key="standard"
+            sortable
           >
           </el-table-column>
           <el-table-column
@@ -207,13 +207,17 @@
           <el-table-column
             prop="product_name"
             label="产品名称"
-            sortable
+            :filters="Product_name"
+            :filter-method="filterHandler"
+            column-key="Product_name"
           >
           </el-table-column>
           <el-table-column
             prop="number"
             label="工单"
-            sortable
+            :filters="PNumber"
+            :filter-method="filterHandler"
+            column-key="PNumber"
           >
           </el-table-column>
           <el-table-column
@@ -232,17 +236,13 @@
             prop="child_material"
             label="规格"
             width="180"
-            :filters="FChild_material"
-            :filter-method="filterHandler2"
-            column-key="child_material2"
+            sortable
           >
           </el-table-column>
           <el-table-column
             prop="standard"
             label="开料尺寸"
-            :filters="FStandard"
-            :filter-method="filterHandler2"
-            column-key="standard2"
+            sortable
           >
           </el-table-column>
           <el-table-column
@@ -312,6 +312,126 @@
         </div>
       </el-tab-pane>
 
+            <!-- 外协选项卡 -->
+      <el-tab-pane label="外部协助" name="exterior">
+        <el-table
+          ref="filterTable4"
+          :data="tableData4.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
+          style="width: 100%"
+          :row-class-name="tableRowClassName"
+          stripe
+          @selection-change="handleSelectionChange"
+          @filter-change="filterChange"
+        >
+          <!-- reserve-selection属性保持选中状态 -->
+          <el-table-column
+            type="selection"
+            width="55"
+            reserve-selection
+          >
+          </el-table-column>
+          <el-table-column
+            prop="modid"
+            width="60"
+            label="modid"
+            v-if=false
+          >
+          </el-table-column>
+          <el-table-column
+            prop="routeid"
+            width="60"
+            label="routeid"
+            v-if=false
+          >
+          </el-table-column>
+          <el-table-column
+            prop="product_name"
+            label="产品名称"
+            :filters="product_name"
+            :filter-method="filterHandler"
+            column-key="product_name"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="number"
+            label="工单"
+            :filters="pNumber"
+            :filter-method="filterHandler"
+            column-key="pNumber"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="figure_number"
+            label="零件图号"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="名称"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="child_material"
+            label="规格"
+            width="180"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="standard"
+            label="开料尺寸"
+            sortable
+          >
+          </el-table-column>
+          <!-- <el-table-column
+            prop="route"
+            label="加工工艺路线"
+            sortable
+          >
+          </el-table-column> -->
+          <el-table-column
+            prop="count"
+            label="数量"
+            sortable
+          >
+          </el-table-column>
+          <el-table-column
+            prop="finish"
+            label="是否完成"
+            sortable
+          >
+          </el-table-column>
+          <!-- <el-table-column
+            prop="backMark"
+            label="退产"
+            sortable
+          >
+          </el-table-column> -->
+          <!-- <el-table-column
+            fixed="right"
+            label="操作"
+            width="100">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column> -->
+        </el-table>
+        <!-- 数据分页 -->
+        <div class="block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 25, 50, 100]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData4.length">
+          </el-pagination>
+        </div>
+      </el-tab-pane>
+
       <!-- 生产中选项卡 -->
       <el-tab-pane label="已完成" name="third">
         <!-- element table 
@@ -362,13 +482,17 @@
           <el-table-column
             prop="product_name"
             label="产品名称"
-            sortable
+            :filters="product_name"
+            :filter-method="filterHandler"
+            column-key="product_name"
           >
           </el-table-column>
           <el-table-column
             prop="number"
             label="工单"
-            sortable
+            :filters="pNumber"
+            :filter-method="filterHandler"
+            column-key="pNumber"
           >
           </el-table-column>
           <el-table-column
@@ -387,17 +511,13 @@
             prop="child_material"
             label="规格"
             width="180"
-            :filters="FChild_material"
-            :filter-method="filterHandler2"
-            column-key="child_material2"
+            sortable
           >
           </el-table-column>
           <el-table-column
             prop="standard"
             label="开料尺寸"
-            :filters="FStandard"
-            :filter-method="filterHandler2"
-            column-key="standard2"
+            sortable
           >
           </el-table-column>
           <el-table-column
@@ -460,125 +580,6 @@
         </div>
       </el-tab-pane>
       
-      <!-- 外协选项卡 -->
-      <el-tab-pane label="外部协助" name="exterior">
-        <el-table
-          ref="filterTable4"
-          :data="tableData4.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
-          style="width: 100%"
-          :row-class-name="tableRowClassName"
-          stripe
-          @selection-change="handleSelectionChange"
-          @filter-change="filterChange"
-        >
-          <!-- reserve-selection属性保持选中状态 -->
-          <el-table-column
-            type="selection"
-            width="55"
-            reserve-selection
-          >
-          </el-table-column>
-          <el-table-column
-            prop="modid"
-            width="60"
-            label="modid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="routeid"
-            width="60"
-            label="routeid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="product_name"
-            label="产品名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="number"
-            label="工单"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="figure_number"
-            label="零件图号"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="child_material"
-            label="规格"
-            width="180"
-            :filters="fChild_material"
-            :filter-method="filterHandler"
-            column-key="child_material"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="standard"
-            label="开料尺寸"
-            :filters="fStandard"
-            :filter-method="filterHandler"
-            column-key="standard"
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="route"
-            label="加工工艺路线"
-            sortable
-          >
-          </el-table-column> -->
-          <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="finish"
-            label="是否完成"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="backMark"
-            label="退产"
-            sortable
-          >
-          </el-table-column> -->
-          <!-- <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column> -->
-        </el-table>
-        <!-- 数据分页 -->
-        <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData4.length">
-          </el-pagination>
-        </div>
-      </el-tab-pane>
        <!-- 报废品选项卡 -->
       <!-- <el-tab-pane label="报废品" name="four"> -->
         <!-- element table 
@@ -889,10 +890,10 @@ export default {
       pageSize2: 10,
       currentPage: 1,
       currentPage2: 1,
-      fStandard: [],
-      fChild_material: [],
-      FStandard: [],
-      FChild_material: [],
+      product_name: [],
+      pNumber: [],
+      PNumber: [],
+      Product_name: [],
       columnsKey: [],
       modid: [],
       routeid: [],
@@ -1001,37 +1002,41 @@ export default {
       console.log(res.data)
       res = res.data
       if (res.rows) {
+        this.product_name=[]
+        this.pNumber=[]
         // 未排产
         this.tableData = res.rows
-        if(res.fStandard&&res.fChild_material){
+        if(res.product_name&&res.pNumber){
           let columns = this.columns
           let data_length = res.rows.length
-          // checkbox 开料尺寸赋值
-          let length1 = res.fStandard.length
+          // checkbox 产品名称
+          let length1 = res.product_name.length
           for(let i=0; i < length1; i++) {
-            this.fStandard.push({text:res.fStandard[i].f6,value:res.fStandard[i].f6})
+            this.product_name.push({text:res.product_name[i].f6,value:res.product_name[i].f6})
           }
-          // checkbox 规格赋值
-          let length2 = res.fChild_material.length
+          // checkbox 工单
+          let length2 = res.pNumber.length
           for(let i=0; i < length2; i++) {
-            this.fChild_material.push({text:res.fChild_material[i].f5,value:res.fChild_material[i].f5})
+            this.pNumber.push({text:res.pNumber[i].f5,value:res.pNumber[i].f5})
           }
         }  
       }
 
       if(res.rows2) {
+        this.Product_name=[]
+        this.PNumber=[]
         // 已排产
         this.tableData2 = res.rows2
-        // checkbox 规格赋值
-        if(res.FStandard&&res.FChild_material){
-           let length3 = res.FChild_material.length
+        // checkbox 项目名称
+        if(res.PNumber&&res.Product_name){
+           let length3 = res.Product_name.length
           for(let i=0; i < length3; i++) {
-            this.FChild_material.push({text:res.FChild_material[i].F5,value:res.FChild_material[i].F5})
+            this.Product_name.push({text:res.Product_name[i].F5,value:res.Product_name[i].F5})
           }
-          // checkbox 开料尺寸规格赋值
-          let length4 = res.FStandard.length
+          // checkbox 工单
+          let length4 = res.PNumber.length
           for(let i=0; i < length4; i++) {
-            this.FStandard.push({text:res.FStandard[i].F6,value:res.FStandard[i].F6})
+            this.PNumber.push({text:res.PNumber[i].F6,value:res.PNumber[i].F6})
           }
         }
        
@@ -1039,11 +1044,37 @@ export default {
 
       if(res.rows3) {
         // 生产中
+        this.product_name=[]
+        this.pNumber=[]
         this.tableData3 = res.rows3
+        if(res.pNumber&&res.product_name){
+           let length3 = res.product_name.length
+          for(let i=0; i < length3; i++) {
+            this.product_name.push({text:res.product_name[i].F5,value:res.product_name[i].F5})
+          }
+          // checkbox 工单
+          let length4 = res.pNumber.length
+          for(let i=0; i < length4; i++) {
+            this.pNumber.push({text:res.pNumber[i].F6,value:res.pNumber[i].F6})
+          }
+        }
       }
       if(res.rows4) {
+        this.Product_name=[]
+        this.PNumber=[]
         // 外协
         this.tableData4 = res.rows4
+        if(res.PNumber&&res.Product_name){
+           let length3 = res.Product_name.length
+          for(let i=0; i < length3; i++) {
+            this.Product_name.push({text:res.Product_name[i].F5,value:res.Product_name[i].F5})
+          }
+          // checkbox 工单
+          let length4 = res.PNumber.length
+          for(let i=0; i < length4; i++) {
+            this.PNumber.push({text:res.PNumber[i].F6,value:res.PNumber[i].F6})
+          }
+        }
       }
     },
     search(){
