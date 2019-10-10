@@ -93,8 +93,9 @@
             prop="workshop"
             label="车间"
             width="100"
-            :filters="[{ text: 'K开料车间', value: 'K开料车间' }, { text: 'TK开料车间', value: 'TK开料车间' }, { text: '安装S', value: '安装S' }, { text: '玻璃钢F', value: '玻璃钢F' }, { text: '电气G', value: '电气G' }, { text: '机加T', value: '机加T' }, { text: '结构L', value: '结构L' }, { text: '探伤', value: '探伤' }, { text: '外协W', value: '外协W' }]"
+            :filters="WorkshopBox"
             :filter-method="filterRoute"
+            column-key="WorkshopBox"
             filter-placement="bottom-end"
           ></el-table-column>
           <el-table-column
@@ -113,8 +114,9 @@
             prop="state"
             label="状态"
             width="100"
-            :filters="[{ text: '就工', value: '就工' },{ text: '完工', value: '完工' },{ text: '逾期', value: '逾期' }]"
+            :filters="WorkstateBox"
             :filter-method="filterState"
+            column-key="WorkstateBox"
             filter-placement="bottom-end"
           ></el-table-column>
           <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
@@ -128,6 +130,13 @@
       </el-tab-pane>
 
       <el-tab-pane :label="`已读消息(${read.length})`" name="second">
+        <el-form :inline="true" class="el-form1">
+          <el-form-item>
+            <el-input placeholder="输入关键字" v-model="filterTextRead" style="width:250px;height:35px"></el-input>
+            <el-button type="primary" @click="handleFifterRead()">查询</el-button>
+            <el-button type="primary" @click="reload()">重置</el-button>
+          </el-form-item>
+        </el-form>
         <el-table ref="filterTable" :data="read" style="width: 100%">
           <!-- <el-table-column prop="name" label="" width="180"></el-table-column> -->
           <el-table-column prop="address" label="部件信息" :formatter="formatter"></el-table-column>
@@ -135,8 +144,9 @@
             prop="workshop"
             label="车间"
             width="100"
-            :filters="[{ text: 'K开料车间', value: 'K开料车间' }, { text: 'TK开料车间', value: 'TK开料车间' }, { text: '安装S', value: '安装S' }, { text: '玻璃钢F', value: '玻璃钢F' }, { text: '电气G', value: '电气G' }, { text: '机加T', value: '机加T' }, { text: '结构L', value: '结构L' }, { text: '探伤', value: '探伤' }, { text: '外协W', value: '外协W' }]"
+            :filters="WorkshopBox1"
             :filter-method="filterRoute"
+            column-key="WorkshopBox1"
             filter-placement="bottom-end"
           ></el-table-column>
           <el-table-column
@@ -155,8 +165,9 @@
             prop="state"
             label="状态"
             width="100"
-            :filters="[ { text: '就工', value: '0' },{ text: '完工', value: '1' }]"
+            :filters="WorkstateBox1"
             :filter-method="filterState"
+            column-key="WorkstateBox1"
             filter-placement="bottom-end"
           ></el-table-column>
           <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
@@ -221,12 +232,17 @@ export default {
       activeName: "first",
       canupload: false,
       filterText: "",
+      filterTextRead: "",
       showHeader: false,
       checkList: ["全部", "车间"],
       textarea: [],
       unread: [],
       read: [],
-      recycle: []
+      recycle: [],
+      WorkshopBox: [],
+      WorkshopBox1: [],
+      WorkstateBox: [],
+      WorkstateBox1: [],
     };
   },
   created() {
@@ -252,6 +268,22 @@ export default {
         if (unread.success && unread.data) {
           this.unread = [];
           this.unread = unread.data;
+        }
+      });
+    },
+
+    handleFifterRead() {
+      var fd = new FormData();
+      fd.append("flag", "SearchRead");
+      fd.append("modid", this.filterTextRead);
+      var department = localStorage.getItem("ms_department");
+      fd.append("department", department);
+      axios.post(`${this.baseURL}/tabs.php`, fd).then(read => {
+        //ES6写法
+        read = read.data;
+        if (read.success && read.data) {
+          this.read = [];
+          this.read = read.data;
         }
       });
     },
@@ -312,6 +344,18 @@ export default {
           this.unread = [];
           this.unread = unread.data;
           this.loading = false;
+          let length1 = unread.WorkshopBox.length;
+          for(let i=0; i < length1; i++) {
+            if(unread.WorkshopBox[i].f5!==null&&unread.WorkshopBox[i].f5!==''){
+              this.WorkshopBox.push({text:unread.WorkshopBox[i].f5,value:unread.WorkshopBox[i].f5})
+            }  
+          }
+          let length2 = unread.WorkstateBox.length;
+          for(let i=0; i < length2; i++) {
+            if(unread.WorkstateBox[i].f6!==null&&unread.WorkstateBox[i].f6!==''){
+              this.WorkstateBox.push({text:unread.WorkstateBox[i].f6,value:unread.WorkstateBox[i].f6})
+            }  
+          }
         }
       });
     },
@@ -333,6 +377,18 @@ export default {
         if (read.success && read.data) {
           this.read = [];
           this.read = read.data;
+          let length1 = read.WorkshopBox1.length;
+          for(let i=0; i < length1; i++) {
+            if(read.WorkshopBox1[i].f5!==null&&read.WorkshopBox1[i].f5!==''){
+              this.WorkshopBox1.push({text:read.WorkshopBox1[i].f5,value:read.WorkshopBox1[i].f5})
+            }
+          }
+          let length2 = read.WorkstateBox1.length;
+          for(let i=0; i < length2; i++) {
+            if(read.WorkstateBox1[i].f6!==null&&read.WorkstateBox1[i].f6!==''){
+              this.WorkstateBox1.push({text:read.WorkstateBox1[i].f6,value:read.WorkstateBox1[i].f6})
+            }  
+          }
         }
       });
     },
