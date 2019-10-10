@@ -8,31 +8,27 @@
         <el-tabs v-model="tabName" @tab-click="handleClick">
           <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
           <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
+          <el-tab-pane label="全部部件" name="all"></el-tab-pane>
+          <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
-            <el-header>
-              <el-row :gutter="20">
-                <el-col :span="2" :offset="20">
-                  <!-- <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true">导入</el-button> -->
-                </el-col>
-              </el-row>
-            </el-header>
             <el-container style="height: 600px;">
-              <el-aside width="250px">
+              <el-aside width="300px">
                   <el-form :inline="true">
-                    <el-form-item>
+                    <el-form-item v-show="inputshow">
                       <el-input 
-                        placeholder="输入modid"
+                        placeholder="输入modID"
                         v-model="filterText"
                         style="width:150px">
                       </el-input>
-                      <el-button type="primary" @click="handleFifter()">查询</el-button>
-                      </el-form-item>
+                      <el-button type="primary" @click="handleFifter()" class="tree_btn">查询</el-button>
+                      <el-button @click="resolve()" class="tree_btn">重置</el-button>
+                    </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
                   <el-tree
-                    v-if="updateTree"
+                    v-if="updateTree1"
                     class="filter-tree"
                     lazy
                     :load="loadNode"
@@ -41,6 +37,15 @@
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">
+                  </el-tree>
+
+                  <!-- 搜索tree控件 -->
+                  <el-tree
+                    v-show="updateTree2"
+                    class="filter-tree"
+                    :data="result_arr"
+                    :props="defaultProps"
+                    @node-click="handleNodeClick">
                   </el-tree>
                 </el-aside>
                 <!-- 内容 -->
@@ -109,7 +114,8 @@ export default {
         lxid:'',
         uploadUrl:`${this.baseURL}/craft/project_upload.php`,
         filterText: '',
-        updateTree:true,
+        updateTree1:true,
+        updateTree2:false,
         dialogUpload:false,
         form:{},
         formLabelWidth: "120px",
@@ -117,12 +123,22 @@ export default {
           children: 'children',
           label: 'name',
           isLeaf:'leaf'
-        }
+        },
+        quxiao:true,
+        save:true,
+        wait:false,
+        inputshow:true,
+        arr:[],
+        result_arr:[]
       };
     },
     mounted:function(){
       if(key=='1'){
         this.tabName = 'momentous'
+      }else if(key=='5'){
+        this.tabName = 'exterior'
+      }else if(key=='6'){
+        this.tabName = 'all'
       }
     },
     methods: {
@@ -130,23 +146,66 @@ export default {
       handleClick(tab,e){
         this.tabName=tab.name
         switch (tab.name){
-          case 'ordinary':
-          key = 2
-          break
           case 'momentous':
           key = 1
+          this.updateTree1=true;
+          this.updateTree2=false;
+          break
+          case 'all':
+          key = 6
+          this.updateTree1=true;
+          this.updateTree2=false;
+          break
+          case 'exterior':
+          key = 5
+          this.updateTree1=true;
+          this.updateTree2=false;
           break
         }
         this.reload()
       },
       // 过滤查询
       handleFifter() {
-        // console.log(this.filterText)
-          this.updateTree = !this.updateTree
-          // 增加延时确保tree组件重新渲染
-          setTimeout(()=>{
-            this.updateTree = !this.updateTree
-          },500)
+            this.updateTree1=false;
+            this.updateTree2=true;
+            var fd = new FormData()
+            fd.append('flag','treefilter')
+            fd.append('modid',this.filterText)
+            // fd.append('state',0)
+            axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
+              // console.log(res.data.data[0])
+              if(res.data.success == "success"){
+                for(var i=0;i<res.data.data.length;i++){
+                  // console.log(i)
+                  // console.log(res.data.data[i])
+                  // console.log(res.data.data[i])
+                  this.arr[i]=res.data.data[i];   
+                }  
+                // console.log(this.nest(this.arr));
+                this.result_arr=[];
+                this.result_arr.push(this.nest(this.arr));
+                // console.log(this.result_arr)
+              }
+            })
+      },
+      //重置树
+      resolve(){
+        this.updateTree1=true;
+        this.updateTree2=false;
+      },
+      //查询出来的一维数组转为嵌套数组
+      nest(arrs){
+        var result = arrs[0];
+        var key ='children';
+        var i=0;
+        for(i=0;i<arrs.length-1;i++){
+          arrs[i+1][key]=[result];
+          result=arrs[i+1]
+          // console.log(i)
+          // console.log(result)
+        }
+          // console.log(result)
+          return result;
       },
       // 文件上传成功时的钩子
       handleSuc(res,file, fileList) {
@@ -179,9 +238,6 @@ export default {
 
       // Tree 控件显示
       loadNode(node, resolve){
-        // 判断当前是否为查询状态
-        // console.log(this.filterText)
-        if(!this.filterText){
           // 定义0级节点
           if(node.level === 0) {
             return resolve([{name:'大类',id:0,lx:'dl'}])   
@@ -254,30 +310,20 @@ export default {
               }
             })
           }
-        } else {
-          if(node.level === 0) {
-            var fd = new FormData()
-            fd.append('flag','treefilter')
-            fd.append('modid',this.filterText)
-            fd.append('state',1)
-            axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
-              // console.log(res.data.data)
-              if(res.data.success == "success"){
-                return resolve(res.data.data)
-              }else {
-                return resolve([])
-              }
-            })
-            // console.log(node.data.id)     
-          }
-        }
       }
     }
 };
 </script>
 <style scoped>
+  .el-header{
+    height: 0px !important;
+  }
   .filter-tree{
     overflow:auto;
     display: inline-block;
+  }
+  .tree_btn{
+    width: 60px;
+    text-align: center;
   }
 </style>

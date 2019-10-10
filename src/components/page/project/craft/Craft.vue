@@ -267,7 +267,7 @@ export default {
             var fd = new FormData()
             fd.append('flag','treefilter')
             fd.append('modid',this.filterText)
-            fd.append('state',0)
+            // fd.append('state',0)
             axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
               // console.log(res.data.data[0])
               if(res.data.success == "success"){

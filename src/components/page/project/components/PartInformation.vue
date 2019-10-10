@@ -53,20 +53,25 @@
                 <el-collapse-item>
                   <el-steps :space="100" :align-center="true">
                   <!-- element-ui 一些标签不能注册点击事件@click  需使用@click.native -->
-                    <el-step v-if="data.finished" v-for="(finished,f,index) in data.finished" :key="index" status="success" @click.native="handleStep(finished.id)" :title="finished.route" ></el-step>
+                    <!-- <el-step v-if="data.finished" v-for="(finished,f,index) in data.finished" :key="index" status="success" @click.native="handleStep(finished.id)" :title="finished.route" ></el-step>
                     <el-step v-if="data.build" v-for="(build,b,index) in data.build" :key="index" status="process" @click.native="handleStep(build.id)" :title="build.route" ></el-step>
-                    <el-step v-if="data.unfinished" v-for="(unfinished,u,index) in data.unfinished" status="wait" @click.native="handleStep(unfinished.id)" :key="index" :title="unfinished.route"></el-step>
+                    <el-step v-if="data.unfinished" v-for="(unfinished,u,index) in data.unfinished" status="wait" @click.native="handleStep(unfinished.id)" :key="index" :title="unfinished.route"></el-step> -->
+                    <el-step v-if="data.finished" v-for="(finished,f,index) in data.finished" :key="index" status="success"  :title="finished.route" ></el-step>
+                    <el-step v-if="data.build" v-for="(build,b,index) in data.build" :key="index" status="process" :title="build.route" ></el-step>
+                    <el-step v-if="data.unfinished" v-for="(unfinished,u,index) in data.unfinished" status="wait"  :key="index" :title="unfinished.route"></el-step>                  
                   </el-steps>
                 </el-collapse-item>
             </el-collapse>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-if="back" @click="handleBack(fid)">返回上一级</el-button>
-            <el-button type="primary" v-if="showAddPart" @click="handleAddPart(data.id)">增加子部件</el-button>
+            <!-- <el-button type="primary" v-if="back" @click="handleBack(fid)">返回上一级</el-button> -->
+            <!-- <el-button type="primary" v-if="showAddPart" @click="handleAddPart(data.id)">增加子部件</el-button> -->
             <el-button type="primary" v-if="showSave" @click="handleSave(data.id)">保存</el-button>
             <el-button type="primary" v-if="showQrcode" @click="handleQrcode(data.id)">产品标识卡</el-button>
-            <el-button type="primary" v-if="showWelding" @click="handleWelding(data.figure_number)">工艺卡</el-button>
-            <el-button type="primary" v-if="showCrafts" @click="handleCrafts(data.figure_number)">机械制造卡</el-button>
+            <el-button type="primary" v-if="showWelding" @click="handleWelding(data.figure_number,data.pNumber)">焊接工艺卡</el-button>
+            <el-button type="primary" v-if="showCrafts" @click="handleCrafts(data.figure_number,data.pNumber)">机械制造卡</el-button>
+            <el-button type="primary" v-if="showWelding" @click="handleHeating(data.figure_number,data.pNumber)">热处理工艺卡</el-button>
+            <el-button type="primary" v-if="showCrafts" @click="handleMaching(data.figure_number,data.pNumber)">机械加工卡</el-button>
             <el-button type="danger" v-if="showDel" @click="handleDelClick(data.id)">删除</el-button>
           </el-form-item>
           
@@ -342,12 +347,13 @@ export default {
     handleQrcode(id) {
       window.open("./#/qrcode?id="+id+"&modid="+this.data.modid)
     },
-    // 产品工艺卡
-    handleWelding(figure_number) {
+    // 焊接工艺卡
+    handleWelding(figure_number,pnumber) {
       // console.log(figure_number)
       var fd = new FormData()
       fd.append("flag","welding")
       fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
       axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
         if(res.data.success=='success'){
           // console.log(res.data.id)
@@ -357,17 +363,51 @@ export default {
         }
       })
     },
-    handleCrafts(figure_number) {
+    //机械制造卡
+    handleCrafts(figure_number,pnumber) {
       // console.log(figure_number)
       var fd = new FormData()
       fd.append("flag","crafts")
       fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
       axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
         if(res.data.success=='success'){
           // console.log(res.data.id)
           window.open("./#/Craftsmanshipprinter?contactId="+res.data.id)
         }else {
           alert("该部件还未上传机械制造卡！")
+        }
+      })
+    },
+    // 热处理工艺卡
+    handleHeating(figure_number,pnumber) {
+      // console.log(figure_number)
+      var fd = new FormData()
+      fd.append("flag","heating")
+      fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
+      axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
+        if(res.data.success=='success'){
+          // console.log(res.data.id)
+          window.open("./#/Heattreatmentprinter?contactId="+res.data.id)
+        }else {
+          alert("该部件还未上传热处理工艺卡！")
+        }
+      })
+    },
+    // 机械加工工艺卡
+    handleMaching(figure_number,pnumber) {
+      // console.log(figure_number)
+      var fd = new FormData()
+      fd.append("flag","maching")
+      fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
+      axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
+        if(res.data.success=='success'){
+          // console.log(res.data.id)
+          window.open("./#/machiningprinter?contactId="+res.data.id)
+        }else {
+          alert("该部件还未上传机械加工卡！")
         }
       })
     },

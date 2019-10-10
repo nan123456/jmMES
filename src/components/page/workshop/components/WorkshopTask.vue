@@ -6,8 +6,8 @@
       :lineNumbers="true"
     >
     <template slot="table-row" slot-scope="props">
-      <span v-if="props.column.field == 'operate'">
-        <el-button type="danger" icon="el-icon-warning" circle></el-button>
+      <span v-if="props.column.field == 'url'">
+        <a target="_blank" :href="props.row.url">{{props.row.url}}</a>
       </span>
       <span v-else>
         {{props.formattedRow[props.column.field]}}
@@ -74,10 +74,16 @@ export default {
   created(){
   },
   methods:{
-
+    Handlealter(url){
+      alert(url);
+    }
   }
 };
 </script>
 
 <style lang="">
+.btn{
+  background-color:cornflowerblue;
+  color: white
+}
 </style>

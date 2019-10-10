@@ -5,7 +5,8 @@
                     placeholder="请输入搜索内容">
                 </el-input>
                 <el-button type="primary" @click="getselectData()">搜索</el-button>
-                <el-button type="danger" @click="getData('Undelivered'),search='',pageSize=10">重置</el-button>
+                <!-- <el-button type="danger" @click="getData('Undelivered'),search='',pageSize=10">重置</el-button> -->
+                <el-button type="danger" @click="reload1">重置</el-button>
             </div>       
         <el-table 
         :data="tableData.slice( (currentPage-1)*pageSize, currentPage*pageSize)" 
@@ -148,6 +149,10 @@ export default {
         this.getData(flag)
     },
     methods:{
+        //重置按钮
+        reload1(){
+            window.location.reload()
+        },
         //获取数据
         getData(flag) {
             var flag = flag

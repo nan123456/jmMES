@@ -258,6 +258,12 @@
           >
           </el-table-column>
           <!-- <el-table-column
+            prop="count"
+            label="数量"
+            sortable
+          >
+          </el-table-column> -->
+          <!-- <el-table-column
             prop="station"
             label="工位"
             sortable
@@ -893,7 +899,7 @@ export default {
           value: 'product_name',
           label: '产品名称'
         },{
-          value: 'number',
+          value: 'pNumber',
           label: '工单'
         },{
           value: 'figure_number',

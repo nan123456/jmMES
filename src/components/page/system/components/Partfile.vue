@@ -43,8 +43,10 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="handleQrcode(partfile.id)">产品标识卡</el-button>
-                <el-button type="primary" @click="handleWelding(partfile.figure_number)">工艺卡</el-button>
-                <el-button type="primary" @click="handleCrafts(partfile.figure_number)">机械制造卡</el-button>
+                <el-button type="primary" @click="handleWelding(partfile.figure_number,partfile.pNumber)">焊接工艺卡</el-button>
+                <el-button type="primary" @click="handleCrafts(partfile.figure_number,partfile.pNumber)">机械制造卡</el-button>
+                <el-button type="primary" @click="handleHeating(partfile.figure_number,partfile.pNumber)">热处理工艺卡</el-button>
+                <el-button type="primary" @click="handleMaching(partfile.figure_number,partfile.pNumber)">机械加工卡</el-button>
               </el-form-item>
             </el-form>
           </el-collapse-item>
@@ -182,12 +184,13 @@ export default {
       }
       // console.log(this.partfile)
     },
-    // 产品工艺卡
-    handleWelding(figure_number) {
+    // 焊接工艺卡
+    handleWelding(figure_number,pnumber) {
       // console.log(figure_number)
       var fd = new FormData()
       fd.append("flag","welding")
       fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
       axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
         if(res.data.success=='success'){
           // console.log(res.data.id)
@@ -198,17 +201,50 @@ export default {
       })
     },
     //机械制造卡
-    handleCrafts(figure_number) {
+    handleCrafts(figure_number,pnumber) {
       // console.log(figure_number)
       var fd = new FormData()
       fd.append("flag","crafts")
       fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
       axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
         if(res.data.success=='success'){
           // console.log(res.data.id)
           window.open("./#/Craftsmanshipprinter?contactId="+res.data.id)
         }else {
           alert("该部件还未上传机械制造卡！")
+        }
+      })
+    },
+    // 热处理工艺卡
+    handleHeating(figure_number,pnumber) {
+      // console.log(figure_number)
+      var fd = new FormData()
+      fd.append("flag","heating")
+      fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
+      axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
+        if(res.data.success=='success'){
+          // console.log(res.data.id)
+          window.open("./#/Heattreatmentprinter?contactId="+res.data.id)
+        }else {
+          alert("该部件还未上传热处理工艺卡！")
+        }
+      })
+    },
+    // 机械加工工艺卡
+    handleMaching(figure_number,pnumber) {
+      // console.log(figure_number)
+      var fd = new FormData()
+      fd.append("flag","maching")
+      fd.append("figure_number",figure_number)
+      fd.append("pnumber",pnumber)
+      axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
+        if(res.data.success=='success'){
+          // console.log(res.data.id)
+          window.open("./#/machiningprinter?contactId="+res.data.id)
+        }else {
+          alert("该部件还未上传机械加工卡！")
         }
       })
     },

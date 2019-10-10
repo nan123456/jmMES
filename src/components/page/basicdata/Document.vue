@@ -18,7 +18,7 @@
                         style="width:44%"
                         ></el-input>
                         <el-button type="primary" @click="VaguelySelect()">搜索</el-button>
-                        <el-button type="danger" @click="getTreeData();vaguelydata=''">取消</el-button>
+                        <el-button type="danger" @click="getTreeData();vaguelydata=''">重置</el-button>
                     </div>
                     <!-- <el-dialog
                         title="树节点新建"

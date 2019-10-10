@@ -11,9 +11,12 @@
                 <!-- 使用插槽嵌套循环 -->
                 <!-- element-ui 一些标签不能注册点击事件@click  需使用@click.native -->
                 <slot :item="item">
-                  <el-step v-if="item.finished" v-for="(finished,f,index) in item.finished" :key="index" status="success"  :title="finished.route" @click.native="handleStep(finished.id)" ></el-step>
+                  <!-- <el-step v-if="item.finished" v-for="(finished,f,index) in item.finished" :key="index" status="success"  :title="finished.route" @click.native="handleStep(finished.id)" ></el-step>
                   <el-step v-if="item.build" v-for="(build,b,index) in item.build" :key="index" status="process" :title="build.route" @click.native="handleStep(build.id)" ></el-step>
-                  <el-step v-if="item.unfinished" v-for="(unfinished,u,index) in item.unfinished" status="wait" :key="index" :title="unfinished.route" @click.native="handleStep(unfinished.id)" ></el-step>
+                  <el-step v-if="item.unfinished" v-for="(unfinished,u,index) in item.unfinished" status="wait" :key="index" :title="unfinished.route" @click.native="handleStep(unfinished.id)" ></el-step> -->
+                  <el-step v-if="item.finished" v-for="(finished,f,index) in item.finished" :key="index" status="success"  :title="finished.route"></el-step>
+                  <el-step v-if="item.build" v-for="(build,b,index) in item.build" :key="index" status="process" :title="build.route"></el-step>
+                  <el-step v-if="item.unfinished" v-for="(unfinished,u,index) in item.unfinished" status="wait" :key="index" :title="unfinished.route"></el-step>
                 </slot>
               </el-steps>
           </el-form>

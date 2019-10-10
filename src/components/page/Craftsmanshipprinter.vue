@@ -7,6 +7,7 @@
                 <td>编号</td>
                 <td>{{ craftsmanshipTableHeader.ownPartDrawingNumber + "-" + craftsmanshipTableHeader.contactId  }}</td>
                 <td>工单号：</td>
+                <td>{{craftsmanshipTableHeader.pnumber}}</td>
             </tr>
         </table>
         <table class="tableHeader">
@@ -78,9 +79,9 @@
                 <td colspan="4">不符合确认</td>
                 <td colspan="10">{{ craftsmanshipTableBodyResult.inconsistentConfirmation }}</td>
             </tr>
-            <!-- <tr>
-                <td colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" @drop="drop($event,'5')" @dragover="allowDrop($event)" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='width:100%;max-height:100%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
-            </tr> -->
+            <tr>
+                <td colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
+            </tr>
         </table>
         <!-- 模板一 end -->
         <!-- 模板二 start -->
@@ -124,7 +125,7 @@
         <!-- 模板三 start-->
         <table class="tableThirdModel" v-if="tablecraftsmanshipBodyVisible[2]">
             <tr>
-                <td ref="thirdmodelimg" id="thirdmodelimg" @drop="drop($event,'4')" @dragover="allowDrop($event)" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_3.fileOne}' style='max-width:100%;max-height:100%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_3.fileOne)};' />`"></td>
+                <td  valign="middle"  align="center" ref="thirdmodelimg" id="thirdmodelimg" class="craftsmanshipTableBody_3_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_3.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_3.fileOne)};' />`"></td>
             </tr>
         </table>
         <!-- 模板三 end -->
@@ -181,7 +182,8 @@ export default {
                 "productDrawingNumber": "",
                 "ownPartDrawingNumber": "",
                 "partsDrawingNumber": "",
-                "quantity": ""
+                "quantity": "",
+                "pnumber": ""
             },
             craftsmanshipTableBody_1: {
                 rowsData:[
@@ -352,7 +354,7 @@ export default {
     }
     .craftsmanshipTableBody_1_img{
         width: 100%;
-        height: 280px;
+        height: 270mm;
     }
     /* 模板二 */
     .tableSecondModel {
@@ -362,7 +364,7 @@ export default {
     }
     .craftsmanshipTableBody_2_img{
         width: 33%;
-        height: 300px;
+        height: 110mm;
     }
     /* 模板三 */
     .tableThirdModel {
@@ -372,8 +374,12 @@ export default {
     }
     .tableThirdModel td {
         width: 100%;
-        height: 100%;
+        /* height: 100%; */
         text-align: center;
+    }
+    .craftsmanshipTableBody_3_img{
+        width: 100%;
+        height: 360mm;
     }
     
 

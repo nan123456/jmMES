@@ -108,8 +108,8 @@
                     <td rowspan="2" colspan="8" class="bigfontsize">中山市金马科技娱乐设备有限公司</td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="height:10mm;">&nbsp;</td>
-                    <td colspan="6">&nbsp;</td>                   
+                    <td colspan="6" style="height:10mm;">{{weldingTableOne.Organization}}</td>
+                    <td colspan="6">{{weldingTableOne.examine}}</td>  
                 </tr>
             </table>
             <!-- 第一页 end -->
@@ -173,7 +173,7 @@
                 <tr>
                     <td rowspan="2">焊缝编号</td>
                     <td colspan="3">层间清理</td>
-                    <td colspan="3">焊脚尺寸</td>
+                    <td colspan="3">{{weldingTableOne.weldingfoot}}</td>
                     <td colspan="3">焊缝外观质量</td>
                 </tr>
                 <tr>
@@ -216,8 +216,8 @@
                     <td rowspan="2" colspan="8" class="bigfontsize">中山市金马科技娱乐设备有限公司</td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="height:10mm;">&nbsp;</td>
-                    <td colspan="6">&nbsp;</td>                   
+                    <td colspan="6" style="height:10mm;">{{weldingTableOne.Organization}}</td>
+                    <td colspan="6">{{weldingTableOne.examine}}</td>                    
                 </tr>
             </table>
             <!-- 第二页 end -->
@@ -263,8 +263,8 @@
                     <td rowspan="2" colspan="8" class="bigfontsize">中山市金马科技娱乐设备有限公司</td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="height:10mm;">&nbsp;</td>
-                    <td colspan="6">&nbsp;</td>                   
+                    <td colspan="6" style="height:10mm;">{{weldingTableOne.Organization}}</td>
+                    <td colspan="6">{{weldingTableOne.examine}}</td>                   
                 </tr>
             </table>           
 	</div>
@@ -290,7 +290,10 @@ export default {
                 productName: "",
                 productCode: "",
                 partName: "",
-                partDrawingNumber: ""
+                partDrawingNumber: "",
+                examine:"",
+                Organization:"",
+                weldingfoot:""
             },
             weldingTableTwo_1: [
                 {"weldNumber":"","materialAndSpecifications_1":"","materialAndSpecifications_1_thickness":"","materialAndSpecifications_2":"","materialAndSpecifications_2_thickness":"","weldingMethod":"","grooveForm":"","consumables":"","specifications":"","weldingLevel_numberOfLayers":"","weldingLevel_numberOftracks":"","protectiveGas":"","weldingCurrent":"","actualCurrent_1":"","actualCurrent_2":"","weldingVoltage":"","actualVoltage_1":"","actualVoltage_2":"","specificationNumber":"","ratingNumber":"","flawDetectionRequirements":"","steelStamp":""},
