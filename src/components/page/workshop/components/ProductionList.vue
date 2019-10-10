@@ -257,6 +257,12 @@
             sortable
           >
           </el-table-column>
+          <el-table-column
+            prop="stime"
+            label="就工时间"
+            sortable
+          >
+          </el-table-column>
           <!-- <el-table-column
             prop="count"
             label="数量"
@@ -420,10 +426,15 @@
           >
           </el-table-column> -->
           <el-table-column
-            prop="schedule_date"
-            label="完成时间"
+            prop="stime"
+            label="就工时间"
             sortable
-            :filter-method="filterHandler2"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="ftime"
+            label="完工时间"
+            sortable
           >
           </el-table-column>
           <!-- <el-table-column

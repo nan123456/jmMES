@@ -20,10 +20,10 @@
                       <el-input 
                         placeholder="输入modID"
                         v-model="filterText"
-                        style="width:150px">
+                        style="width:130px">
                       </el-input>
-                      <el-button type="primary" @click="handleFifter()" class="tree_btn">查询</el-button>
-                      <el-button @click="resolve()" class="tree_btn">重置</el-button>
+                      <el-button type="primary" @click="handleFifter()" class="tree_btn" style="margin-left:5px">查询</el-button>
+                      <el-button @click="resolve()" class="tree_btn" style="margin-righr:-2px">重置</el-button>
                     </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
