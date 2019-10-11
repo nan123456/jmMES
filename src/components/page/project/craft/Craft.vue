@@ -26,9 +26,17 @@
             <el-container style="height: 600px;">
               <el-aside width="300px">
                   <el-form :inline="true">
-                    <el-form-item v-show="inputshow">
+                    <el-form-item v-show="inputshow"> 
+                        <el-select v-model="selectvalue" class="selectdiv" placeholder="请选择需要查询的项目">
+                          <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
                       <el-input 
-                        placeholder="输入modID"
+                        placeholder="输入部件名称"
                         v-model="filterText"
                         style="width:130px">
                       </el-input>
@@ -181,9 +189,14 @@ export default {
         wait:false,
         inputshow:true,
         arr:[],
-        result_arr:[]
+        result_arr:[],
+        options: [],
+        selectvalue:''
       };
     },
+  created() {
+    this.getProject();
+  },
     mounted:function(){
       if(key=='1'){
         this.tabName = 'momentous'
@@ -264,30 +277,38 @@ export default {
       },
       // 过滤查询
       handleFifter() {
-            this.updateTree1=false;
-            this.updateTree2=true;
-            var fd = new FormData()
-            fd.append('flag','treefilter')
-            fd.append('modid',this.filterText)
-            // fd.append('state',0)
-            axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
-              // console.log(res.data.data[0])
-              if(res.data.success == "success"){
-                for(var i=0;i<res.data.data.length;i++){
-                  // console.log(i)
-                  // console.log(res.data.data[i])
-                  // console.log(res.data.data[i])
-                  this.arr[i]=res.data.data[i];   
-                }  
-                // console.log(this.nest(this.arr));
-                this.result_arr=[];
-                this.result_arr.push(this.nest(this.arr));
-                // console.log(this.result_arr)
-              }
-            })
+        if(this.selectvalue==''){
+          alert("请选择要查询的项目")
+        }else{
+          this.updateTree1=false;
+          this.updateTree2=true;
+          var fd = new FormData()
+          fd.append('flag','treefilter')
+          fd.append('name',this.filterText)
+          fd.append('pnumber',this.selectvalue)
+          // fd.append('state',0)
+          axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
+            // console.log(res.data.data[0])
+            if(res.data.success == "success"){
+              for(var i=0;i<res.data.data.length;i++){
+                // console.log(i)
+                // console.log(res.data.data[i])
+                // console.log(res.data.data[i])
+                this.arr[i]=res.data.data[i];   
+              }  
+              // console.log(this.nest(this.arr));
+              this.result_arr=[];
+              this.result_arr.push(this.nest(this.arr));
+              // console.log(this.result_arr)
+            }
+          })
+        }
+
       },
       //重制树
       resolve(){
+        this.selectvalue='';
+        this.filterText='';
         this.updateTree1=true;
         this.updateTree2=false;
       },
@@ -340,6 +361,17 @@ export default {
         // console.log(this.$refs.tree.$children)
       },
 
+      //获取项目
+      getProject(){
+        // console.log(this.options)
+        var fd = new FormData()
+        fd.append('flag','getProject')
+        axios.post(`${this.baseURL}/examine.php`,fd).then((res)=>{
+          // console.log(res.data.data)
+          this.options=res.data.data;
+          // this.selectvalue=res.data.data[0].value;
+        })     
+      },
 
       // Tree 控件显示
       loadNode1(node, resolve){
@@ -498,5 +530,9 @@ export default {
   .tree_btn{
     width: 60px;
     text-align: center;
+  }
+  .selectdiv{
+    margin-bottom: 10px;
+    width: 275px
   }
 </style>
