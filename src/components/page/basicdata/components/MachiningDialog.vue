@@ -328,6 +328,7 @@ export default {
                             message: '新建成功',
                             type: 'success'
                         })
+                        this.resetInputMachining()
                     }else{                            
                         this.$message({
                             showClose: true,

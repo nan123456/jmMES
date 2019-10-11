@@ -367,6 +367,8 @@ export default {
     },
     //获取已读
     getDataRead() {
+      this.WorkshopBox1 = [];
+      this.WorkstateBox1 = [];
       var fd = new FormData();
       fd.append("flag", "Read");
       var department = localStorage.getItem("ms_department");
@@ -416,6 +418,9 @@ export default {
         //ES6写法
         recycle = recycle.data;
       });
+      setTimeout(() => {
+        this.getDataRead()
+      }, 1000);
     },
     //全部进入已读
     allRead(row) {
