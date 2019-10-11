@@ -80,7 +80,7 @@
                 <td colspan="10">{{ craftsmanshipTableBodyResult.inconsistentConfirmation }}</td>
             </tr>
             <tr>
-                <td colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
+                <td v-if="craftsmanshipTableBody_1.fileOne" colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
             </tr>
         </table>
         <!-- 模板一 end -->
@@ -125,7 +125,7 @@
         <!-- 模板三 start-->
         <table class="tableThirdModel" v-if="tablecraftsmanshipBodyVisible[2]">
             <tr>
-                <td  valign="middle"  align="center" ref="thirdmodelimg" id="thirdmodelimg" class="craftsmanshipTableBody_3_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_3.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_3.fileOne)};' />`"></td>
+                <td v-if="craftsmanshipTableBody_3.fileOne" valign="middle"  align="center" ref="thirdmodelimg" id="thirdmodelimg" class="craftsmanshipTableBody_3_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_3.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_3.fileOne)};' />`"></td>
             </tr>
         </table>
         <!-- 模板三 end -->
@@ -306,11 +306,11 @@ export default {
         },
         //判断是否有值
         isEmpty(v){
-            if(v.length > 0){
+            // if(v.length > 0){
                 return 'block'
-            }else{
-                return 'none'
-            }
+            // }else{
+            //     return 'none'
+            // }
         }
         
     }
