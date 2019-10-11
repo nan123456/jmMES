@@ -1,862 +1,904 @@
 <template>
   <div>
-    <!-- table上部按钮 -->
-    <div slot="table-actions" class="table-actions" v-if='show_div1'>
-      <el-button type="danger" value = 'ALL'  @click="select_WS('ALL')">全部车间</el-button>
-      <el-button type="primary" class="btn" value = 'K'  @click="select_WS('K')">K开料车间</el-button>
-      <el-button type="primary" class="btn" value = 'TK'  @click="select_WS('TK')">TK开料车间</el-button>
-      <el-button type="primary" class="btn" value = 'S'  @click="select_WS('S')">安装S</el-button>
-      <el-button type="primary" class="btn" value = 'F'  @click="select_WS('F')">玻璃钢F</el-button>
-      <el-button type="primary" class="btn" value = 'G'  @click="select_WS('G')">电气G</el-button>
-      <el-button type="primary" class="btn" value = 'T'  @click="select_WS('T')">机加T</el-button>
-      <el-button type="primary" class="btn" value = 'I'  @click="select_WS('I')">机械车间</el-button>
-      <el-button type="primary" class="btn" value = 'L'  @click="select_WS('L')">结构L</el-button>
-      <el-button type="primary" class="btn" value = 'J'  @click="select_WS('J')">探伤</el-button>
-      <!-- <el-button type="primary" class="btn" value = 'W'  @click="select_WS('W')">外协W</el-button> -->
-    </div>
-    <br/>
-    <div slot="table-actions" class="table-actions" >
-      <el-input v-model="searchValue" placeholder="请输入关键词" style="width: 200px;"></el-input>
-      <el-select v-model="searchCondition" placeholder="请选择要搜索的内容" style="margin-left: 16px">
-        <el-option
-          v-for="item in searchOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button type="primary" @click.native="search" style="margin-left: 16px">搜索
-        <i class="el-icon-search el-icon--right"></i>
-      </el-button>
-      <!-- <el-button type="primary"  @click="dialogFormExport=true">导出</el-button> -->
-      <!-- <el-button type="primary" v-if="show_2btn"  @click="dialogVisible = true">排产</el-button> -->
-      <!-- <el-button type="primary" v-if="show_4btn"  @click="dialogFormBack = true">退产</el-button> -->
-      <!-- <el-button type="primary" v-if="show_5btn"  @click="dialogScrap = true">报废排产</el-button> -->
-      <!-- <el-button type="primary" v-if="show_3btn" @click="print()"  >生产计划表</el-button> -->
-      <el-button type="primary" v-if="show_6btn" @click="print2()"  >产品标志卡打印</el-button>
-      <!-- <el-button type="primary" v-if="show_3btn" @click="print2()"  >产品标志卡</el-button> -->
-      <!-- <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button> -->
-      <!-- <el-button type="primary" @click="clearFilter">清除过滤</el-button> -->
-      <el-button type="primary" @click="select_WS('ALL')">清除过滤</el-button>
-    </div>
-    <el-tabs v-model="activeName" @tab-click="tabClick">
-      <!-- 未开工选项卡 -->
-      <el-tab-pane label="未开工" name="first">
-        <el-table
-          ref="filterTable"
-          :data="tableData.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
-          style="width: 100%"
-          :row-class-name="tableRowClassName"
-          stripe
-          @selection-change="handleSelectionChange"
-          @filter-change="filterChange"
-        >
-          <!-- reserve-selection属性保持选中状态 -->
-          <el-table-column
-            type="selection"
-            width="55"
-            reserve-selection
-            :selectable='selectInit'
-          >
-          </el-table-column>
-          <el-table-column
-            prop="modid"
-            width="60"
-            label="modid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="routeid"
-            width="60"
-            label="routeid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="product_name"
-            label="产品名称"
-            :filters="product_name"
-            :filter-method="filterHandler"
-            column-key="product_name"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="number"
-            label="工单"
-            :filters="pNumber"
-            :filter-method="filterHandler"
-            column-key="pNumber"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="figure_number"
-            label="零件图号"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="child_material"
-            label="规格"
-            sortable
-            width="180"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="standard"
-            label="开料尺寸"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="route"
-            label="加工工艺路线"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="backMark"
-            label="退产"
-            sortable
-          >
-          </el-table-column> -->
-          <!-- <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column> -->
-        </el-table>
-        <!-- 数据分页 -->
-        <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData.length">
-          </el-pagination>
-        </div>
-      </el-tab-pane>
-
-
-      <!-- 已排产选项卡 -->
-      <el-tab-pane label="已就工" name="second">
-
-        <!-- element table 
-            arrayObject.slice(start,end)方法使数据分页显示
-        -->
-        <el-table
-          ref="filterTable2"
-          :data="tableData2.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
-          style="width: 100%"
-          stripe
-          @selection-change="handleSelectionChange"
-          @filter-change="filterChange"
-        >
-          <el-table-column
-            type="selection"
-            width="55"
-            reserve-selection
-          >
-          </el-table-column>
-          <el-table-column
-            prop="modid"
-            width="60"
-            label="modid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="partid"
-            width="60"
-            label="partid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="fid"
-            width="60"
-            label="fid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="routeid"
-            width="60"
-            label="routeid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="product_name"
-            label="产品名称"
-            :filters="Product_name"
-            :filter-method="filterHandler"
-            column-key="Product_name"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="number"
-            label="工单"
-            :filters="PNumber"
-            :filter-method="filterHandler"
-            column-key="PNumber"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="figure_number"
-            label="零件图号"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="child_material"
-            label="规格"
-            width="180"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="standard"
-            label="开料尺寸"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="route"
-            label="加工工艺路线"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="stime"
-            label="就工时间"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column> -->
-          <!-- <el-table-column
-            prop="station"
-            label="工位"
-            sortable
-            :filter-method="filterHandler2"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="demand_area"
-            label="需求区"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="schedule_date"
-            label="完成时间"
-            sortable
-            :filter-method="filterHandler2"
-          >
-          </el-table-column> -->
-          <!-- <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column> -->
-        </el-table>
-        <!-- 数据分页 -->
-        <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange2"
-            @current-change="handleCurrentChange2"
-            :current-page="currentPage2"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize2"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData2.length">
-          </el-pagination>
-        </div>
-      </el-tab-pane>
-
-            <!-- 外协选项卡 -->
-      <el-tab-pane label="外部协助" name="exterior">
-        <el-table
-          ref="filterTable4"
-          :data="tableData4.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
-          style="width: 100%"
-          :row-class-name="tableRowClassName"
-          stripe
-          @selection-change="handleSelectionChange"
-          @filter-change="filterChange"
-        >
-          <!-- reserve-selection属性保持选中状态 -->
-          <el-table-column
-            type="selection"
-            width="55"
-            reserve-selection
-          >
-          </el-table-column>
-          <el-table-column
-            prop="modid"
-            width="60"
-            label="modid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="routeid"
-            width="60"
-            label="routeid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="product_name"
-            label="产品名称"
-            :filters="product_name"
-            :filter-method="filterHandler"
-            column-key="product_name"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="number"
-            label="工单"
-            :filters="pNumber"
-            :filter-method="filterHandler"
-            column-key="pNumber"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="figure_number"
-            label="零件图号"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="child_material"
-            label="规格"
-            width="180"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="standard"
-            label="开料尺寸"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="route"
-            label="加工工艺路线"
-            sortable
-          >
-          </el-table-column> -->
-          <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="finish"
-            label="是否完成"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="backMark"
-            label="退产"
-            sortable
-          >
-          </el-table-column> -->
-          <!-- <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column> -->
-        </el-table>
-        <!-- 数据分页 -->
-        <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData4.length">
-          </el-pagination>
-        </div>
-      </el-tab-pane>
-
-      <!-- 生产中选项卡 -->
-      <el-tab-pane label="已完成" name="third">
-        <!-- element table 
-            arrayObject.slice(start,end)方法使数据分页显示
-        -->
-        <el-table
-          ref="filterTable3"
-          :data="tableData3.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
-          style="width: 100%"
-          stripe
-          @selection-change="handleSelectionChange"
-          @filter-change="filterChange"
-        >
-          <el-table-column
-            type="selection"
-            width="55"
-            reserve-selection
-          >
-          </el-table-column>
-          <el-table-column
-            prop="modid"
-            width="60"
-            label="modid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="partid"
-            width="60"
-            label="partid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="fid"
-            width="60"
-            label="fid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="routeid"
-            width="60"
-            label="routeid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="product_name"
-            label="产品名称"
-            :filters="product_name"
-            :filter-method="filterHandler"
-            column-key="product_name"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="number"
-            label="工单"
-            :filters="pNumber"
-            :filter-method="filterHandler"
-            column-key="pNumber"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="figure_number"
-            label="零件图号"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="child_material"
-            label="规格"
-            width="180"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="standard"
-            label="开料尺寸"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="route"
-            label="加工工艺路线"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            prop="station"
-            label="工位"
-            sortable
-            :filter-method="filterHandler2"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="demand_area"
-            label="需求区"
-            sortable
-          >
-          </el-table-column> -->
-          <el-table-column
-            prop="stime"
-            label="就工时间"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="ftime"
-            label="完工时间"
-            sortable
-          >
-          </el-table-column>
-          <!-- <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column> -->
-        </el-table>
-        <!-- 数据分页 -->
-        <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange2"
-            @current-change="handleCurrentChange2"
-            :current-page="currentPage2"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize2"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData3.length">
-          </el-pagination>
-        </div>
-      </el-tab-pane>
-      
-       <!-- 报废品选项卡 -->
-      <!-- <el-tab-pane label="报废品" name="four"> -->
-        <!-- element table 
-            arrayObject.slice(start,end)方法使数据分页显示
-        -->
-        <!-- <el-table
-          ref="filterTable4"
-          :data="tableData4.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
-          style="width: 100%"
-          stripe
-          @selection-change="handleSelectionChange"
-          @filter-change="filterChange"
-        >
-          <el-table-column
-            type="selection"
-            width="55"
-            reserve-selection
-          >
-          </el-table-column>
-          <el-table-column
-            prop="modid"
-            width="60"
-            label="modid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="Wid"
-            width="60"
-            label="Wid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="partid"
-            width="60"
-            label="partid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="fid"
-            width="60"
-            label="fid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="routeid"
-            width="60"
-            label="routeid"
-            v-if=false
-          >
-          </el-table-column>
-          <el-table-column
-            prop="product_name"
-            label="产品名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="pNumber"
-            label="工单"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="figure_number"
-            label="零件图号"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="child_material"
-            label="规格"
-            width="180"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="route"
-            label="加工工艺路线"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="数量"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-            <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column>
-        </el-table> -->
-        <!-- 数据分页 -->
-        <!-- <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange2"
-            @current-change="handleCurrentChange2"
-            :current-page="currentPage2"
-            :page-sizes="[10, 25, 50, 100]"
-            :page-size="pageSize2"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData4.length">
-          </el-pagination>
-        </div>
-      </el-tab-pane> -->
-    </el-tabs>
-    <!-- form表单编辑 -->
-    <el-dialog title="信息详情" :visible.sync="hasInfoDialog">
-      <el-form :model="form">
-        <el-form-item label="产品信息" :label-width="formLabelWidth">
-          <el-input v-model="form.product_name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="工单" :label-width="formLabelWidth">
-          <el-input v-model="form.number" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="零件图号" :label-width="formLabelWidth">
-          <el-input v-model="form.figure_number" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="材料" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="规格" :label-width="formLabelWidth">
-          <el-input v-model="form.child_material" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="开料尺寸" :label-width="formLabelWidth">
-          <el-input v-model="form.standard" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="加工工艺路线" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="数量" :label-width="formLabelWidth">
-          <el-input v-model="form.count" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="工位" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="需求区" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="排产时间" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="计划完成" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="完成时间" :label-width="formLabelWidth">
-          <el-input  auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.remark" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="退产原因" :label-width="formLabelWidth">
-          <el-input v-model="form.reason" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="hasInfoDialog = false">取 消</el-button>
-        <el-button type="primary" @click="checkComfirm()" >修 改</el-button>
+    <div>
+      <!-- table上部按钮 -->
+      <div slot="table-actions" class="table-actions" v-if='show_div1'>
+        <el-button type="danger" value = 'ALL'  @click="select_WS('ALL')">全部车间</el-button>
+        <el-button type="primary" class="btn" value = 'K'  @click="select_WS('K')">K开料车间</el-button>
+        <el-button type="primary" class="btn" value = 'TK'  @click="select_WS('TK')">TK开料车间</el-button>
+        <el-button type="primary" class="btn" value = 'S'  @click="select_WS('S')">安装S</el-button>
+        <el-button type="primary" class="btn" value = 'F'  @click="select_WS('F')">玻璃钢F</el-button>
+        <el-button type="primary" class="btn" value = 'G'  @click="select_WS('G')">电气G</el-button>
+        <el-button type="primary" class="btn" value = 'T'  @click="select_WS('T')">机加T</el-button>
+        <el-button type="primary" class="btn" value = 'I'  @click="select_WS('I')">机械车间</el-button>
+        <el-button type="primary" class="btn" value = 'L'  @click="select_WS('L')">结构L</el-button>
+        <el-button type="primary" class="btn" value = 'J'  @click="select_WS('J')">探伤</el-button>
+        <!-- <el-button type="primary" class="btn" value = 'W'  @click="select_WS('W')">外协W</el-button> -->
       </div>
-    </el-dialog>
-    <!-- <el-dialog
-      title="排产"
-      :visible.sync="dialogVisible"
-      :before-close="handleClose"> -->
-      <!-- <el-form>
-        <el-form-item label="排产日期" :label-width="formLabelWidth">
-         <el-date-picker
-            v-model="schedule"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy 年 MM 月 dd 日"
-            value-format="yyyy-MM-dd"
+      <br/>
+      <div slot="table-actions" class="table-actions" >
+        <el-input v-model="searchValue" placeholder="请输入关键词" style="width: 200px;"></el-input>
+        <el-select v-model="searchCondition" placeholder="请选择要搜索的内容" style="margin-left: 16px">
+          <el-option
+            v-for="item in searchOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-button type="primary" @click.native="search" style="margin-left: 16px">搜索
+          <i class="el-icon-search el-icon--right"></i>
+        </el-button>
+        <!-- <el-button type="primary"  @click="dialogFormExport=true">导出</el-button> -->
+        <!-- <el-button type="primary" v-if="show_2btn"  @click="dialogVisible = true">排产</el-button> -->
+        <!-- <el-button type="primary" v-if="show_4btn"  @click="dialogFormBack = true">退产</el-button> -->
+        <!-- <el-button type="primary" v-if="show_5btn"  @click="dialogScrap = true">报废排产</el-button> -->
+        <!-- <el-button type="primary" v-if="show_3btn" @click="print()"  >生产计划表</el-button> -->
+        <el-button type="primary" v-if="show_6btn" @click="print2()"  >产品标志卡打印</el-button>
+        <!-- <el-button type="primary" v-if="show_3btn" @click="print2()"  >产品标志卡</el-button> -->
+        <!-- <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button> -->
+        <!-- <el-button type="primary" @click="clearFilter">清除过滤</el-button> -->
+        <el-button type="primary" @click="select_WS('ALL')">清除过滤</el-button>
+      </div>
+      <el-tabs v-model="activeName" @tab-click="tabClick">
+        <!-- 未开工选项卡 -->
+        <el-tab-pane label="未开工" name="first">
+          <el-table
+            ref="filterTable"
+            :data="tableData.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
+            style="width: 100%"
+            :row-class-name="tableRowClassName"
+            stripe
+            @selection-change="handleSelectionChange"
+            @filter-change="filterChange"
           >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="交付日期" :label-width="formLabelWidth">
+            <!-- reserve-selection属性保持选中状态 -->
+            <el-table-column
+              type="selection"
+              width="55"
+              reserve-selection
+              :selectable='selectInit'
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              width="60"
+              label="modid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="routeid"
+              width="60"
+              label="routeid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="product_name"
+              label="产品名称"
+              :filters="product_name"
+              :filter-method="filterHandler"
+              column-key="product_name"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="number"
+              label="工单"
+              :filters="pNumber"
+              :filter-method="filterHandler"
+              column-key="pNumber"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="figure_number"
+              label="零件图号"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="名称"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="child_material"
+              label="规格"
+              sortable
+              width="180"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="standard"
+              label="开料尺寸"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="route"
+              label="加工工艺路线"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="count"
+              label="数量"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              label="操作"
+              sortable
+            >
+              <template slot-scope="scope">
+                <el-button type="primary" @click="openDialog(scope.row.modid)">查看部件信息</el-button>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column
+              prop="backMark"
+              label="退产"
+              sortable
+            >
+            </el-table-column> -->
+            <!-- <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column> -->
+          </el-table>
+          <!-- 数据分页 -->
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
+
+
+        <!-- 已排产选项卡 -->
+        <el-tab-pane label="已就工" name="second">
+
+          <!-- element table 
+              arrayObject.slice(start,end)方法使数据分页显示
+          -->
+          <el-table
+            ref="filterTable2"
+            :data="tableData2.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
+            style="width: 100%"
+            stripe
+            @selection-change="handleSelectionChange"
+            @filter-change="filterChange"
+          >
+            <el-table-column
+              type="selection"
+              width="55"
+              reserve-selection
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              width="60"
+              label="modid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="partid"
+              width="60"
+              label="partid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="fid"
+              width="60"
+              label="fid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="routeid"
+              width="60"
+              label="routeid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="product_name"
+              label="产品名称"
+              :filters="Product_name"
+              :filter-method="filterHandler"
+              column-key="Product_name"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="number"
+              label="工单"
+              :filters="PNumber"
+              :filter-method="filterHandler"
+              column-key="PNumber"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="figure_number"
+              label="零件图号"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="名称"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="child_material"
+              label="规格"
+              width="180"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="standard"
+              label="开料尺寸"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="route"
+              label="加工工艺路线"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="count"
+              label="数量"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="stime"
+              label="就工时间"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              label="操作"
+              sortable
+            >
+              <template slot-scope="scope">
+                <el-button type="primary" @click="openDialog(scope.row.modid)">查看部件信息</el-button>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column
+              prop="count"
+              label="数量"
+              sortable
+            >
+            </el-table-column> -->
+            <!-- <el-table-column
+              prop="station"
+              label="工位"
+              sortable
+              :filter-method="filterHandler2"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="demand_area"
+              label="需求区"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="schedule_date"
+              label="完成时间"
+              sortable
+              :filter-method="filterHandler2"
+            >
+            </el-table-column> -->
+            <!-- <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column> -->
+          </el-table>
+          <!-- 数据分页 -->
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange2"
+              @current-change="handleCurrentChange2"
+              :current-page="currentPage2"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize2"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData2.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
+
+              <!-- 外协选项卡 -->
+        <el-tab-pane label="外部协助" name="exterior">
+          <el-table
+            ref="filterTable4"
+            :data="tableData4.slice( (currentPage-1)*pageSize, currentPage*pageSize)"
+            style="width: 100%"
+            :row-class-name="tableRowClassName"
+            stripe
+            @selection-change="handleSelectionChange"
+            @filter-change="filterChange"
+          >
+            <!-- reserve-selection属性保持选中状态 -->
+            <el-table-column
+              type="selection"
+              width="55"
+              reserve-selection
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              width="60"
+              label="modid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="routeid"
+              width="60"
+              label="routeid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="product_name"
+              label="产品名称"
+              :filters="product_name"
+              :filter-method="filterHandler"
+              column-key="product_name"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="number"
+              label="工单"
+              :filters="pNumber"
+              :filter-method="filterHandler"
+              column-key="pNumber"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="figure_number"
+              label="零件图号"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="名称"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="child_material"
+              label="规格"
+              width="180"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="standard"
+              label="开料尺寸"
+              sortable
+            >
+            </el-table-column>
+            <!-- <el-table-column
+              prop="route"
+              label="加工工艺路线"
+              sortable
+            >
+            </el-table-column> -->
+            <el-table-column
+              prop="count"
+              label="数量"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="finish"
+              label="是否完成"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              label="操作"
+              sortable
+            >
+              <template slot-scope="scope">
+                <el-button type="primary" @click="openDialog(scope.row.modid)">查看部件信息</el-button>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column
+              prop="backMark"
+              label="退产"
+              sortable
+            >
+            </el-table-column> -->
+            <!-- <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column> -->
+          </el-table>
+          <!-- 数据分页 -->
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData4.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
+
+        <!-- 生产中选项卡 -->
+        <el-tab-pane label="已完成" name="third">
+          <!-- element table 
+              arrayObject.slice(start,end)方法使数据分页显示
+          -->
+          <el-table
+            ref="filterTable3"
+            :data="tableData3.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
+            style="width: 100%"
+            stripe
+            @selection-change="handleSelectionChange"
+            @filter-change="filterChange"
+          >
+            <el-table-column
+              type="selection"
+              width="55"
+              reserve-selection
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              width="60"
+              label="modid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="partid"
+              width="60"
+              label="partid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="fid"
+              width="60"
+              label="fid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="routeid"
+              width="60"
+              label="routeid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="product_name"
+              label="产品名称"
+              :filters="product_name"
+              :filter-method="filterHandler"
+              column-key="product_name"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="number"
+              label="工单"
+              :filters="pNumber"
+              :filter-method="filterHandler"
+              column-key="pNumber"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="figure_number"
+              label="零件图号"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="名称"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="child_material"
+              label="规格"
+              width="180"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="standard"
+              label="开料尺寸"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="route"
+              label="加工工艺路线"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="count"
+              label="数量"
+              sortable
+            >
+            </el-table-column>
+            <!-- <el-table-column
+              prop="station"
+              label="工位"
+              sortable
+              :filter-method="filterHandler2"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="demand_area"
+              label="需求区"
+              sortable
+            >
+            </el-table-column> -->
+            <el-table-column
+              prop="stime"
+              label="就工时间"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="ftime"
+              label="完工时间"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              label="操作"
+              sortable
+            >
+              <template slot-scope="scope">
+                <el-button type="primary" @click="openDialog(scope.row.modid)">查看部件信息</el-button>
+              </template>
+            </el-table-column>
+            <!-- <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column> -->
+          </el-table>
+          <!-- 数据分页 -->
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange2"
+              @current-change="handleCurrentChange2"
+              :current-page="currentPage2"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize2"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData3.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane>
+        
+        <!-- 报废品选项卡 -->
+        <!-- <el-tab-pane label="报废品" name="four"> -->
+          <!-- element table 
+              arrayObject.slice(start,end)方法使数据分页显示
+          -->
+          <!-- <el-table
+            ref="filterTable4"
+            :data="tableData4.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
+            style="width: 100%"
+            stripe
+            @selection-change="handleSelectionChange"
+            @filter-change="filterChange"
+          >
+            <el-table-column
+              type="selection"
+              width="55"
+              reserve-selection
+            >
+            </el-table-column>
+            <el-table-column
+              prop="modid"
+              width="60"
+              label="modid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="Wid"
+              width="60"
+              label="Wid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="partid"
+              width="60"
+              label="partid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="fid"
+              width="60"
+              label="fid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="routeid"
+              width="60"
+              label="routeid"
+              v-if=false
+            >
+            </el-table-column>
+            <el-table-column
+              prop="product_name"
+              label="产品名称"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="pNumber"
+              label="工单"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="figure_number"
+              label="零件图号"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="名称"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="child_material"
+              label="规格"
+              width="180"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="route"
+              label="加工工艺路线"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              prop="count"
+              label="数量"
+              sortable
+            >
+            </el-table-column>
+            <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table> -->
+          <!-- 数据分页 -->
+          <!-- <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange2"
+              @current-change="handleCurrentChange2"
+              :current-page="currentPage2"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize2"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData4.length">
+            </el-pagination>
+          </div>
+        </el-tab-pane> -->
+      </el-tabs>
+      <!-- form表单编辑 -->
+      <el-dialog title="信息详情" :visible.sync="hasInfoDialog">
+        <el-form :model="form">
+          <el-form-item label="产品信息" :label-width="formLabelWidth">
+            <el-input v-model="form.product_name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="工单" :label-width="formLabelWidth">
+            <el-input v-model="form.number" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="零件图号" :label-width="formLabelWidth">
+            <el-input v-model="form.figure_number" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="名称" :label-width="formLabelWidth">
+            <el-input v-model="form.name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="材料" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="规格" :label-width="formLabelWidth">
+            <el-input v-model="form.child_material" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="开料尺寸" :label-width="formLabelWidth">
+            <el-input v-model="form.standard" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="加工工艺路线" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="数量" :label-width="formLabelWidth">
+            <el-input v-model="form.count" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="工位" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="需求区" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="排产时间" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="计划完成" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="完成时间" :label-width="formLabelWidth">
+            <el-input  auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" :label-width="formLabelWidth">
+            <el-input v-model="form.remark" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="退产原因" :label-width="formLabelWidth">
+            <el-input v-model="form.reason" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="hasInfoDialog = false">取 消</el-button>
+          <el-button type="primary" @click="checkComfirm()" >修 改</el-button>
+        </div>
+      </el-dialog>
+      <!-- <el-dialog
+        title="排产"
+        :visible.sync="dialogVisible"
+        :before-close="handleClose"> -->
+        <!-- <el-form>
+          <el-form-item label="排产日期" :label-width="formLabelWidth">
           <el-date-picker
-            v-model="overdata"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy 年 MM 月 dd 日"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item> -->
-        <!-- <el-form-item label="工位" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox label="切管"></el-checkbox>
-            <el-checkbox label="锯床"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="开料尺寸定额" :label-width="formLabelWidth">
-        </el-form-item> -->
-      <!-- </el-form> -->
-      <!-- <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSchedule">确 定</el-button>
-      </span> -->
-    <!-- </el-dialog> -->
-    <!-- 报废品排产 -->
-    <el-dialog
-      title="报废品排产"
-      :visible.sync="dialogScrap"
-      :before-close="handleClose">
-      <el-form>
-        <el-form-item label="排产日期" :label-width="formLabelWidth">
-         <el-date-picker
-            v-model="scheduleScrap"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy 年 MM 月 dd 日"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="交付日期" :label-width="formLabelWidth">
+              v-model="schedule"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="交付日期" :label-width="formLabelWidth">
+            <el-date-picker
+              v-model="overdata"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
+          </el-form-item> -->
+          <!-- <el-form-item label="工位" :label-width="formLabelWidth">
+            <el-checkbox-group v-model="checkList">
+              <el-checkbox label="切管"></el-checkbox>
+              <el-checkbox label="锯床"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="开料尺寸定额" :label-width="formLabelWidth">
+          </el-form-item> -->
+        <!-- </el-form> -->
+        <!-- <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleSchedule">确 定</el-button>
+        </span> -->
+      <!-- </el-dialog> -->
+      <!-- 报废品排产 -->
+      <el-dialog
+        title="报废品排产"
+        :visible.sync="dialogScrap"
+        :before-close="handleClose">
+        <el-form>
+          <el-form-item label="排产日期" :label-width="formLabelWidth">
           <el-date-picker
-            v-model="overdataScrap"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy 年 MM 月 dd 日"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogScrap = false">取 消</el-button>
-        <el-button type="primary" @click="handleScrap">确 定</el-button>
-      </span>
-    </el-dialog>
-     <!-- 导出Excel条件对话框 -->
-    <el-dialog title="导出" :visible.sync="dialogFormExport">
-      <el-form :model="form">
-        <el-form-item label="产品名称" :label-width="formLabelWidth">
-          <el-input v-model="form.productName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="车间" :label-width="formLabelWidth">
-          <el-select v-model="form.workShop" placeholder="请选择车间">
-            <el-option label="全部" value="0"></el-option>
-            <!-- <el-option label="W车间" value="1"></el-option> -->
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormExport = false">取 消</el-button>
-        <el-button type="primary" @click="exportExcel">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 退产模态框 -->
-    <el-dialog title="导出" :visible.sync="dialogFormBack">
-      <el-form :model="form">
-        <el-form-item label="退产原因" :label-width="formLabelWidth">
-          <el-input v-model="form.backReason" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormBack = false">取 消</el-button>
-        <el-button type="primary" @click="dialogBack">确 定</el-button>
-      </div>
-    </el-dialog>
+              v-model="scheduleScrap"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="交付日期" :label-width="formLabelWidth">
+            <el-date-picker
+              v-model="overdataScrap"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogScrap = false">取 消</el-button>
+          <el-button type="primary" @click="handleScrap">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 导出Excel条件对话框 -->
+      <el-dialog title="导出" :visible.sync="dialogFormExport">
+        <el-form :model="form">
+          <el-form-item label="产品名称" :label-width="formLabelWidth">
+            <el-input v-model="form.productName" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="车间" :label-width="formLabelWidth">
+            <el-select v-model="form.workShop" placeholder="请选择车间">
+              <el-option label="全部" value="0"></el-option>
+              <!-- <el-option label="W车间" value="1"></el-option> -->
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormExport = false">取 消</el-button>
+          <el-button type="primary" @click="exportExcel">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!-- 退产模态框 -->
+      <el-dialog title="导出" :visible.sync="dialogFormBack">
+        <el-form :model="form">
+          <el-form-item label="退产原因" :label-width="formLabelWidth">
+            <el-input v-model="form.backReason" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormBack = false">取 消</el-button>
+          <el-button type="primary" @click="dialogBack">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
+    <div class="dialog" v-show="dialog_show">
+      <part :lxid="lxid"></part>
+      <el-button type="danger" class="dialog_btn" @click="closedialog()">关闭部件详情信息</el-button> 
+    </div>
   </div>
   
 </template>
@@ -864,6 +906,7 @@
 <script>
 import { VueGoodTable } from "vue-good-table";
 import axios from "axios";
+import Part from '../components/Part'
 export default {
   name: "TableList",
   inject: ['reload'],
@@ -934,11 +977,14 @@ export default {
         }], // 搜索下拉选项
       value: '',
       searchValue:'',
-      searchCondition:''
+      searchCondition:'',
+      lxid:'',
+      dialog_show:false
     };
   },
   components: {
-    VueGoodTable
+    VueGoodTable,
+    Part
   },
   mounted() {
     var flag = "Undelivered"
@@ -1403,6 +1449,25 @@ export default {
             }else{    
               return true  //可勾选
             }
+      },
+
+      openDialog(modid){
+        let that = this
+        var fd = new FormData()
+        fd.append('flag',"getlxid")
+        fd.append('modid',modid)
+        axios.post(`${this.baseURL}/productionplan/list.php`,fd)
+        .then(function(res){
+          // 成功回调
+          that.lxid=res.data;
+          // alert(that.lxid)
+          that.dialog_show=true;
+
+        })        
+      },
+
+      closedialog(){
+        this.dialog_show=false;
       }
   }
 };
@@ -1415,5 +1480,16 @@ export default {
 <style>
   .warning-row td{
     background: rgb(241, 245, 12) !important;
+  }
+  .dialog{
+    position:fixed;
+    top:100px ;
+    z-index: 10;
+    width: 1000px;
+  }
+  .dialog_btn{
+    position:absolute;
+    bottom: 54px;
+    right: 15px;
   }
 </style>
