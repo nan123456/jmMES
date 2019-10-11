@@ -12,7 +12,7 @@
           <el-tab-pane label="已完成" name="completed"></el-tab-pane>
           <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
           <el-tab-pane label="全部部件" name="all"></el-tab-pane> -->
-          <el-tab-pane label="PLM获取部件" name="plm"></el-tab-pane> 
+          <el-tab-pane label="PLM数据图档读取" name="plm"></el-tab-pane> 
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -41,7 +41,18 @@
                         style="width:130px">
                       </el-input>
                       <el-button type="primary" @click="handleFifter()" class="tree_btn" style="margin-left:5px">查询</el-button>
-                      <el-button @click="resolve()" class="tree_btn" style="margin-righr:-2px">重置</el-button>
+                      <el-button @click="resolve()" class="tree_btn" style="margin-right:-2px">重置</el-button>
+                    </el-form-item>
+                    <el-form-item v-show="inputshow2"> 
+                        <el-select v-model="selectvalue2" class="selectdiv2" placeholder="请选择需要读取的产品">
+                          <el-option
+                            v-for="item in options2"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                      <el-button type="primary" @click="getPLM()" class="tree_btn2" style="margin-right:-2px">读取设计文档</el-button>
                     </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
@@ -76,6 +87,8 @@
                     :load="loadNode2"
                     :props="defaultProps"
                     @node-click="handleNodeClick"
+                    node-key="id"
+                    :default-expanded-keys="[0]"
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">
@@ -191,11 +204,15 @@ export default {
         arr:[],
         result_arr:[],
         options: [],
-        selectvalue:''
+        selectvalue:'',
+        inputshow2:false,
+        options2: [],
+        selectvalue2:'',
       };
     },
   created() {
     this.getProject();
+    this.getPLMProject();
   },
     mounted:function(){
       if(key=='1'){
@@ -220,6 +237,7 @@ export default {
           case 'completed':
           key = 4;
           this.inputshow=true;
+          this.inputshow2=false;
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
@@ -228,6 +246,7 @@ export default {
           case 'ongoing':
           key = 3;
           this.inputshow=true;
+          this.inputshow2=false;
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
@@ -236,6 +255,7 @@ export default {
           case 'ordinary':
           key = 2;
           this.inputshow=true;
+          this.inputshow2=false;
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
@@ -244,6 +264,7 @@ export default {
           case 'momentous':
           key = 1;
           this.inputshow=true;
+          this.inputshow2=false;
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
@@ -252,6 +273,7 @@ export default {
           case 'exterior':
           key = 5;
           this.inputshow=true;
+          this.inputshow2=false;
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
@@ -260,6 +282,7 @@ export default {
           case 'all':
           key = 6;
           this.inputshow=true;
+          this.inputshow2=false;
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
@@ -268,6 +291,7 @@ export default {
           case 'plm':
           key = 7;
           this.inputshow=false;
+          this.inputshow2=true;
           this.updateTree1=false;
           this.updateTree2=false;
           this.updateTree3=true;
@@ -372,7 +396,19 @@ export default {
           // this.selectvalue=res.data.data[0].value;
         })     
       },
-
+      getPLMProject(){
+        // console.log(this.options)
+        var fd = new FormData()
+        fd.append('flag','getPLMProject')
+        axios.post(`${this.baseURL}/part.php`,fd).then((res)=>{
+          // console.log(res.data.data)
+          this.options2=res.data.data;
+          // this.selectvalue=res.data.data[0].value;
+        }) 
+      },
+      getPLM(){
+          alert("未检测到PLM数据源，请在同一局域网下读取");
+      },
       // Tree 控件显示
       loadNode1(node, resolve){
           // 定义0级节点
@@ -534,5 +570,13 @@ export default {
   .selectdiv{
     margin-bottom: 10px;
     width: 275px
+  }
+  .selectdiv2{
+    margin-bottom: 10px;
+    width: 180px   
+  }
+  .tree_btn2{
+    width: 100px;
+    text-align: center;    
   }
 </style>
