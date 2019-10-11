@@ -43,10 +43,10 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="handleQrcode(partfile.id)">产品标识卡</el-button>
-                <el-button type="primary" @click="handleWelding(partfile.figure_number,partfile.pNumber)">焊接工艺卡</el-button>
-                <el-button type="primary" @click="handleCrafts(partfile.figure_number,partfile.pNumber)">机械制造卡</el-button>
-                <el-button type="primary" @click="handleHeating(partfile.figure_number,partfile.pNumber)">热处理工艺卡</el-button>
-                <el-button type="primary" @click="handleMaching(partfile.figure_number,partfile.pNumber)">机械加工卡</el-button>
+                <el-button type="primary" v-if='showWelding' @click="handleWelding(partfile.figure_number,partfile.pNumber)">焊接工艺卡</el-button>
+                <el-button type="primary" v-if="showCrafts" @click="handleCrafts(partfile.figure_number,partfile.pNumber)">机械制造卡</el-button>
+                <el-button type="primary" v-if="showHot" @click="handleHeating(partfile.figure_number,partfile.pNumber)">热处理工艺卡</el-button>
+                <el-button type="primary" v-if="showMach" @click="handleMaching(partfile.figure_number,partfile.pNumber)">机械加工卡</el-button>
               </el-form-item>
             </el-form>
           </el-collapse-item>
@@ -101,7 +101,7 @@
             <div v-for="(tdata,index) in tableData" :key="index">
               <span>{{tdata.route}}</span>
               <div v-for="(photo,i) in photo[index]" :key="i">
-                <img :src="item[index+i]" class="img"/>
+                <img v-if='item[index+i]' :src="item[index+i]" class="img"/>
               </div>
             </div>
             <!-- <img :src="photourl" class="img"/> -->
@@ -128,14 +128,17 @@ export default {
       photo:[],//按车间顺序照片个数
       activeName: 'third',
       tableData: [],
-      photourl:''
+      photourl:'',
+      showWelding:true,
+      showCrafts:true,
+      showHot:true,
+      showMach:true
     }
   },// 监听数据的变化
   watch: {
     lxid : {
       immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
       handler(val) {
-        // console.log(val)
         this.mylxid = val
       }  
     },
@@ -143,7 +146,6 @@ export default {
     mylxid: {
       immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
       handler(val) {
-        console.log(val)
         var file = new FormData() //定义获取partschdata的传值
         file.append('id',val)
         file.append('flag','partfile')
@@ -170,8 +172,8 @@ export default {
         }
       });
       // this.photourl=res.data.data[0].photourl;
-      console.log(this.tableData)
-      console.log(this.item)
+      // console.log(this.tableData)
+      // console.log(this.item)
     },
     // 产品标识卡
     handleQrcode(id) {
@@ -182,7 +184,55 @@ export default {
       if(res.data.success =='success'){
         this.partfile = res.data.data
       }
-      // console.log(this.partfile)
+      //判断是否存在焊接工艺卡
+      var fd = new FormData()
+        fd.append("flag","welding")
+        fd.append("figure_number",this.partfile.figure_number)
+        fd.append("pnumber",this.partfile.pNumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
+          console.log(res)
+          if(res.data.success=='success'){
+            this.showWelding = true
+          }else {
+            this.showWelding = false
+          }
+        })
+        //判断是否存在机械工艺卡
+        var fd1 = new FormData()
+        fd1.append("flag","crafts")
+        fd1.append("figure_number",this.partfile.figure_number)
+        fd1.append("pnumber",this.partfile.pnumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd1).then((res)=>{
+          if(res.data.success=='success'){
+            this.showCrafts = true
+          }else {
+            this.showCrafts = false
+          }
+        })
+        //热处理
+        var fd2 = new FormData()
+        fd2.append("flag","heating")
+        fd2.append("figure_number",this.partfile.figure_number)
+        fd2.append("pnumber",this.partfile.pnumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd2).then((res)=>{
+          if(res.data.success=='success'){
+            this.showHot = true
+          }else {
+            this.showHot = false
+          }
+        })
+        //机加工
+        var fd3 = new FormData()
+        fd3.append("flag","maching")
+        fd3.append("figure_number",this.partfile.figure_number)
+        fd3.append("pnumber",this.partfile.pnumber)
+        axios.post(`${this.baseURL}/craft/part_card.php`,fd3).then((res)=>{
+          if(res.data.success=='success'){
+            this.showMach = true
+          }else {
+            this.showMach = false
+          }
+        })
     },
     // 焊接工艺卡
     handleWelding(figure_number,pnumber) {
