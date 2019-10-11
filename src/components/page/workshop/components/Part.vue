@@ -114,7 +114,7 @@ export default {
       }
     },
     getPartschdataSucc(res) {
-      // console.log(res.data)
+      console.log(res.data)
       this.partschdata = {"item":[]}
       if(res.data.success) {
         this.partschdata = res.data

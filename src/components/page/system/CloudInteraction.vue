@@ -1,5 +1,5 @@
 <template>
-  <div class="table">
+  <div class="table" ref="body">
         <!-- <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-tickets"></i> 云平台交互</el-breadcrumb-item>
@@ -10,7 +10,8 @@
 
             
         </div> -->
-        <el-button type="primary" @click="dowmload" class="right" disabled>下载</el-button>
+        <!-- <el-button type="primary" @click="dowmload" class="right" disabled>下载</el-button> -->
+        <el-button type="primary" @click="dowmload2" class="right" >归档数据文件导出</el-button>
         <div class="container">
           <el-container style="height: 600px;">
             <el-container style="height: 600px;">
@@ -119,6 +120,9 @@ export default {
         //下载
         dowmload(){
              window.open(`${this.baseURL}`+"/Test.php")
+        },
+        dowmload2(){
+            window.open('http://47.106.161.130:8081/jmmes/jsonfile.zip')
         },
       // 过滤查询
       handleFifter() {

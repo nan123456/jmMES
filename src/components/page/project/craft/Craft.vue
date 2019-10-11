@@ -11,8 +11,8 @@
           <!-- <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
           <el-tab-pane label="已完成" name="completed"></el-tab-pane>
           <el-tab-pane label="外部协助" name="exterior"></el-tab-pane>
-          <el-tab-pane label="全部部件" name="all"></el-tab-pane>
-          <el-tab-pane label="PLM获取部件" name="plm"></el-tab-pane> -->
+          <el-tab-pane label="全部部件" name="all"></el-tab-pane> -->
+          <el-tab-pane label="PLM获取部件" name="plm"></el-tab-pane> 
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -145,7 +145,7 @@
           </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogUpload = false" v-if="quxiao">取 消</el-button>
-          <el-button type="primary" @click="uploadFile" v-if="save">保存</el-button>
+          <el-button type="primary" @click="uploadFile" v-if="save">确认导入</el-button>
           <el-button v-if="wait">请稍等</el-button>
         </div>
         </el-dialog>

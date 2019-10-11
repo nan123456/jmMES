@@ -366,17 +366,17 @@
             <el-table-column
               prop="product_name"
               label="产品名称"
-              :filters="product_name"
+              :filters="Product_name"
               :filter-method="filterHandler"
-              column-key="product_name"
+              column-key="Product_name"
             >
             </el-table-column>
             <el-table-column
               prop="number"
               label="工单"
-              :filters="pNumber"
+              :filters="PNumber"
               :filter-method="filterHandler"
-              column-key="pNumber"
+              column-key="PNumber"
             >
             </el-table-column>
             <el-table-column
@@ -896,7 +896,7 @@
       </el-dialog>
     </div>
     <div class="dialog" v-show="dialog_show">
-      <part :lxid="lxid"></part>
+      <part class="dialog_part" :lxid="lxid"></part>
       <el-button type="danger" class="dialog_btn" @click="closedialog()">关闭部件详情信息</el-button> 
     </div>
   </div>
@@ -1486,10 +1486,16 @@ export default {
     top:100px ;
     z-index: 10;
     width: 1000px;
+
   }
   .dialog_btn{
     position:absolute;
-    bottom: 54px;
+    /* bottom: 54px; */
+    top: 5px;
     right: 15px;
+  }
+  .dialog_part{
+    height: 750px;
+    overflow:scroll;
   }
 </style>
