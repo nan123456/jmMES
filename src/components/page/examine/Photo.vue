@@ -18,7 +18,7 @@ export default {
         var i =0
         console.log(url_arr)
         for(i=0;i < url_arr.length;i++){
-            this.urls.push('http://47.106.161.130:8081/jmmes/app/uploadfiles/'+url_arr[i])
+            this.urls.push('http://47.106.161.130:80/jmmes/app/uploadfiles/'+url_arr[i])
         }
         console.log(this.urls)
     },

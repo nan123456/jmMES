@@ -40,7 +40,7 @@ export default {
       ],
       rows: [{
         Serial:"K开料车间",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=K"
+        url:"http://47.106.161.130:80/jmlook/#/?workshop=K"
       },{
         Serial:"TK开料车间",
         url:"http://47.106.161.130:8081/jmlook/#/?workshop=TK"

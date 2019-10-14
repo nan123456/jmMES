@@ -122,7 +122,7 @@ export default {
              window.open(`${this.baseURL}`+"/Test.php")
         },
         dowmload2(){
-            window.open('http://47.106.161.130:8081/jmmes/jsonfile.zip')
+            window.open('http://47.106.161.130:80/jmmes/jsonfile.zip')
         },
       // 过滤查询
       handleFifter() {
