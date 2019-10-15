@@ -40,34 +40,34 @@ export default {
       ],
       rows: [{
         Serial:"K开料车间",
-        url:"http://47.106.161.130:80/jmlook/#/?workshop=K"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=K"
       },{
         Serial:"TK开料车间",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=TK"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=TK"
       },{
         Serial:"安装S",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=S"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=S"
       },{
         Serial:"玻璃钢F",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=F"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=F"
       },{
         Serial:"电气G",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=G"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=G"
       },{
         Serial:"机加T",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=T"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=T"
       },{
         Serial:"机械车间",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=I"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=I"
       },{
         Serial:"结构L",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=L"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=L"
       },{
         Serial:"探伤",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=J"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=J"
       },{
         Serial:"外协W",
-        url:"http://47.106.161.130:8081/jmlook/#/?workshop=W"
+        url:"http://jinmabrand.work/jmlook/#/?workshop=W"
       }]
     };
   },

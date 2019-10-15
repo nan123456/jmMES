@@ -76,7 +76,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="product_name"
               :filter-method="filterHandler"
               column-key="product_name"
@@ -98,7 +98,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -216,7 +216,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="Product_name"
               :filter-method="filterHandler"
               column-key="Product_name"
@@ -238,7 +238,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -365,7 +365,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="Product_name"
               :filter-method="filterHandler"
               column-key="Product_name"
@@ -387,7 +387,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -418,8 +418,11 @@
             </el-table-column>
             <el-table-column
               prop="finish"
-              label="是否完成"
+              label="检验状态"
               sortable
+              :filters="State"
+              :filter-method="filterHandler"
+              column-key="State"
             >
             </el-table-column>
             <el-table-column
@@ -509,7 +512,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="product_name"
               :filter-method="filterHandler"
               column-key="product_name"
@@ -531,7 +534,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -938,6 +941,10 @@ export default {
       PNumber: [],
       Product_name: [],
       columnsKey: [],
+      State:[
+        {text:"未检验",value:"未检验"},
+        {text:"已检验",value:"已检验"}
+      ],
       modid: [],
       routeid: [],
       Wid:[],
@@ -1115,6 +1122,7 @@ export default {
           for(let i=0; i < length3; i++) {
             this.Product_name.push({text:res.Product_name[i].F5,value:res.Product_name[i].F5})
           }
+          console.log(this.Product_name)
           // checkbox 工单
           let length4 = res.PNumber.length
           for(let i=0; i < length4; i++) {
