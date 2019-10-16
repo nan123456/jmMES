@@ -378,6 +378,13 @@ export default {
         })
         .catch(_ => {});
     },
+    //异步重置搜索
+    ResetSearch(){
+      this.newButtonShow = [false,false,false,false,false];
+      this.selectedTreeNode.relateId = "";
+      this.selectedTreeNode.tableFlag = "a";
+      // console.log(this.selectedTreeNode)
+    },
             
     //打开新建焊接模态框
     openWeldingDialog(){

@@ -1494,16 +1494,17 @@ export default {
     top:100px ;
     z-index: 10;
     width: 1000px;
-
+    overflow-x: visible;
+    overflow-y: visible;
   }
   .dialog_btn{
     position:absolute;
     /* bottom: 54px; */
     top: 5px;
-    right: 15px;
+    right: 10px;
   }
   .dialog_part{
     height: 750px;
-    overflow:scroll;
+    /* overflow:scroll; */
   }
 </style>
