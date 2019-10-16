@@ -133,7 +133,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <el-button type="primary" @click="openDialog(scope.row.modid)">查看部件信息</el-button>
+                <el-button type="primary" @click="openDialog(scope.row.modid);">查看部件信息</el-button>
               </template>
             </el-table-column>
             <!-- <el-table-column
@@ -900,8 +900,9 @@
     </div>
     <div class="dialog" v-show="dialog_show">
       <part class="dialog_part" :lxid="lxid"></part>
-      <el-button type="danger" class="dialog_btn" @click="closedialog()">关闭部件详情信息</el-button> 
+      <el-button type="danger" class="dialog_btn" @click="closedialog();">关闭部件详情信息</el-button> 
     </div>
+    <div class='popContainer' v-show="this.popContainershow"></div>
   </div>
   
 </template>
@@ -986,7 +987,8 @@ export default {
       searchValue:'',
       searchCondition:'',
       lxid:'',
-      dialog_show:false
+      dialog_show:false,
+      popContainershow:false,
     };
   },
   components: {
@@ -1461,6 +1463,7 @@ export default {
 
       openDialog(modid){
         let that = this
+        this.popContainershow=true;
         var fd = new FormData()
         fd.append('flag',"getlxid")
         fd.append('modid',modid)
@@ -1476,6 +1479,7 @@ export default {
 
       closedialog(){
         this.dialog_show=false;
+        this.popContainershow=false;
       }
   }
 };
@@ -1492,7 +1496,7 @@ export default {
   .dialog{
     position:fixed;
     top:100px ;
-    z-index: 10;
+    z-index: 20;
     width: 1000px;
     overflow-x: visible;
     overflow-y: visible;
@@ -1506,5 +1510,14 @@ export default {
   .dialog_part{
     height: 750px;
     /* overflow:scroll; */
+  }
+  div.popContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 10;
   }
 </style>
