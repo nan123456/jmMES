@@ -62,6 +62,8 @@
                         :data="treeData" 
                         :props="defaultProps" 
                         :highlight-current="true"
+                        node-key="id"
+                        :default-expanded-keys='[1]'
                         @node-click="handleNodeClick">
                     </el-tree>
                 </el-aside>
@@ -105,6 +107,7 @@ export default {
                 }
             ],
             vaguelydata: "",
+            TreeArr:[]
         }
     },
     created() {
@@ -290,7 +293,7 @@ export default {
         VaguelySelect(){
             axios.get(`${this.baseURL}/basicdata/document.php?flag=VaguelySelect&vaguelydata=${this.vaguelydata}`)
             .then((response) => {
-                this.treeData = response.data.data
+                this.treeData = response.data.data;
             })
             .catch(function(error){
                 console.log(error)

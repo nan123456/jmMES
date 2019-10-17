@@ -64,7 +64,7 @@
                     :props="defaultProps"
                     @node-click="handleNodeClick"
                     node-key="id"
-                    :default-expanded-keys="[0]"
+                    :default-expanded-keys="[0,1]"
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">
