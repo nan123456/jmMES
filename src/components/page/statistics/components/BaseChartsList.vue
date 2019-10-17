@@ -49,14 +49,18 @@
             </el-table-column>
             <el-table-column
                 prop="product_name"
-                label="产品名称"
-                sortable
+                label="项目名称"
+                :filters="product_name"
+                :filter-method="filterHandler"
+                column-key="product_name"
             >
             </el-table-column>
             <el-table-column
                 prop="number"
-                label="工单"
-                sortable
+                label="工单号"
+                :filters="pNumber"
+                :filter-method="filterHandler"
+                column-key="pNumber"
             >
             </el-table-column>
             <el-table-column
@@ -67,7 +71,7 @@
             </el-table-column>
             <el-table-column
                 prop="name"
-                label="名称"
+                label="零件名称"
                 sortable
             >
             </el-table-column>
@@ -139,6 +143,8 @@ export default {
             tableData: [],
             FChild_material: [],
             search: '',
+            product_name:[],
+            pNumber:[],
         }
     },
     components: {
@@ -163,6 +169,7 @@ export default {
                 .then(this.getDataSucc);
          },
          getDataSucc(res) {
+             this.ResetBox();
              if(res.data.success=="error"){
                  alert("暂无数据")
              }
@@ -179,6 +186,14 @@ export default {
                 let length2 = res.fChild_material.length
                 for(let i=0; i < length2; i++) {
                     this.fChild_material.push({text:res.fChild_material[i].f5,value:res.fChild_material[i].f5})
+                }
+                let length3 = res.product_name.length
+                for(let i=0; i < length3; i++) {
+                    this.product_name.push({text:res.product_name[i].f6,value:res.product_name[i].f6})
+                }
+                let length4 = res.pNumber.length
+                for(let i=0; i < length4; i++) {
+                    this.pNumber.push({text:res.pNumber[i].f7,value:res.pNumber[i].f7})
                 }
             }  
             }     
@@ -201,6 +216,12 @@ export default {
         handleCurrentChange(val) {
         this.currentPage = val;
         },
+        //重置筛选下拉框
+        ResetBox(){
+            this.fChild_material = [];
+            this.product_name = [];
+            this.pNumber = [];
+        },        
         //获取模糊查询数据
         getselectData() {
             var fd = new FormData()

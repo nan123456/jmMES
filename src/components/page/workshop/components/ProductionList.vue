@@ -76,7 +76,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="product_name"
               :filter-method="filterHandler"
               column-key="product_name"
@@ -98,7 +98,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -133,7 +133,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <el-button type="primary" @click="openDialog(scope.row.modid)">查看部件信息</el-button>
+                <el-button type="primary" @click="openDialog(scope.row.modid);">查看部件信息</el-button>
               </template>
             </el-table-column>
             <!-- <el-table-column
@@ -216,7 +216,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="Product_name"
               :filter-method="filterHandler"
               column-key="Product_name"
@@ -238,7 +238,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -365,7 +365,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="Product_name"
               :filter-method="filterHandler"
               column-key="Product_name"
@@ -387,7 +387,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -418,8 +418,11 @@
             </el-table-column>
             <el-table-column
               prop="finish"
-              label="是否完成"
+              label="检验状态"
               sortable
+              :filters="State"
+              :filter-method="filterHandler"
+              column-key="State"
             >
             </el-table-column>
             <el-table-column
@@ -509,7 +512,7 @@
             </el-table-column>
             <el-table-column
               prop="product_name"
-              label="产品名称"
+              label="项目名称"
               :filters="product_name"
               :filter-method="filterHandler"
               column-key="product_name"
@@ -531,7 +534,7 @@
             </el-table-column>
             <el-table-column
               prop="name"
-              label="名称"
+              label="零件名称"
               sortable
             >
             </el-table-column>
@@ -897,8 +900,9 @@
     </div>
     <div class="dialog" v-show="dialog_show">
       <part class="dialog_part" :lxid="lxid"></part>
-      <el-button type="danger" class="dialog_btn" @click="closedialog()">关闭部件详情信息</el-button> 
+      <el-button type="danger" class="dialog_btn" @click="closedialog();">关闭部件详情信息</el-button> 
     </div>
+    <div class='popContainer' v-show="this.popContainershow"></div>
   </div>
   
 </template>
@@ -938,6 +942,10 @@ export default {
       PNumber: [],
       Product_name: [],
       columnsKey: [],
+      State:[
+        {text:"未检验",value:"未检验"},
+        {text:"已检验",value:"已检验"}
+      ],
       modid: [],
       routeid: [],
       Wid:[],
@@ -979,7 +987,8 @@ export default {
       searchValue:'',
       searchCondition:'',
       lxid:'',
-      dialog_show:false
+      dialog_show:false,
+      popContainershow:false,
     };
   },
   components: {
@@ -1115,6 +1124,7 @@ export default {
           for(let i=0; i < length3; i++) {
             this.Product_name.push({text:res.Product_name[i].F5,value:res.Product_name[i].F5})
           }
+          console.log(this.Product_name)
           // checkbox 工单
           let length4 = res.PNumber.length
           for(let i=0; i < length4; i++) {
@@ -1453,6 +1463,7 @@ export default {
 
       openDialog(modid){
         let that = this
+        this.popContainershow=true;
         var fd = new FormData()
         fd.append('flag',"getlxid")
         fd.append('modid',modid)
@@ -1468,6 +1479,7 @@ export default {
 
       closedialog(){
         this.dialog_show=false;
+        this.popContainershow=false;
       }
   }
 };
@@ -1484,18 +1496,28 @@ export default {
   .dialog{
     position:fixed;
     top:100px ;
-    z-index: 10;
+    z-index: 20;
     width: 1000px;
-
+    overflow-x: visible;
+    overflow-y: visible;
   }
   .dialog_btn{
     position:absolute;
     /* bottom: 54px; */
     top: 5px;
-    right: 15px;
+    right: 10px;
   }
   .dialog_part{
     height: 750px;
-    overflow:scroll;
+    /* overflow:scroll; */
+  }
+  div.popContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 10;
   }
 </style>

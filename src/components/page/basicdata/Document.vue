@@ -18,7 +18,7 @@
                         style="width:44%"
                         ></el-input>
                         <el-button type="primary" @click="VaguelySelect()">搜索</el-button>
-                        <el-button type="danger" @click="getTreeData();vaguelydata=''">重置</el-button>
+                        <el-button type="danger" @click="getTreeData();vaguelydata='';ResetSearch()">重置</el-button>
                     </div>
                     <!-- <el-dialog
                         title="树节点新建"
@@ -120,6 +120,10 @@ export default {
             .catch(function(error){
                 console.log(error)
             })
+        },
+        //异步重置
+        ResetSearch(){
+            this.$refs.docList.ResetSearch()
         },
         //选中树节点
         handleNodeClick(data) {

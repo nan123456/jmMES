@@ -109,6 +109,9 @@
             label="负责人"
             width="100"
             filter-placement="bottom-end"
+            :filters="WorkcuserBox"
+            :filter-method="filterRoute"
+            column-key="WorkcuserBox"
           ></el-table-column>
           <el-table-column
             prop="state"
@@ -160,6 +163,9 @@
             label="负责人"
             width="100"
             filter-placement="bottom-end"
+            :filters="WorkcuserBox1"
+            :filter-method="filterRoute"
+            column-key="WorkcuserBox1"
           ></el-table-column>
           <el-table-column
             prop="state"
@@ -243,6 +249,8 @@ export default {
       WorkshopBox1: [],
       WorkstateBox: [],
       WorkstateBox1: [],
+      WorkcuserBox: [],
+      WorkcuserBox1: [],
     };
   },
   created() {
@@ -356,6 +364,12 @@ export default {
               this.WorkstateBox.push({text:unread.WorkstateBox[i].f6,value:unread.WorkstateBox[i].f6})
             }  
           }
+          let length3 = unread.WorkcuserBox.length;
+          for(let i=0; i < length2; i++) {
+            if(unread.WorkcuserBox[i].f6!==null&&unread.WorkcuserBox[i].f6!==''){
+              this.WorkcuserBox.push({text:unread.WorkcuserBox[i].f7,value:unread.WorkcuserBox[i].f7})
+            }  
+          }
         }
       });
     },
@@ -391,6 +405,12 @@ export default {
               this.WorkstateBox1.push({text:read.WorkstateBox1[i].f6,value:read.WorkstateBox1[i].f6})
             }  
           }
+          let length3 = read.WorkcuserBox1.length;
+          for(let i=0; i < length3; i++) {
+            if(read.WorkcuserBox1[i].f7!==null&&read.WorkcuserBox1[i].f7!==''){
+              this.WorkcuserBox1.push({text:read.WorkcuserBox1[i].f7,value:read.WorkcuserBox1[i].f7})
+            }  
+          }
         }
       });
     },
@@ -418,9 +438,9 @@ export default {
         //ES6写法
         recycle = recycle.data;
       });
-      setTimeout(() => {
-        this.getDataRead()
-      }, 1000);
+      // setTimeout(() => {
+      //   this.getDataRead()
+      // }, 1000);
     },
     //全部进入已读
     allRead(row) {

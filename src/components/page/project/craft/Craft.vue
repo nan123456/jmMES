@@ -19,7 +19,7 @@
             <el-header>
               <el-row :gutter="20">
                 <el-col :span="2" :offset="20">
-                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true" v-if="this.lx!=='xm'&&this.lx!=='bj'&&this.lx!=='plm_part'">导入</el-button>
+                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true" v-if="this.lx!=='xm'&&this.lx!=='bj'&&this.lx!=='plm_part'&&this.tabName !== 'plm'">导入</el-button>
                 </el-col>
               </el-row>
             </el-header>
