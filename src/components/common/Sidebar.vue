@@ -276,6 +276,7 @@
         display: block;
         position: absolute;
         left: 0;
+        height: 100%;
         top: 60px;
         bottom:0;
          overflow-y: scroll;  /*裁剪内容 - 提供滚动机制。 */

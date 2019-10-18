@@ -30,6 +30,11 @@
         components:{
             vHead, vSidebar, vTags
         },
+        methods:{
+            changeleft(){
+                // document.getElementById("box").style.left="64px !important"
+            },
+        },
         created(){
             bus.$on('collapse', msg => {
                 this.collapse = msg;
@@ -49,9 +54,5 @@
 <style scoped>
 .content {
 padding: 10px !important;
-}
-.content-box {
-left: 150px !important;
-top: 60px !important;
 }
 </style>

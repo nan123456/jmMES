@@ -13,8 +13,8 @@
         <!-- <el-button type="primary" @click="dowmload" class="right" disabled>下载</el-button> -->
         <el-button type="primary" @click="dowmload2" class="right" >归档数据文件导出</el-button>
         <div class="container">
-          <el-container style="height: 600px;">
-            <el-container style="height: 600px;">
+          <el-container style="height: 85vh;">
+            <el-container style="height: 85vh;">
               <el-aside width="300px">
                   <el-form :inline="true">
                     <el-form-item v-show="inputshow"> 
@@ -60,7 +60,7 @@
                   </el-tree>
                 </el-aside>
                 <!-- 内容 -->
-                <el-main>
+                <el-main class="part">
                   <parttree v-if="this.lx=='xm'" :lxid="lxid"></parttree>
                   <partfile v-if="this.lx=='bj'" :lxid="lxid"></partfile>
                 </el-main>
@@ -288,5 +288,9 @@ export default {
   .selectdiv{
     margin-bottom: 10px;
     width: 275px
+  }
+  .part{
+    width: 800px;
+    margin-top: 20px;
   }
 </style>

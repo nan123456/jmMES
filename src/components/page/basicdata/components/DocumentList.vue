@@ -1,7 +1,7 @@
 <template>
   <div>   
     <vue-good-table
-      v-if="selectedTreeNode.tableFlag==1 || selectedTreeNode.tableFlag==2 || selectedTreeNode.tableFlag==4" 
+      v-if="selectedTreeNode.tableFlag==1 || selectedTreeNode.tableFlag==4" 
       :columns="columns" 
       :rows="rows" 
       @on-column-filter="selectionChanged"
@@ -37,6 +37,41 @@
     <vue-good-table
       v-if="selectedTreeNode.tableFlag==3" 
       :columns="columns1" 
+      :rows="rows" 
+      @on-column-filter="selectionChanged"
+      :search-options="{
+        enabled: true,
+        placeholder: '搜索此表格'
+      }"
+      :pagination-options="{
+        enabled: true,
+        mode: 'records'
+      }"
+    >
+      <template slot="table-row" slot-scope="props">
+        <span v-if="props.column.field == 'operate'">
+          <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
+          <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
+          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+        </span>
+        <span v-else>
+          {{props.formattedRow[props.column.field]}}
+        </span>
+      </template>
+      <div slot="table-actions">
+        <el-button type="primary" v-if="newButtonShow[0]" @click="openWeldingDialog">新建焊接</el-button>        
+        <el-button type="primary" v-if="newButtonShow[1]" @click="openCraftsmanshipDialog">新建制造</el-button>
+        <el-button type="primary" v-if="newButtonShow[2]" @click="openHeattreatmentDialog">新建热处理</el-button>
+        <el-button type="primary" v-if="newButtonShow[3]" @click="openMachiningDialog">新建机加工</el-button>
+        <el-button type="primary" v-if="newButtonShow[0] || newButtonShow[1] || newButtonShow[2] || newButtonShow[3]" @click="handlePrinterAll">打印</el-button>
+      </div>
+    </vue-good-table>
+
+    <!-- 机械制造工艺及检验表 -->
+    <vue-good-table
+      v-if="selectedTreeNode.tableFlag==2" 
+      :columns="columns4" 
       :rows="rows" 
       @on-column-filter="selectionChanged"
       :search-options="{
@@ -281,6 +316,36 @@ export default {
           label: "创建日期",
           field: "ctime"
         },
+      ],
+      columns4: [
+        {
+          label: "产品代号",
+          field: "productcode"
+        },
+        {
+          label: "工单号",
+          field: "pnumber"
+        },
+        {
+          label: "零部件图号",
+          field: "processnumber"
+        },
+        {
+          label: "产品名称",
+          field: "producname"
+        },
+        {
+          label: "零部件名称",
+          field: "partname"
+        },
+        {
+          label: "创建日期",
+          field: "ctime"
+        },
+        {
+          label: "操作",
+          field: "operate"
+        }
       ],
       rows: [],    
       dialogVisible: false,
@@ -782,6 +847,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+  .vgt-left-align{
+    text-align: center !important;
+  }
   
 </style>
