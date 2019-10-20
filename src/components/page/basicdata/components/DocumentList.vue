@@ -218,7 +218,7 @@ export default {
           field: "pnumber"
         },
         {
-          label: "工艺卡号",
+          label: "零部件图号",
           field: "processnumber"
         },
         {

@@ -627,8 +627,10 @@ export default {
                 axios.post(`${this.baseURL}/basicdata/document.php`,fd)
                 .then((response) => {
                     console.log(response)
-                alert("保存成功")
-                    window.location.reload()
+                    alert("保存成功")
+                    this.$emit("refreshTable",this.selectedTreeNode)
+                    this.dialogWeldingVisible = false   
+                    // window.location.reload()
                 })
                 .catch(function (error){
                     console.log(error)

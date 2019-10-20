@@ -31,11 +31,11 @@
               <el-input v-model="partfile.reason"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item label="工位">
+          <!-- <el-form-item label="工位">
             <el-col :span="10">
               <el-input v-model="partfile.station"></el-input>
             </el-col>
-          </el-form-item>
+          </el-form-item> -->
           <img v-for="(i,index) in item" :key="index" :src="i" class="img"/>
         </el-form>
       </el-tab-pane>
