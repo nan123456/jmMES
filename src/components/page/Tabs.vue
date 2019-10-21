@@ -84,9 +84,13 @@
             <el-button type="primary" @click="handleFifter()">查询</el-button>
             <el-button type="primary" @click="reload()">重置</el-button>
             <el-button type="danger" @click="allRead()">全部标为已读</el-button>
-            
+            <el-button type="primary" @click="DateTimeShow = !DateTimeShow">更多</el-button>
           </el-form-item>
         </el-form>
+        <div v-show="DateTimeShow">
+          <DateTime ref="Time"></DateTime>
+          <el-button type="primary" @click="selectUnreadTime()">按时间查询</el-button>
+        </div>
         <el-table ref="filterTable" :data="unread" style="width: 100%" >
           <el-table-column prop="address" label="部件信息" :formatter="formatter"></el-table-column>
           <el-table-column
@@ -138,8 +142,13 @@
             <el-input placeholder="输入关键字" v-model="filterTextRead" style="width:250px;height:35px"></el-input>
             <el-button type="primary" @click="handleFifterRead()">查询</el-button>
             <el-button type="primary" @click="reload()">重置</el-button>
+             <el-button type="primary" @click="DateTimeShow1 = !DateTimeShow1">更多</el-button>
           </el-form-item>
         </el-form>
+         <div v-show="DateTimeShow1">
+          <DateTime ref="Time1"></DateTime>
+          <el-button type="primary" @click="selectReadTime()">按时间查询</el-button>
+        </div>
         <el-table ref="filterTable" :data="read" style="width: 100%">
           <!-- <el-table-column prop="name" label="" width="180"></el-table-column> -->
           <el-table-column prop="address" label="部件信息" :formatter="formatter"></el-table-column>
@@ -228,10 +237,14 @@
 
 <script>
 import { Loading } from 'element-ui';
+import DateTime from './DateTimePicker'
 import axios from "axios";
 export default {
   inject: ["reload"],
   name: "tabs",
+  components:{
+    DateTime
+  },
   data() {
     return {
       loading: true,
@@ -251,6 +264,8 @@ export default {
       WorkstateBox1: [],
       WorkcuserBox: [],
       WorkcuserBox1: [],
+      DateTimeShow:false,
+      DateTimeShow1:false,
     };
   },
   created() {
@@ -276,6 +291,12 @@ export default {
         if (unread.success && unread.data) {
           this.unread = [];
           this.unread = unread.data;
+        }else{
+          this.$message({
+            showClose: true,
+            message: '暂无数据',
+            type: 'error'
+          })
         }
       });
     },
@@ -292,6 +313,12 @@ export default {
         if (read.success && read.data) {
           this.read = [];
           this.read = read.data;
+        }else{
+          this.$message({
+            showClose: true,
+            message: '暂无数据',
+            type: 'error'
+          })
         }
       });
     },
@@ -480,6 +507,88 @@ export default {
         });
       }
       const item = this.read.splice(row);
+    },
+    selectUnreadTime(){
+      this.WorkshopBox= [];
+      this.WorkstateBox= [];
+      this.WorkcuserBox= [];
+      var fd = new FormData();
+      fd.append("flag", "selectUnreadTime");
+      fd.append("DateData", this.$refs.Time.DateData);
+      axios.post(`${this.baseURL}/tabs.php`, fd).then(unread => {
+        //ES6写法
+        unread = unread.data;
+        if (unread.success && unread.data) {
+          this.unread = [];
+          this.unread = unread.data;
+          this.loading = false;
+          let length1 = unread.WorkshopBox.length;
+          for(let i=0; i < length1; i++) {
+            if(unread.WorkshopBox[i].f5!==null&&unread.WorkshopBox[i].f5!==''){
+              this.WorkshopBox.push({text:unread.WorkshopBox[i].f5,value:unread.WorkshopBox[i].f5})
+            }  
+          }
+          let length2 = unread.WorkstateBox.length;
+          for(let i=0; i < length2; i++) {
+            if(unread.WorkstateBox[i].f6!==null&&unread.WorkstateBox[i].f6!==''){
+              this.WorkstateBox.push({text:unread.WorkstateBox[i].f6,value:unread.WorkstateBox[i].f6})
+            }  
+          }
+          let length3 = unread.WorkcuserBox.length;
+          for(let i=0; i < length2; i++) {
+            if(unread.WorkcuserBox[i].f6!==null&&unread.WorkcuserBox[i].f6!==''){
+              this.WorkcuserBox.push({text:unread.WorkcuserBox[i].f7,value:unread.WorkcuserBox[i].f7})
+            }  
+          }
+        }else{
+          this.$message({
+            showClose: true,
+            message: '暂无数据',
+            type: 'error'
+          })
+        }
+      });
+      // console.log(this.$refs.Time.DateData)
+    },
+    selectReadTime(){
+      this.WorkshopBox1= [];
+      this.WorkstateBox1= [];
+      this.WorkcuserBox1= [];
+      var fd = new FormData();
+      fd.append("flag", "selectReadTime");
+      fd.append("DateData", this.$refs.Time1.DateData);
+      axios.post(`${this.baseURL}/tabs.php`, fd).then(read => {
+        //ES6写法
+        read = read.data;
+        if (read.success && read.data) {
+          this.read = [];
+          this.read = read.data;
+          let length1 = read.WorkshopBox1.length;
+          for(let i=0; i < length1; i++) {
+            if(read.WorkshopBox1[i].f5!==null&&read.WorkshopBox1[i].f5!==''){
+              this.WorkshopBox1.push({text:read.WorkshopBox1[i].f5,value:read.WorkshopBox1[i].f5})
+            }
+          }
+          let length2 = read.WorkstateBox1.length;
+          for(let i=0; i < length2; i++) {
+            if(read.WorkstateBox1[i].f6!==null&&read.WorkstateBox1[i].f6!==''){
+              this.WorkstateBox1.push({text:read.WorkstateBox1[i].f6,value:read.WorkstateBox1[i].f6})
+            }  
+          }
+          let length3 = read.WorkcuserBox1.length;
+          for(let i=0; i < length3; i++) {
+            if(read.WorkcuserBox1[i].f7!==null&&read.WorkcuserBox1[i].f7!==''){
+              this.WorkcuserBox1.push({text:read.WorkcuserBox1[i].f7,value:read.WorkcuserBox1[i].f7})
+            }  
+          }
+        }else{
+          this.$message({
+            showClose: true,
+            message: '暂无数据',
+            type: 'error'
+          })
+        }
+      });
     }
   },
   destroyed() {
