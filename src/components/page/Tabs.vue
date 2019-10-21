@@ -88,8 +88,8 @@
           </el-form-item>
         </el-form>
         <div v-show="DateTimeShow">
-          <DateTime ref="Time"></DateTime>
-          <el-button type="primary" @click="selectUnreadTime()">按时间查询</el-button>
+          <DateTime ref="Time" class="inline"></DateTime>
+          <el-button class="inline" type="primary" @click="selectUnreadTime()">按时间查询</el-button>
         </div>
         <el-table ref="filterTable" :data="unread" style="width: 100%" >
           <el-table-column prop="address" label="部件信息" :formatter="formatter"></el-table-column>
@@ -149,8 +149,8 @@
           </el-form-item>
         </el-form>
          <div v-show="DateTimeShow1">
-          <DateTime ref="Time1"></DateTime>
-          <el-button type="primary" @click="selectReadTime()">按时间查询</el-button>
+          <DateTime class="inline" ref="Time1"></DateTime>
+          <el-button class="inline" type="primary" @click="selectReadTime()">按时间查询</el-button>
         </div>
         <el-table ref="filterTable" :data="read" style="width: 100%">
           <!-- <el-table-column prop="name" label="" width="180"></el-table-column> -->
@@ -675,6 +675,9 @@ export default {
 form {
   height: 34px !important;
   padding: 0;
+}
+.inline{
+  display: inline;
 }
 </style>
 
