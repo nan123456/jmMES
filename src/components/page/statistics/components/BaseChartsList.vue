@@ -234,3 +234,9 @@ export default {
     },
 }
 </script>
+<style>
+.el-table-filter {
+    max-height: 300px !important; 
+    overflow: auto ;
+}
+</style>
