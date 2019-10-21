@@ -107,6 +107,9 @@
             label="工序"
             width="100"
             filter-placement="bottom-end"
+            :filters="RouteClass"
+            :filter-method="filterHandler"
+            column-key="RouteClass"
           ></el-table-column>
           <el-table-column
             prop="cuser"
@@ -166,6 +169,9 @@
             label="工序"
             width="100"
             filter-placement="bottom-end"
+            :filters="RouteClass"
+            :filter-method="filterHandler"
+            column-key="RouteClass"
           ></el-table-column>
           <el-table-column
             prop="cuser"
@@ -266,6 +272,55 @@ export default {
       WorkcuserBox1: [],
       DateTimeShow:false,
       DateTimeShow1:false,
+      RouteClass:[
+        {text:"K",value:"K"},
+        {text:"K坡",value:"K坡"},
+        {text:"S安装补贴",value:"S安装补贴"},
+        {text:"S玻璃钢",value:"S玻璃钢"},
+        {text:"S厂检",value:"S厂检"},
+        {text:"S电气",value:"S电气"},
+        {text:"S调试",value:"S调试"},
+        {text:"S钢结构",value:"S钢结构"},
+        {text:"S国（省）检",value:"S国（省）检"},
+        {text:"S派人维修",value:"S派人维修"},
+        {text:"S移交客户",value:"S移交客户"},
+        {text:"S座舱",value:"S座舱"},
+        {text:"F成型",value:"F成型"},
+        {text:"F翻模",value:"F翻模"},
+        {text:"F模具",value:"F模具"},
+        {text:"F喷涂",value:"F喷涂"},
+        {text:"F装配",value:"F装配"},
+        {text:"M木工",value:"M木工"},
+        {text:"GS",value:"GS"},
+        {text:"G接线",value:"G接线"},
+        {text:"G装灯",value:"G装灯"},
+        {text:"G装箱",value:"G装箱"},
+        {text:"T粗",value:"T粗"},
+        {text:"T淬",value:"T淬"},
+        {text:"T调",value:"T调"},
+        {text:"T发黑",value:"T发黑"},
+        {text:"T焊",value:"T焊"},
+        {text:"T划线",value:"T划线"},
+        {text:"T坡",value:"T坡"},
+        {text:"T退",value:"T退"},
+        {text:"T线",value:"T线"},
+        {text:"T正火",value:"T正火"},
+        {text:"T装",value:"T装"},
+        {text:"TK",value:"TK"},
+        {text:"IA",value:"IA"},
+        {text:"IA1",value:"IA1"},
+        {text:"IB",value:"IB"},        
+        {text:"ID",value:"ID"},  
+        {text:"IG",value:"IG"},  
+        {text:"IS",value:"IS"},  
+        {text:"I钻",value:"I钻"},  
+        {text:"LK",value:"LK"},  
+        {text:"L焊",value:"L焊"}, 
+        {text:"L转",value:"L转"},  
+        {text:"L装",value:"L装"},  
+        {text:"J探",value:"J探"},   
+
+      ],
     };
   },
   created() {
