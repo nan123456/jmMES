@@ -39,6 +39,7 @@
         <!-- <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button> -->
         <!-- <el-button type="primary" @click="clearFilter">清除过滤</el-button> -->
         <el-button type="primary" @click="clear()">清除过滤</el-button>
+        <el-button type="primary" v-if='!show_div1' @click="OutsourcingShow = !OutsourcingShow">委外发料打印</el-button>
       </div>
       <el-tabs v-model="activeName" @tab-click="tabClick">
         <!-- 未开工选项卡 -->
@@ -791,6 +792,27 @@
       <el-button type="danger" class="dialog_btn" @click="closedialog();">关闭部件详情信息</el-button> 
     </div>
     <div class='popContainer' v-show="this.popContainershow"></div>
+    <el-dialog title="委外发料单导入" :visible.sync="OutsourcingShow">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        drag
+        :limit="1"
+        :before-upload="beforeupload"
+        :on-success="handleSuc"
+        :data="form"
+        :action="uploadUrl"
+        :auto-upload="false"
+        style="margin-left:120px;">
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">只能上传xls文件</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="OutsourcingShow = false">取 消</el-button>
+        <el-button type="primary" @click="uploadFile()">确认导入</el-button>
+      </span>
+    </el-dialog>
   </div>
   
 </template>
@@ -895,6 +917,7 @@ export default {
       show_5btn:false,
       show_6btn:true,
       show_div1:true,
+      OutsourcingShow:false,
       searchOptions: [
         {
           value: 'product_name',
@@ -927,6 +950,7 @@ export default {
       lxid:'',
       dialog_show:false,
       popContainershow:false,
+      uploadUrl:`${this.baseURL}/importOutsourcing.php`,
     };
   },
   components: {
@@ -1430,14 +1454,43 @@ export default {
 
         })        
       },
-
+      // 文件上传成功时的钩子
+      handleSuc(res,file, fileList) {
+        console.log(res)
+        if(res.success == 'success'){
+          sessionStorage.setItem('table',JSON.stringify(res.row));
+          this.print2();
+          this.$refs.upload.clearFiles();
+        }else{
+          alert("文件上传失败，文件格式错误或该项目已存在")
+          // sessionStorage.setItem('table',JSON.stringify(res.row));
+          // this.print2();
+        }
+        
+      },
+      // 上传文件前的钩子
+      beforeupload (file){
+        this.form.filename = file.name
+      },
+      //上传委外发料单
+      uploadFile(file){
+        this.OutsourcingShow = false;
+        this.$refs.upload.submit()
+        // var fd = new FormData()
+        // fd.append('file',file)
+        // fd.append('filename',file.name)
+        // axios.post(`${this.baseURL}/importOutsourcing.php`,fd)
+        // .then(function(res){
+          
+        // })        
+      },
       closedialog(){
         this.dialog_show=false;
         this.popContainershow=false;
       },
       clear(){
         window.location.reload();
-      }
+      },
   }
 };
 </script>
