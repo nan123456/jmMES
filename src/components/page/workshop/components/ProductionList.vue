@@ -38,7 +38,7 @@
         <!-- <el-button type="primary" v-if="show_3btn" @click="print2()"  >产品标志卡</el-button> -->
         <!-- <el-button type="primary" v-if="show_2btn" @click="print3()"  >零件质量记录表</el-button> -->
         <!-- <el-button type="primary" @click="clearFilter">清除过滤</el-button> -->
-        <el-button type="primary" @click="select_WS('ALL')">清除过滤</el-button>
+        <el-button type="primary" @click="clear()">清除过滤</el-button>
       </div>
       <el-tabs v-model="activeName" @tab-click="tabClick">
         <!-- 未开工选项卡 -->
@@ -1535,6 +1535,9 @@ export default {
       closedialog(){
         this.dialog_show=false;
         this.popContainershow=false;
+      },
+      clear(){
+        window.location.reload();
       }
   }
 };
