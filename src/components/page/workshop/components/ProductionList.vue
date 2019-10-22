@@ -3,7 +3,7 @@
     <div>
       <!-- table上部按钮 -->
       <div slot="table-actions" class="table-actions" v-if='show_div1'>
-        <el-button type="danger" value = 'ALL'  @click="select_WS('ALL')">全部车间</el-button>
+        <el-button type="danger" value = 'ALL'  @click="clear()">全部车间</el-button>
         <el-button type="primary" class="btn" value = 'K'  @click="select_WS('K')">K开料车间</el-button>
         <el-button type="primary" class="btn" value = 'TK'  @click="select_WS('TK')">TK开料车间</el-button>
         <el-button type="primary" class="btn" value = 'S'  @click="select_WS('S')">安装S</el-button>
@@ -162,7 +162,7 @@
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="tableData.length">
+              :total="tableData_amount">
             </el-pagination>
           </div>
         </el-tab-pane>
@@ -330,7 +330,7 @@
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize2"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="tableData2.length">
+              :total="tableData_amount">
             </el-pagination>
           </div>
         </el-tab-pane>
@@ -462,7 +462,7 @@
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="tableData4.length">
+              :total="tableData_amount">
             </el-pagination>
           </div>
         </el-tab-pane>
@@ -621,129 +621,11 @@
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize2"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="tableData3.length">
+              :total="tableData_amount">
             </el-pagination>
           </div>
         </el-tab-pane>
         
-        <!-- 报废品选项卡 -->
-        <!-- <el-tab-pane label="报废品" name="four"> -->
-          <!-- element table 
-              arrayObject.slice(start,end)方法使数据分页显示
-          -->
-          <!-- <el-table
-            ref="filterTable4"
-            :data="tableData4.slice( (currentPage2-1)*pageSize2, currentPage2*pageSize2)"
-            style="width: 100%"
-            stripe
-            @selection-change="handleSelectionChange"
-            @filter-change="filterChange"
-          >
-            <el-table-column
-              type="selection"
-              width="55"
-              reserve-selection
-            >
-            </el-table-column>
-            <el-table-column
-              prop="modid"
-              width="60"
-              label="modid"
-              v-if=false
-            >
-            </el-table-column>
-            <el-table-column
-              prop="Wid"
-              width="60"
-              label="Wid"
-              v-if=false
-            >
-            </el-table-column>
-            <el-table-column
-              prop="partid"
-              width="60"
-              label="partid"
-              v-if=false
-            >
-            </el-table-column>
-            <el-table-column
-              prop="fid"
-              width="60"
-              label="fid"
-              v-if=false
-            >
-            </el-table-column>
-            <el-table-column
-              prop="routeid"
-              width="60"
-              label="routeid"
-              v-if=false
-            >
-            </el-table-column>
-            <el-table-column
-              prop="product_name"
-              label="产品名称"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="pNumber"
-              label="工单"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="figure_number"
-              label="零件图号"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="名称"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="child_material"
-              label="规格"
-              width="180"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="route"
-              label="加工工艺路线"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              prop="count"
-              label="数量"
-              sortable
-            >
-            </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作"
-              width="100">
-              <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-              </template>
-            </el-table-column>
-          </el-table> -->
-          <!-- 数据分页 -->
-          <!-- <div class="block">
-            <el-pagination
-              @size-change="handleSizeChange2"
-              @current-change="handleCurrentChange2"
-              :current-page="currentPage2"
-              :page-sizes="[10, 25, 50, 100]"
-              :page-size="pageSize2"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="tableData4.length">
-            </el-pagination>
-          </div>
-        </el-tab-pane> -->
       </el-tabs>
       <!-- form表单编辑 -->
       <el-dialog title="信息详情" :visible.sync="hasInfoDialog">
@@ -939,6 +821,7 @@ export default {
       tableData2: [],
       tableData3: [],
       tableData4: [],
+      tableData_amount:'',
       pageSize: 10,
       pageSize2: 10,
       currentPage: 1,
@@ -1116,6 +999,7 @@ export default {
         this.pNumber=[]
         // 未排产
         this.tableData = res.rows
+        this.tableData_amount = res.rows.length
         if(res.product_name&&res.pNumber){
           let columns = this.columns
           let data_length = res.rows.length
@@ -1137,6 +1021,8 @@ export default {
         this.PNumber=[]
         // 已排产
         this.tableData2 = res.rows2
+        this.tableData_amount = res.rows2.length
+
         // checkbox 项目名称
         if(res.PNumber&&res.Product_name){
            let length3 = res.Product_name.length
@@ -1157,6 +1043,7 @@ export default {
         this.product_name=[]
         this.pNumber=[]
         this.tableData3 = res.rows3
+        this.tableData_amount = res.rows3.length
         if(res.pNumber&&res.product_name){
            let length3 = res.product_name.length
           for(let i=0; i < length3; i++) {
@@ -1174,6 +1061,7 @@ export default {
         this.PNumber=[]
         // 外协
         this.tableData4 = res.rows4
+        this.tableData_amount = res.rows4.length
         if(res.PNumber&&res.Product_name){
            let length3 = res.Product_name.length
           for(let i=0; i < length3; i++) {
@@ -1258,7 +1146,7 @@ export default {
         this.pageSize设置值是因为element table里只对本页数据进行过滤
         因此设置此值相当于一页进行多少条数据进行过滤
       */
-      this.pageSize = 1000000;
+      this.pageSize = 10;
       return row[property] === value;
     },
     filterHandler2(value, row, column) {
@@ -1267,11 +1155,21 @@ export default {
         this.pageSize设置值是因为element table里只对本页数据进行过滤
         因此设置此值相当于一页进行多少条数据进行过滤
       */
-      this.pageSize2 = 1000000;
+      this.pageSize2 = 10;
       return row[property] === value;
     },
     // 检测每次表格下拉筛选变化
     filterChange(filters) {
+      console.log(filters)
+      // console.log(this.tableData)
+      console.log(this.$refs.filterTable.data)
+      this.tableData_amount=this.$refs.filterTable.data.length
+      // var fd = new FormData()
+      // fd.append('flag',"getdataamount")
+      // axios.post(`${this.baseURL}/productionplan/list.php`,fd)
+      // .then(function(res){
+        
+      // })      
       // 遍历筛选checkbox值（根据column-key返回参数）
       for(let i in filters){
         // 若筛选值为空(即每点击一次重置键)，去除数组内columnKey一个键名，否则插入一个键名
@@ -1291,6 +1189,7 @@ export default {
       }
     },
     filterChange2(filters) {
+      console.log(filters)
       // 遍历筛选checkbox值（根据column-key返回参数）
       for(let i in filters){
         // 若筛选值为空(即每点击一次重置键)，去除数组内columnKey一个键名，否则插入一个键名
