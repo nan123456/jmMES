@@ -78,7 +78,7 @@ export default {
     mylxid: {
       immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
       handler(val) {
-        console.log(val)
+        // console.log(val)
         var fd = new FormData() //定义获取partdata的传值
         fd.append('id',val)
         fd.append('flag','part')
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     getPartdataSucc(res) {
-      console.log(res.data)
+      // console.log(res.data)
       this.partdata = {}
       if(res.data.success =='success'){
         this.partdata = res.data
@@ -105,7 +105,7 @@ export default {
       }
     },
     getPartfiledataSucc(res) {
-      console.log(res.data)
+      // console.log(res.data)
       this.partfile = {}
       this.item = {}
       if(res.data.success =='success'){
@@ -114,7 +114,7 @@ export default {
       }
     },
     getPartschdataSucc(res) {
-      console.log(res.data)
+      // console.log(res.data)
       this.partschdata = {"item":[]}
       if(res.data.success) {
         this.partschdata = res.data

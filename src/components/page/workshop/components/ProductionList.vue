@@ -156,13 +156,22 @@
           </el-table>
           <!-- 数据分页 -->
           <div class="block">
-            <el-pagination
+            <!-- <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page="currentPage"
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData_amount">
+            </el-pagination> -->
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize"
+              layout="sizes, prev, pager, next, jumper"
               :total="tableData_amount">
             </el-pagination>
           </div>
@@ -324,13 +333,22 @@
           </el-table>
           <!-- 数据分页 -->
           <div class="block">
-            <el-pagination
+            <!-- <el-pagination
               @size-change="handleSizeChange2"
               @current-change="handleCurrentChange2"
               :current-page="currentPage2"
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize2"
               layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData_amount">
+            </el-pagination> -->
+            <el-pagination
+              @size-change="handleSizeChange2"
+              @current-change="handleCurrentChange2"
+              :current-page="currentPage2"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize2"
+              layout="sizes, prev, pager, next, jumper"
               :total="tableData_amount">
             </el-pagination>
           </div>
@@ -456,13 +474,22 @@
           </el-table>
           <!-- 数据分页 -->
           <div class="block">
-            <el-pagination
+            <!-- <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page="currentPage"
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData_amount">
+            </el-pagination> -->
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize"
+              layout="sizes, prev, pager, next, jumper"
               :total="tableData_amount">
             </el-pagination>
           </div>
@@ -615,13 +642,22 @@
           </el-table>
           <!-- 数据分页 -->
           <div class="block">
-            <el-pagination
+            <!-- <el-pagination
               @size-change="handleSizeChange2"
               @current-change="handleCurrentChange2"
               :current-page="currentPage2"
               :page-sizes="[10, 25, 50, 100]"
               :page-size="pageSize2"
               layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData_amount">
+            </el-pagination> -->
+           <el-pagination
+              @size-change="handleSizeChange2"
+              @current-change="handleCurrentChange2"
+              :current-page="currentPage2"
+              :page-sizes="[10, 25, 50, 100]"
+              :page-size="pageSize2"
+              layout="sizes, prev, pager, next, jumper"
               :total="tableData_amount">
             </el-pagination>
           </div>
@@ -844,6 +880,7 @@ export default {
       tableData3: [],
       tableData4: [],
       tableData_amount:'',
+      tableData_amount_linshi:'',
       pageSize: 10,
       pageSize2: 10,
       currentPage: 1,
@@ -1024,6 +1061,7 @@ export default {
         // 未排产
         this.tableData = res.rows
         this.tableData_amount = res.rows.length
+        this.tableData_amount_linshi = res.rows.length
         if(res.product_name&&res.pNumber){
           let columns = this.columns
           let data_length = res.rows.length
@@ -1046,7 +1084,7 @@ export default {
         // 已排产
         this.tableData2 = res.rows2
         this.tableData_amount = res.rows2.length
-
+        this.tableData_amount_linshi = res.rows2.length
         // checkbox 项目名称
         if(res.PNumber&&res.Product_name){
            let length3 = res.Product_name.length
@@ -1068,6 +1106,7 @@ export default {
         this.pNumber=[]
         this.tableData3 = res.rows3
         this.tableData_amount = res.rows3.length
+        this.tableData_amount_linshi = res.rows3.length
         if(res.pNumber&&res.product_name){
            let length3 = res.product_name.length
           for(let i=0; i < length3; i++) {
@@ -1086,6 +1125,7 @@ export default {
         // 外协
         this.tableData4 = res.rows4
         this.tableData_amount = res.rows4.length
+        this.tableData_amount_linshi = res.rows4.length
         if(res.PNumber&&res.Product_name){
            let length3 = res.Product_name.length
           for(let i=0; i < length3; i++) {
@@ -1165,12 +1205,19 @@ export default {
       }
     },
     filterHandler(value, row, column) {
+      // console.log(row)
+      // console.log(row.route)
       const property = column["property"];
       /* 
         this.pageSize设置值是因为element table里只对本页数据进行过滤
         因此设置此值相当于一页进行多少条数据进行过滤
       */
-      this.pageSize = 10;
+      this.pageSize = 10000;
+      // var i=this.tableData_amount;
+      // if(row[property] === value){
+      //   i++
+      // }
+      // console.log(i)
       return row[property] === value;
     },
     filterHandler2(value, row, column) {
@@ -1184,16 +1231,7 @@ export default {
     },
     // 检测每次表格下拉筛选变化
     filterChange(filters) {
-      console.log(filters)
-      // console.log(this.tableData)
-      console.log(this.$refs.filterTable.data)
-      this.tableData_amount=this.$refs.filterTable.data.length
-      // var fd = new FormData()
-      // fd.append('flag',"getdataamount")
-      // axios.post(`${this.baseURL}/productionplan/list.php`,fd)
-      // .then(function(res){
-        
-      // })      
+      // this.tableData_amount=0;
       // 遍历筛选checkbox值（根据column-key返回参数）
       for(let i in filters){
         // 若筛选值为空(即每点击一次重置键)，去除数组内columnKey一个键名，否则插入一个键名
@@ -1208,6 +1246,8 @@ export default {
       }
       // 若所有列都未被筛选，则重置表格数据
       if(this.columnsKey.length == 0) {
+        // console.log(this.tableData_amount_linshi)
+        // this.tableData_amount=this.tableData_amount_linshi
         this.$refs.filterTable.clearFilter();
         this.pageSize = 10;
       }
@@ -1529,5 +1569,9 @@ export default {
     bottom: 0;
     background: rgba(0,0,0,0.3);
     z-index: 10;
+  }
+  .el-table-filter {
+    max-height: 300px !important; 
+    overflow: auto ;
   }
 </style>
