@@ -2,8 +2,8 @@
   <div>
     <!-- el-tabs的v-model对应el-tab-pane的name ,即显示对应标签页 -->
     <el-tabs type="border-card" v-model="activeName">
-      <el-tab-pane name="third" label="信息汇总">
-        <el-collapse v-model="activeNames" @change="handleChange">
+      <el-tab-pane name="first" label="信息汇总">
+        <el-collapse v-model="activeNames" @change="handleChange;handleChangeBOX">
           <el-collapse-item title="基本信息" name="1">
             <el-form ref="form"  label-width="80px">
               <el-form-item label="部件名称">
@@ -108,25 +108,34 @@
           </el-collapse-item>
         </el-collapse>
       </el-tab-pane>
+      <el-tab-pane name="second" label="子部件进度">
+        <p>黑色为正在进行中状态；绿色为已完成状态；灰色为未开工状态</p>
+        <part-sch :partschdata="this.partschdata" @change="handleChangeBOX"></part-sch>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import PartSch from '../../workshop/components/PartSch'
 export default {
   name: 'Partfile',
+  components: {
+    PartSch
+  },
   props: {
     lxid: String
   },
   data () {
     return {
+      partschdata: {},
       activeNames: ['1'],
       partfile:[],
       mylxid: '',
       item:{},
       photo:[],//按车间顺序照片个数
-      activeName: 'third',
+      activeName: 'first',
       tableData: [],
       photourl:'',
       showWelding:true,
@@ -139,7 +148,8 @@ export default {
     lxid : {
       immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
       handler(val) {
-        this.mylxid = val
+        this.mylxid = val;
+        this.activeName = 'first'
       }  
     },
     // 声明mylxid的原因:vue不允许直接修改props的值，通过声明赋值新变量重新渲染组件
@@ -150,6 +160,11 @@ export default {
         file.append('id',val)
         file.append('flag','partfile')
         axios.post(`${this.baseURL}/system/partfile.php`,file).then(this.getPartfiledataSucc)
+
+        var sch = new FormData() //定义获取partschdata的传值
+        sch.append('id',val)
+        sch.append('flag','partsch')
+        axios.post(`${this.baseURL}/part.php`,sch).then(this.getPartschdataSucc)
       
         var fd = new FormData() //定义获取partschdata的传值
         fd.append('id',val)
@@ -301,7 +316,23 @@ export default {
     //折叠面板
     handleChange(val) {
       // console.log(val);
-    }
+    },
+    handleChangeBOX(id) {
+      // console.log(id)
+      this.mylxid = ''
+      this.mylxid = id
+      this.activeName = 'first'
+      // console.log(this.lxid)
+    },
+    getPartschdataSucc(res) {
+      // console.log(res.data)
+      this.partschdata = {"item":[]}
+      if(res.data.success) {
+        this.partschdata = res.data
+      }else {
+        this.partschdata = {"key":"default"}
+      }
+    },
   }
 }
 </script>

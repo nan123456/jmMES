@@ -967,7 +967,7 @@ export default {
           label: '零件图号'
         },{
           value: 'name',
-          label: '名称'
+          label: '零件名称'
         },{
           value: 'child_material',
           label: '规格'

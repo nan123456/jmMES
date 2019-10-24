@@ -208,7 +208,9 @@ export default {
     methods:{
         //重置按钮
         reload1(){
-            window.location.reload()
+            this.search = '';
+            var flag = "Undelivered";
+            this.getData(flag);
         },
         //获取数据
         getData(flag) {

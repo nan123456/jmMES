@@ -331,6 +331,7 @@ export default {
       },
       //重制树
       resolve(){
+        this.lx='reload';
         this.selectvalue='';
         this.filterText='';
         this.updateTree1=true;
