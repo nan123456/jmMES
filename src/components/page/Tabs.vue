@@ -511,7 +511,8 @@ export default {
     },
     //进入已读
     handleRead(row) {
-      const item = this.unread.splice(row, 1);
+      const item = this.unread.splice(this.unread.indexOf(row), 1);
+      // console.log(item)
       this.read = item.concat(this.read);
       var fd = new FormData();
       fd.append("flag", "ReadIn");
@@ -540,7 +541,7 @@ export default {
     },
     //删除
     handleDel(row) {
-      const item = this.read.splice(row, 1);
+      const item = this.read.splice(this.read.indexOf(row), 1);
       this.recycle = item.concat(this.recycle);
       var fd = new FormData();
       fd.append("flag", "RecycleIn");
