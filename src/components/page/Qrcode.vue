@@ -84,7 +84,7 @@ export default {
 			axios.post(`${this.baseURL}/part.php`,fd).then((res)=>{
 				console.log(res.data)
 				this.data = res.data
-				this.qrcodeCard = '{"id":"'+this.$route.query.id+'","flag":"jmmes","modid":"'+this.$route.query.modid+'","pid":"'+res.data.pid+'"}'
+				this.qrcodeCard = '{"id":"'+this.$route.query.id+'","flag":"jmmes","modid":"'+res.data.modid+'","pid":"'+res.data.fid+'","external":"'+res.data.isexterior+'"}'
 			})
 		}
 	}

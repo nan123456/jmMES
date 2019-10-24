@@ -128,6 +128,8 @@ export default {
       handleFifter() {
         if(this.selectvalue==''){
           alert("请选择要查询的项目")
+        }else if(this.filterText==''){
+          alert("请填写要查询的内容")
         }else{
           this.updateTree1=false;
           this.updateTree2=true;
