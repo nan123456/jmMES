@@ -16,9 +16,9 @@
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
-          <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
-          <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
+          <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
+          <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
+          <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
           <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
         </span>
         <span v-else>
@@ -50,10 +50,10 @@
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
-          <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
-          <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
-          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+        <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
+        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
+        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
+        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
@@ -85,10 +85,10 @@
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
-          <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
-          <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
-          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+        <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
+        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
+        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
+        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
@@ -120,9 +120,9 @@
     >
     <template slot="table-row" slot-scope="props">
       <span v-if="props.column.field == 'operate'">
-        <el-button type="primary" icon="el-icon-edit" circle @click="Handlealter(props.row.contactId,props.row.diff)"></el-button>
-        <el-button type="primary" icon="el-icon-printer" circle @click="handlePrinter(props.row.contactId,props.row.diff)"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteStaff(props.row.contactId,props.row.diff)" ></el-button>
+        <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
+        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
+        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
         <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
       </span>
       <span v-else>
