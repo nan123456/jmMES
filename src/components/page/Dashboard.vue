@@ -9,6 +9,14 @@
       <el-col :span="8">
         <el-card shadow="hover">
           <div class="schart-box">
+            <el-select v-model="pievalue" placeholder="请选择" @change="PieSeld()">
+              <el-option
+                v-for="item in pieoptions"
+                :key="item.value"
+                :value="item.value"
+                :label="item.lable">
+              </el-option>
+            </el-select>
             <!-- <div class="content-title">零部件不合格次数统计图</div> -->
             <schart class="schart" canvasId="pie" :data="data2" type="pie" :options="options3"></schart>
           </div><br>
@@ -62,7 +70,9 @@ export default {
   data() {
     return {
        options: [],
+       pieoptions:[],
         value: '62',
+        pievalue: '114#',
       data1: [
         { name: "电流安全上限", value: 220 },
         { name: "电流实际最大值", value: 200 },
@@ -106,10 +116,15 @@ export default {
     axios.post(`${this.baseURL}/dashboard.php`).then(res => {
       this.options = res.data.data
     });
-
-    axios.post(`${this.baseURL}/echarts.php`).then(response => {
-      this.data2 = response.data;
+    var fd = new FormData()
+      fd.append("flag","selectbox")
+    axios.post(`${this.baseURL}/echarts.php`,fd).then(res => {
+      this.pieoptions = res.data.data
     });
+    // axios.post(`${this.baseURL}/echarts.php`).then(response => {
+    //   this.data2 = response.data;
+    // });
+    this.PieSeld();
     this.seld();   
   },
   methods: {
@@ -120,6 +135,14 @@ export default {
       this.data3 = res.data
       console.log(res.data)
     });
+    },
+    PieSeld(){
+      // console.log(this.pievalue);
+      var fd = new FormData()
+        fd.append("pNumber",this.pievalue)
+      axios.post(`${this.baseURL}/echarts.php`,fd).then(response => {
+      this.data2 = response.data;
+      });
     }
   },
   computed: {

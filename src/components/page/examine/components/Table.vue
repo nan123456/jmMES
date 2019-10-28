@@ -5,7 +5,7 @@
       :columns="columns"
       :rows="rows"
       :pagination-options="{enabled: true,mode: 'records'}"
-      :search-options="{enabled: true}"
+      :search-options="{enabled: true,trigger: 'enter',placeholder:'请输入查询内容并回车'}"
     >
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'mode'">
