@@ -223,33 +223,34 @@ export default {
          },
          getDataSucc(res) {
              this.ResetBox();
-             if(res.data.success=="error"){
-                 alert("暂无数据")
-             }
-            //  console.log(res.data)
-             res = res.data
-            if (res.rows) {
-                this.fChild_material = [],
-                // 未排产
-                this.tableData = res.rows
-                if(res.fChild_material){
-                let columns = this.columns
-                let data_length = res.rows.length
-                // checkbox 规格赋值
-                let length2 = res.fChild_material.length
-                for(let i=0; i < length2; i++) {
-                    this.fChild_material.push({text:res.fChild_material[i].f5,value:res.fChild_material[i].f5})
-                }
-                let length3 = res.product_name.length
-                for(let i=0; i < length3; i++) {
-                    this.product_name.push({text:res.product_name[i].f6,value:res.product_name[i].f6})
-                }
-                let length4 = res.pNumber.length
-                for(let i=0; i < length4; i++) {
-                    this.pNumber.push({text:res.pNumber[i].f7,value:res.pNumber[i].f7})
-                }
-            }  
-            }     
+             if(res.data.success==true){
+                 //  console.log(res.data)
+                res = res.data
+                if (res.rows) {
+                    this.fChild_material = [],
+                    // 未排产
+                    this.tableData = res.rows
+                    if(res.fChild_material){
+                    let columns = this.columns
+                    let data_length = res.rows.length
+                    // checkbox 规格赋值
+                    let length2 = res.fChild_material.length
+                    for(let i=0; i < length2; i++) {
+                        this.fChild_material.push({text:res.fChild_material[i].f5,value:res.fChild_material[i].f5})
+                    }
+                    let length3 = res.product_name.length
+                    for(let i=0; i < length3; i++) {
+                        this.product_name.push({text:res.product_name[i].f6,value:res.product_name[i].f6})
+                    }
+                    let length4 = res.pNumber.length
+                    for(let i=0; i < length4; i++) {
+                        this.pNumber.push({text:res.pNumber[i].f7,value:res.pNumber[i].f7})
+                    }
+                }  
+                } 
+             }else{
+                 alert("暂无数据") 
+            }   
          },        
         filterHandler(value, row, column) {
         const property = column["property"];
