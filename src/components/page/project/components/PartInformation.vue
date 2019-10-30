@@ -245,7 +245,7 @@ export default {
         var fd1 = new FormData()
         fd1.append("flag","crafts")
         fd1.append("figure_number",val.figure_number)
-        fd1.append("pnumber",val.pnumber)
+        fd1.append("pnumber",val.pNumber)
         axios.post(`${this.baseURL}/craft/part_card.php`,fd1).then((res)=>{
           if(res.data.success=='success'){
             this.showCrafts = true
@@ -257,7 +257,7 @@ export default {
         var fd2 = new FormData()
         fd2.append("flag","heating")
         fd2.append("figure_number",val.figure_number)
-        fd2.append("pnumber",val.pnumber)
+        fd2.append("pnumber",val.pNumber)
         axios.post(`${this.baseURL}/craft/part_card.php`,fd2).then((res)=>{
           if(res.data.success=='success'){
             this.showHot = true
@@ -269,7 +269,7 @@ export default {
         var fd3 = new FormData()
         fd3.append("flag","maching")
         fd3.append("figure_number",val.figure_number)
-        fd3.append("pnumber",val.pnumber)
+        fd3.append("pnumber",val.pNumber)
         axios.post(`${this.baseURL}/craft/part_card.php`,fd3).then((res)=>{
           if(res.data.success=='success'){
             this.showMach = true

@@ -97,8 +97,9 @@
                 </el-aside>
                 <!-- 内容 -->
                 <el-main>
+                  <el-button type="primary" class="ReturnButton" @click="CacheReturn()" v-show="btn_state">返回</el-button>
                   <project v-if="this.lx=='xm'" :lxid="lxid"></project>
-                  <part v-if="this.lx=='bj'" :lxid="lxid"></part>
+                  <part @change="btn_state_change" v-if="this.lx=='bj'" :lxid="lxid"></part>
                   <plm-part v-if="this.lx=='plm_part'" :lxid="lxid"></plm-part>
                 </el-main>
             </el-container>
@@ -181,6 +182,7 @@ export default {
   },
   data() {
       return {
+        btn_state:false,
         tabName:'ordinary',
         lx:'',
         lxid:'',
@@ -208,6 +210,7 @@ export default {
         inputshow2:false,
         options2: [],
         selectvalue2:'',
+        CacheLength:0,
       };
     },
   created() {
@@ -381,8 +384,13 @@ export default {
       },
       // Tree点击事件
       handleNodeClick(data) {
-        // console.log(data.id)
+        // console.log(data)
         // console.log(data.lx)
+        if(data.lx=='bj'){
+          var CacheArray = [];
+          CacheArray.push(data.id);
+          sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+        }
         this.lx = data.lx
         this.lxid = data.id 
         // console.log(this.$refs.tree.$children)
@@ -554,6 +562,24 @@ export default {
               }
             })
           }
+      },
+      //通过缓存进行返回
+      CacheReturn(){
+        var CacheArray = JSON.parse(sessionStorage.getItem('ReturnCache'));
+        this.lxid = CacheArray[CacheArray.length-2];
+        // console.log(this.lxid);
+        CacheArray.pop();
+        sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+        if(CacheArray.length>1){
+          this.btn_state=true
+        }else{
+          this.btn_state=false
+        }
+      },
+      btn_state_change(btn_state){
+        // console.log(btn_state)
+        this.btn_state=btn_state
+
       }
     }
 };
@@ -580,6 +606,13 @@ export default {
   }
   .tree_btn2{
     width: 100px;
-    text-align: center;    
+    text-align: center;   
+  }
+  .ReturnButton{
+    z-index: 5;
+    position: relative;
+    top:0px;
+    float: right;
+    margin: 5px
   }
 </style>

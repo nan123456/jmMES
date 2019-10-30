@@ -36,7 +36,7 @@
               <el-input v-model="partfile.station"></el-input>
             </el-col>
           </el-form-item> -->
-          <img v-for="(i,index) in item" :key="index" :src="i" class="img"/>
+          <img v-for="(i) in item" :src="i" class="img"/>
         </el-form>
       </el-tab-pane>
     </el-tabs>
@@ -122,8 +122,10 @@ export default {
         this.partschdata = {"key":"default"}
       }
     },
-    handleChange(id) {
-      // console.log(id)
+    handleChange(id,btn_state) {
+      console.log(btn_state)
+      this.$emit("change",btn_state)
+      this.lxid = id
       this.mylxid = ''
       this.mylxid = id
       this.activeName = 'first'
