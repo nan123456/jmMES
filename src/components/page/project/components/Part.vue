@@ -123,9 +123,8 @@ export default {
       }
     },
     handleChange(id,btn_state) {
-      console.log(btn_state)
+      // console.log(btn_state)
       this.$emit("change",btn_state)
-      this.lxid = id
       this.mylxid = ''
       this.mylxid = id
       this.activeName = 'first'

@@ -458,7 +458,7 @@ export default {
           }
           // tree 3级树节点
           if(node.level === 3)　{
-            console.log(node.data) 
+            // console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','mpart')
             fd.append('key',key) 
@@ -476,7 +476,7 @@ export default {
           }
           // 3级以下树子节点
           if(node.level > 3)　{
-            console.log(node.data) 
+            // console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','part')
             fd.append('key',key) 
@@ -566,7 +566,10 @@ export default {
       //通过缓存进行返回
       CacheReturn(){
         var CacheArray = JSON.parse(sessionStorage.getItem('ReturnCache'));
-        this.lxid = CacheArray[CacheArray.length-2];
+        this.lxid = '';
+        var new_lxid= CacheArray[CacheArray.length-2];
+        this.$nextTick(() => (this.lxid =new_lxid))
+        // this.lxid = CacheArray[CacheArray.length-2];
         // console.log(this.lxid);
         CacheArray.pop();
         sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));

@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     AuthorityInfo(){
-      console.log(this.$route.path)//获取当前URL 
+      // console.log(this.$route.path)//获取当前URL 
       if(this.$route.path =="/planunreview" || this.$route.path =="/plan"){
         this.showSave=false
         this.showAdd=true
