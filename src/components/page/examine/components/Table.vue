@@ -1,6 +1,8 @@
 <template>
   <div>
+    <el-button type="primary" @click="btn_reload()" class="btn_reload">重置</el-button>
     <vue-good-table
+      v-if="show_goodtable"
       title="未检验部件"
       :columns="columns"
       :rows="rows"
@@ -141,9 +143,11 @@ export default {
     HeattreatmentDialog,
     MachiningDialog
   },
+  // inject:["reload"],
   data () {
     return {
       rows: [],
+      show_goodtable:true,
       dialog: {
         centerDialogVisible: false,
         number: ''
@@ -368,12 +372,16 @@ export default {
 
       console.log(e);
     },
+    btn_reload(){
+      this.show_goodtable=false
+      this.$nextTick(() => (this.show_goodtable = true))
+    }
   },
 
   mounted () {
     localStorage.item=this.item
     var state = localStorage.item
-    console.log(state)
+    // console.log(state)
     if(state == "未检验"){
       state = 1
     }else if(state =="合格"){
@@ -401,7 +409,7 @@ export default {
       localStorage.item=this.item
       var state = localStorage.item
       var selectvalue = localStorage.selectvalue
-      console.log(selectvalue)
+      // console.log(selectvalue)
       if(state == "未检验"){
         state = 1
       }else if(state =="合格"){
@@ -422,7 +430,7 @@ export default {
       localStorage.selectvalue=this.selectvalue
       var selectvalue = localStorage.selectvalue
       var state = localStorage.item
-      console.log(state)
+      // console.log(state)
       if(state == "未检验"){
         state = 1
       }else if(state =="合格"){
@@ -445,5 +453,12 @@ export default {
 <style scoped>
   .show_img:link {
     color: blue;
+  }
+  .btn_reload{
+    position: absolute;
+    z-index: 5;
+    width: 70px;
+    right: 12px;
+    top: 6px;
   }
 </style>
