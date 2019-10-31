@@ -234,7 +234,7 @@ export default {
         fd.append("figure_number",val.figure_number)
         fd.append("pnumber",val.pNumber)
         axios.post(`${this.baseURL}/craft/part_card.php`,fd).then((res)=>{
-          console.log(res)
+          // console.log(res)
           if(res.data.success=='success'){
             this.showWelding = true
           }else {
