@@ -117,7 +117,7 @@
             width="100"
             filter-placement="bottom-end"
             :filters="WorkcuserBox"
-            :filter-method="filterRoute"
+            :filter-method="filterLeader"
             column-key="WorkcuserBox"
           ></el-table-column>
           <el-table-column
@@ -179,7 +179,7 @@
             width="100"
             filter-placement="bottom-end"
             :filters="WorkcuserBox1"
-            :filter-method="filterRoute"
+            :filter-method="filterLeader"
             column-key="WorkcuserBox1"
           ></el-table-column>
           <el-table-column
@@ -396,6 +396,9 @@ export default {
     filterRoute(value, row) {
       return row.workshop === value;
     },
+    filterLeader(value, row){
+      return row.cuser === value;
+    },
     // filterRoute(value, row) {
     //   //   return row.state === value;
     //   if (row.route.indexOf(value) !== -1) {
@@ -448,7 +451,7 @@ export default {
           }
           let length3 = unread.WorkcuserBox.length;
           for(let i=0; i < length2; i++) {
-            if(unread.WorkcuserBox[i].f6!==null&&unread.WorkcuserBox[i].f6!==''){
+            if(unread.WorkcuserBox[i].f7!==null&&unread.WorkcuserBox[i].f7!==''){
               this.WorkcuserBox.push({text:unread.WorkcuserBox[i].f7,value:unread.WorkcuserBox[i].f7})
             }  
           }
