@@ -71,8 +71,8 @@ export default {
     return {
        options: [],
        pieoptions:[],
-        value: '62',
-        pievalue: '114#',
+        value: '',
+        pievalue:'',
       data1: [
         { name: "电流安全上限", value: 220 },
         { name: "电流实际最大值", value: 200 },
@@ -115,6 +115,10 @@ export default {
   created() {
     axios.post(`${this.baseURL}/dashboard.php`).then(res => {
       this.options = res.data.data
+      this.pievalue = res.data.pNumber[0]
+      this.value=res.data.data[0].value
+      this.PieSeld();
+      this.seld();  
     });
     var fd = new FormData()
       fd.append("flag","selectbox")
@@ -124,21 +128,29 @@ export default {
     // axios.post(`${this.baseURL}/echarts.php`).then(response => {
     //   this.data2 = response.data;
     // });
-    this.PieSeld();
-    this.seld();   
   },
   methods: {
    seld(){
      var fd = new FormData()
+    //  console.log(this.value)
          fd.append("fid",this.value)
      axios.post(`${this.baseURL}/partisfinish.php`,fd).then(res => {
       this.data3 = res.data
       console.log(res.data)
     });
     },
+    first_PieSeld(){
+      // console.log(this.pievalue);
+      var fd = new FormData()
+        fd.append("flag","getFirstData")
+      axios.post(`${this.baseURL}/echarts.php`,fd).then(response => {
+      this.data2 = response.data;
+      });
+    },
     PieSeld(){
       // console.log(this.pievalue);
       var fd = new FormData()
+        fd.append("flag","getData")
         fd.append("pNumber",this.pievalue)
       axios.post(`${this.baseURL}/echarts.php`,fd).then(response => {
       this.data2 = response.data;
