@@ -40,7 +40,7 @@
             <el-button type="primary" v-if="showSave" @click="handleSave(data.id)">保存</el-button>
             <!-- <el-button type="primary" v-if="showAdd" @click="handleAdd(data.id)">增加子部件</el-button> -->
             <!-- <el-button type="primary" v-if="showReview" @click="dialogReviewVisible=true">审核</el-button> -->
-            <el-button type="danger" v-if="showDel" @click="handleDelClick(data.id)">删除</el-button>
+            <el-button type="danger" v-if="showDel&&root_sczj" @click="handleDelClick(data.id)">删除</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -161,6 +161,7 @@ export default {
       showAdd:false,
       showReview:false,
       showDel:false,
+      root_sczj:false,
       data: {},
       review: {},
       addpart:{},
@@ -217,7 +218,8 @@ export default {
     }
   },
    created() {
-    this.AuthorityInfo()
+    this.AuthorityInfo();
+    this.getroot_apply();
   },
   methods: {
     AuthorityInfo(){
@@ -436,7 +438,29 @@ export default {
           });    
         });
       }
-    }
+    },
+      async getroot(cell){
+        let ms_username=localStorage.ms_username;
+        let fd = new FormData();
+        //在axios中用that指向
+        let that=this;
+        var arr=[];
+        fd.append('flag','getSeeModules');
+        fd.append('account',ms_username);
+        var axios_res =  await axios.post(`${this.baseURL}/getSeeModules.php`,fd).then(function (res){
+          arr=res.data.data.split(",");
+        })
+        //返回一个结果布尔值
+         return arr.includes(cell)
+      },
+      //通过getroot函数获取权限
+      getroot_apply(){
+        let that=this;
+        //用了async异步，内部访问return
+        this.getroot("14_SCZJ").then(function(res){
+          that.root_sczj=res;
+        });
+      }
   }
 };
 </script>

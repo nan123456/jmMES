@@ -17,19 +17,19 @@
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
           <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
-          <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
-          <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
-          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+          <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)" v-if="root_xggyk">编辑</el-button>
+          <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" v-if="root_scgyk">删除</el-button>
+          <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)" v-if="root_fzgyk">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
         </span>
       </template>
       <div slot="table-actions">
-        <el-button type="primary" v-if="newButtonShow[0]" @click="openWeldingDialog">新建焊接</el-button>        
-        <el-button type="primary" v-if="newButtonShow[1]" @click="openCraftsmanshipDialog">新建制造</el-button>
-        <el-button type="primary" v-if="newButtonShow[2]" @click="openHeattreatmentDialog">新建热处理</el-button>
-        <el-button type="primary" v-if="newButtonShow[3]" @click="openMachiningDialog">新建机加工</el-button>
+        <el-button type="primary" v-if="newButtonShow[0]&&root_xjgyk" @click="openWeldingDialog">新建焊接</el-button>        
+        <el-button type="primary" v-if="newButtonShow[1]&&root_xjgyk" @click="openCraftsmanshipDialog">新建制造</el-button>
+        <el-button type="primary" v-if="newButtonShow[2]&&root_xjgyk" @click="openHeattreatmentDialog">新建热处理</el-button>
+        <el-button type="primary" v-if="newButtonShow[3]&&root_xjgyk" @click="openMachiningDialog">新建机加工</el-button>
         <el-button type="primary" v-if="newButtonShow[0] || newButtonShow[1] || newButtonShow[2] || newButtonShow[3]" @click="handlePrinterAll">打印</el-button>
       </div>
     </vue-good-table>
@@ -51,19 +51,19 @@
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
         <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
-        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
-        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
-        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)" v-if="root_xggyk">编辑</el-button>
+        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" v-if="root_scgyk">删除</el-button>
+        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)" v-if="root_fzgyk">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
         </span>
       </template>
       <div slot="table-actions">
-        <el-button type="primary" v-if="newButtonShow[0]" @click="openWeldingDialog">新建焊接</el-button>        
-        <el-button type="primary" v-if="newButtonShow[1]" @click="openCraftsmanshipDialog">新建制造</el-button>
-        <el-button type="primary" v-if="newButtonShow[2]" @click="openHeattreatmentDialog">新建热处理</el-button>
-        <el-button type="primary" v-if="newButtonShow[3]" @click="openMachiningDialog">新建机加工</el-button>
+        <el-button type="primary" v-if="newButtonShow[0]&&root_xjgyk" @click="openWeldingDialog">新建焊接</el-button>        
+        <el-button type="primary" v-if="newButtonShow[1]&&root_xjgyk" @click="openCraftsmanshipDialog">新建制造</el-button>
+        <el-button type="primary" v-if="newButtonShow[2]&&root_xjgyk" @click="openHeattreatmentDialog">新建热处理</el-button>
+        <el-button type="primary" v-if="newButtonShow[3]&&root_xjgyk" @click="openMachiningDialog">新建机加工</el-button>
         <el-button type="primary" v-if="newButtonShow[0] || newButtonShow[1] || newButtonShow[2] || newButtonShow[3]" @click="handlePrinterAll">打印</el-button>
       </div>
     </vue-good-table>
@@ -86,19 +86,19 @@
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'operate'">
         <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
-        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
-        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
-        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)" v-if="root_xggyk">编辑</el-button>
+        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" v-if="root_scgyk">删除</el-button>
+        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)" v-if="root_fzgyk">复制</el-button>
         </span>
         <span v-else>
           {{props.formattedRow[props.column.field]}}
         </span>
       </template>
       <div slot="table-actions">
-        <el-button type="primary" v-if="newButtonShow[0]" @click="openWeldingDialog">新建焊接</el-button>        
-        <el-button type="primary" v-if="newButtonShow[1]" @click="openCraftsmanshipDialog">新建制造</el-button>
-        <el-button type="primary" v-if="newButtonShow[2]" @click="openHeattreatmentDialog">新建热处理</el-button>
-        <el-button type="primary" v-if="newButtonShow[3]" @click="openMachiningDialog">新建机加工</el-button>
+        <el-button type="primary" v-if="newButtonShow[0]&&root_xjgyk" @click="openWeldingDialog">新建焊接</el-button>        
+        <el-button type="primary" v-if="newButtonShow[1]&&root_xjgyk" @click="openCraftsmanshipDialog">新建制造</el-button>
+        <el-button type="primary" v-if="newButtonShow[2]&&root_xjgyk" @click="openHeattreatmentDialog">新建热处理</el-button>
+        <el-button type="primary" v-if="newButtonShow[3]&&root_xjgyk" @click="openMachiningDialog">新建机加工</el-button>
         <el-button type="primary" v-if="newButtonShow[0] || newButtonShow[1] || newButtonShow[2] || newButtonShow[3]" @click="handlePrinterAll">打印</el-button>
       </div>
     </vue-good-table>
@@ -121,16 +121,16 @@
     <template slot="table-row" slot-scope="props">
       <span v-if="props.column.field == 'operate'">
         <el-button type="primary" circle @click="handlePrinter(props.row.contactId,props.row.diff)">打印</el-button>
-        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)">编辑</el-button>
-        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" >删除</el-button>
-        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)">复制</el-button>
+        <el-button type="primary" circle @click="Handlealter(props.row.contactId,props.row.diff)" v-if="root_xggyk">编辑</el-button>
+        <el-button type="danger"  circle @click="deleteStaff(props.row.contactId,props.row.diff)" v-if="root_scgyk">删除</el-button>
+        <el-button type="success" circle @click="getTreeData(props.row.contactId,props.row.diff)" v-if="root_fzgyk">复制</el-button>
       </span>
       <span v-else>
         {{props.formattedRow[props.column.field]}}
       </span>
     </template>
     <div slot="table-actions">
-      <el-button type="primary" v-if="newButtonShow[4]" @click="getCopyAlltypeTreeData()">项目复制至</el-button>
+      <el-button type="primary" v-if="newButtonShow[4]&&root_fzgyk" @click="getCopyAlltypeTreeData()">项目复制至</el-button>
     </div>            
     </vue-good-table>
 
@@ -203,7 +203,11 @@ export default {
         relateId : ""
       },
       newButtonShow :[false,false,false,false,false],
-      copyButtonShow :[false,false],                  
+      copyButtonShow :[false,false],
+      root_xggyk:false,
+      root_scgyk:false,
+      root_xjgyk:false,
+      root_fzgyk:false,                  
       fileinfo:"",
       formLabelWidth: "120px",
       searchItem: "",
@@ -376,6 +380,7 @@ export default {
     MachiningDialog,  
   },
   created () {
+    this.getroot_apply();
   },
   methods: {
     //异步获取后台数据
@@ -842,7 +847,40 @@ export default {
           console.log(error)
       })
       }      
-    }    
+    },
+      //通过缓存用户account与传参cell获取权限，返回一个布尔值
+      //通过 async await进行同步处理axios
+      async getroot(cell){
+        let ms_username=localStorage.ms_username;
+        let fd = new FormData();
+        //在axios中用that指向
+        let that=this;
+        var arr=[];
+        fd.append('flag','getSeeModules');
+        fd.append('account',ms_username);
+        var axios_res =  await axios.post(`${this.baseURL}/getSeeModules.php`,fd).then(function (res){
+          arr=res.data.data.split(",");
+        })
+        //返回一个结果布尔值
+         return arr.includes(cell)
+      },
+      //通过getroot函数获取权限
+      getroot_apply(){
+        let that=this;
+        //用了async异步，内部访问return
+        this.getroot("19_XGGYK").then(function(res){
+          that.root_xggyk=res;
+        });
+        this.getroot("19_SCGYK").then(function(res){
+          that.root_scgyk=res;
+        });
+        this.getroot("19_FZGYK").then(function(res){
+          that.root_fzgyk=res;
+        });
+        this.getroot("19_XJGYK").then(function(res){
+          that.root_xjgyk=res;
+        });
+      }    
   }
 }
 </script>

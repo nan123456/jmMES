@@ -64,9 +64,11 @@
                     fd.append("username",this.ruleForm.username)
                     fd.append("password",this.ruleForm.password)
                     axios.post(`${this.baseURL}/login.php`,fd).then((res)=> {
-                        console.log(res.data)
+                        // console.log(res.data)
                         localStorage.setItem('ms_username',this.ruleForm.username);
                         localStorage.setItem('ms_department',res.data.department);
+                        // localStorage.setItem('seeModule',res.data.seeModule);
+                        localStorage.setItem('userid',res.data.id);
                         if(res.data.status == "success"){
                             this.$router.push('/dashboard');
                         }else{

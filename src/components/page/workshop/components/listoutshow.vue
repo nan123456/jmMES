@@ -12,8 +12,8 @@
           <el-button type="primary"   @click="listQRcode(props.row)">二维码</el-button>
           <!-- <el-button type="primary"   @click="equipmentBarcode(props.row)">条形码</el-button> -->
           <el-button type="primary"   @click="handleTabledata(props.row)">查看详情</el-button>
-          <el-button type="primary" icon="el-icon-edit" circle @click="handleData(props.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="deletelist(props.row)" ></el-button>
+          <el-button type="primary" icon="el-icon-edit" circle @click="handleData(props.row)" v-if="root_xgzp"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="deletelist(props.row)" v-if="root_sczp"></el-button>
 
         </span>
         <span v-else>
@@ -21,7 +21,7 @@
         </span>
       </template>
       <div slot="table-actions">
-        <el-button type="primary" @click="creatData()">新建</el-button>
+        <el-button type="primary" @click="creatData()" v-if="root_xjzp">新建</el-button>
       </div>
     </vue-good-table>
     <!-- 设备详情 -->
@@ -64,6 +64,9 @@ export default {
     return {
       dialogFormVisible: false,
       dialogTableVisible: false,
+      root_xjzp:false,
+      root_sczp:false,
+      root_xgzp:false,
       form: {
         name: "",
         region: "",
@@ -135,6 +138,7 @@ export default {
   },
   created () {
     this.getDataInfo()
+    this.getroot_apply()
   },
   methods: {
     // 新建设备
@@ -286,6 +290,36 @@ export default {
       // //打开生成二维码页面
       window.open('#/listoutQRcode', '_blank');
     },
+      //通过缓存用户account与传参cell获取权限，返回一个布尔值
+      //通过 async await进行同步处理axios
+      async getroot(cell){
+        let ms_username=localStorage.ms_username;
+        let fd = new FormData();
+        //在axios中用that指向
+        let that=this;
+        var arr=[];
+        fd.append('flag','getSeeModules');
+        fd.append('account',ms_username);
+        var axios_res =  await axios.post(`${this.baseURL}/getSeeModules.php`,fd).then(function (res){
+          arr=res.data.data.split(",");
+        })
+        //返回一个结果布尔值
+         return arr.includes(cell)
+      },
+      //通过getroot函数获取权限
+      getroot_apply(){
+        let that=this;
+        //用了async异步，内部访问return
+        this.getroot("31_XJZP").then(function(res){
+          that.root_xjzp=res;
+        });
+        this.getroot("31_XGZP").then(function(res){
+          that.root_xgzp=res;
+        });
+        this.getroot("31_SCZP").then(function(res){
+          that.root_sczp=res;
+        });
+      }
   }
 };
 </script>

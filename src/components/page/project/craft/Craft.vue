@@ -19,7 +19,7 @@
             <el-header>
               <el-row :gutter="20">
                 <el-col :span="2" :offset="20">
-                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true" v-if="this.lx!=='xm'&&this.lx!=='bj'&&this.lx!=='plm_part'&&this.tabName !== 'plm'">导入</el-button>
+                  <el-button type="primary" icon="el-icon-upload" @click="dialogUpload = true" v-if="(this.lx!=='xm'&&this.lx!=='bj'&&this.lx!=='plm_part'&&this.tabName !== 'plm')&&this.root_drzj">导入</el-button>
                 </el-col>
               </el-row>
             </el-header>
@@ -183,6 +183,7 @@ export default {
   data() {
       return {
         btn_state:false,
+        seeModules:'',
         tabName:'ordinary',
         lx:'',
         lxid:'',
@@ -199,6 +200,7 @@ export default {
           label: 'name',
           isLeaf:'leaf'
         },
+        root_drzj:false,
         quxiao:true,
         save:true,
         wait:false,
@@ -216,6 +218,7 @@ export default {
   created() {
     this.getProject();
     this.getPLMProject();
+    this.getroot_apply();
   },
     mounted:function(){
       if(key=='1'){
@@ -583,6 +586,30 @@ export default {
         // console.log(btn_state)
         this.btn_state=btn_state
 
+      },
+      //通过缓存用户account与传参cell获取权限，返回一个布尔值
+      //通过 async await进行同步处理axios
+      async getroot(cell){
+        let ms_username=localStorage.ms_username;
+        let fd = new FormData();
+        //在axios中用that指向
+        let that=this;
+        var arr=[];
+        fd.append('flag','getSeeModules');
+        fd.append('account',ms_username);
+        var axios_res =  await axios.post(`${this.baseURL}/getSeeModules.php`,fd).then(function (res){
+          arr=res.data.data.split(",");
+        })
+        //返回一个结果布尔值
+         return arr.includes(cell)
+      },
+      //通过getroot函数获取权限
+      getroot_apply(){
+        let that=this;
+        //用了async异步，内部访问return
+        this.getroot("14_DRZJ").then(function(res){
+          that.root_drzj=res;
+        });
       }
     }
 };

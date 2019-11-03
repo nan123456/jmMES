@@ -11,7 +11,7 @@
             
         </div> -->
         <!-- <el-button type="primary" @click="dowmload" class="right" disabled>下载</el-button> -->
-        <el-button type="primary" @click="dowmload2" class="right" >归档数据文件导出</el-button>
+        <el-button type="primary" @click="dowmload2" class="right" v-if="root_dcgd">归档数据文件导出</el-button>
         <div class="container">
           <el-container style="height: 85vh;">
             <el-container style="height: 85vh;">
@@ -91,6 +91,7 @@ export default {
         updateTree1:true,
         updateTree2:false,
         dialogUpload:false,
+        root_dcgd:false,
         form:{},
         formLabelWidth: "120px",
         defaultProps: {
@@ -115,6 +116,7 @@ export default {
     },
   created() {
     this.getProject();
+    this.getroot_apply();
   },
     methods: {
         //下载
@@ -270,6 +272,30 @@ export default {
               }
             })
           }
+      },
+      //通过缓存用户account与传参cell获取权限，返回一个布尔值
+      //通过 async await进行同步处理axios
+      async getroot(cell){
+        let ms_username=localStorage.ms_username;
+        let fd = new FormData();
+        //在axios中用that指向
+        let that=this;
+        var arr=[];
+        fd.append('flag','getSeeModules');
+        fd.append('account',ms_username);
+        var axios_res =  await axios.post(`${this.baseURL}/getSeeModules.php`,fd).then(function (res){
+          arr=res.data.data.split(",");
+        })
+        //返回一个结果布尔值
+         return arr.includes(cell)
+      },
+      //通过getroot函数获取权限
+      getroot_apply(){
+        let that=this;
+        //用了async异步，内部访问return
+        this.getroot("29_DCGD").then(function(res){
+          that.root_dcgd=res;
+        });
       }
     }
 }

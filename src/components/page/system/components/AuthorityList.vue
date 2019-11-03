@@ -126,11 +126,43 @@ export default {
             },
             {
               label: "在建项目",
-              value:"14"
+              value:"14",
+              children:[
+                {
+                  label:"查看在建项目模块",
+                  value:"14"
+                },
+                {
+                  label:"导入在建项目",
+                  value:"14_DRZJ"
+                },
+                {
+                  label:"删除在建项目",
+                  value:"14_SCZJ"
+                }
+              ]
             },
             {
               label: "装配出仓",
-              value:"31"
+              value:"31",
+              children:[
+                {
+                  label:"查看装配出仓模块",
+                  value:"31"
+                },
+                {
+                  label:"新建装配清单",
+                  value:"31_XJZP"
+                },
+                {
+                  label:"修改装配清单",
+                  value:"31_XGZP"
+                },
+                {
+                  label:"删除装配清单",
+                  value:"31_SCZP"
+                }
+              ]
             }
           ]
         },
@@ -140,7 +172,29 @@ export default {
           children: [
             {
               label: "工艺卡管理",
-              value:"19"
+              value:"19",
+              children:[
+                {
+                  label:"查看工艺卡模块",
+                  value:"19"
+                },
+                {
+                  label:"新建工艺卡",
+                  value:"19_XJGYK"
+                },
+                {
+                  label:"删除工艺卡",
+                  value:"19_SCGYK"
+                },
+                {
+                  label:"修改工艺卡",
+                  value:"19_XGGYK"
+                },
+                {
+                  label:"复制工艺卡",
+                  value:"19_FZGYK"
+                }
+              ]
             },{
               label: "已完成项目",
               value:"21"
@@ -172,7 +226,17 @@ export default {
             },
             {
               label: "数据归档",
-              value:"29"
+              value:"29",
+              children:[
+                {
+                  label:"查看数据归档模块",
+                  value:"29"
+                },
+                {
+                  label:"导出归档文件",
+                  value:"29_DCGD"
+                }
+              ]
             }
           ]
         }
