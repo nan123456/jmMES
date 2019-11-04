@@ -79,9 +79,9 @@
                 <td colspan="4">不符合确认</td>
                 <td colspan="10">{{ craftsmanshipTableBodyResult.inconsistentConfirmation }}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td v-if="craftsmanshipTableBody_1.fileOne" colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
-            </tr>
+            </tr> -->
         </table>
         <!-- 模板一 end -->
         <!-- 模板二 start -->
@@ -141,7 +141,6 @@
             </tr>
         </table>
         <table class="tableFooter">
-            
             <tr>
                 <td>{{ craftsmanshipTableFooter.mark }}</td>
                 <td>{{ craftsmanshipTableFooter.numberOfPlaces }}</td>
@@ -162,7 +161,80 @@
                 <td>{{ craftsmanshipTableFooter.review }}</td>
             </tr>
         </table>
-        <!-- 尾部信息 end -->       
+        <!-- 尾部信息 end -->
+
+        <div class="page"></div>
+        <!-- 头部信息 start//模板一图片 -->
+        <table class="tableHeader" v-if="craftsmanshipTableBody_1.fileOne">
+            <tr>
+                <td>产品制造工艺技术要求及检验记录表</td>
+                <td>编号</td>
+                <td>{{ craftsmanshipTableHeader.ownPartDrawingNumber + "-" + craftsmanshipTableHeader.contactId  }}</td>
+                <td>工单号：</td>
+                <td>{{craftsmanshipTableHeader.pnumber}}</td>
+            </tr>
+        </table>
+        <table class="tableHeader" v-if="craftsmanshipTableBody_1.fileOne">
+            <tr>
+                <td>产品名称</td>
+                <td>{{ craftsmanshipTableHeader.productName }}</td>
+                <td>所属部件名称</td>
+                <td>{{ craftsmanshipTableHeader.ownPartName }}</td>
+                <td colspan="4">零部件名称</td>
+                <td>{{ craftsmanshipTableHeader.partsName }}</td>
+                <td colspan="4">工件编号</td>
+                <td>{{ craftsmanshipTableHeader.workpieceNumber }}</td>
+            </tr>
+            <tr>
+                <td>产品图号</td>
+                <td>{{ craftsmanshipTableHeader.productDrawingNumber }}</td>
+                <td>所属部件图号</td>
+                <td>{{ craftsmanshipTableHeader.ownPartDrawingNumber }}</td>
+                <td colspan="4">零部件图号</td>
+                <td>{{ craftsmanshipTableHeader.partsDrawingNumber }}</td>
+                <td colspan="4">数量</td>
+                <td>{{ craftsmanshipTableHeader.quantity }}</td>
+            </tr>
+        </table>
+        <!-- 头部信息 end --> 
+        <table class="tableFirstModel" v-if="craftsmanshipTableBody_1.fileOne">
+            <tr>
+                <td colspan="14" ref="firstone" id="firstone" class="craftsmanshipTableBody_1_img" v-html="`<img  src='${baseURL}/${craftsmanshipTableBody_1.fileOne}' style='max-width:90%;max-height:90%;pointer-events:none;display:${isEmpty(craftsmanshipTableBody_1.fileOne)};' />`">&nbsp;</td>
+            </tr>
+        </table>
+        <!-- 尾部信息 start -->
+        <table class="tableFooter" v-if="craftsmanshipTableBody_1.fileOne">
+            <tr>
+                <td>最终结论：</td>
+                <td  style="width: 18%;">{{ craftsmanshipTableFooter.finalConclusion }}</td>
+                <td>检验员：（日期）</td>
+                <td  style="width: 18%;">{{ craftsmanshipTableFooter.inspector }}</td>
+                <td>检验审核：（日期）</td>
+                <td  style="width: 18%;">{{ craftsmanshipTableFooter.inspectionAudit }}</td>
+            </tr>
+        </table>
+        <table class="tableFooter" v-if="craftsmanshipTableBody_1.fileOne">
+            <tr>
+                <td>{{ craftsmanshipTableFooter.mark }}</td>
+                <td>{{ craftsmanshipTableFooter.numberOfPlaces }}</td>
+                <td>{{ craftsmanshipTableFooter.changeTheFileNumber }}</td>
+                <td>{{ craftsmanshipTableFooter.signature }}</td>
+                <td>{{ craftsmanshipTableFooter.date }}</td>
+                <td>编制（日期） </td>
+                <td>审核（日期）</td>
+                <td rowspan="2" colspan="2">中山市金马科技娱乐设备股份有限公司</td>
+            </tr>
+            <tr>
+                <td>标志</td>
+                <td>处数</td>
+                <td>更改文件号</td>
+                <td>签名</td>
+                <td>日期</td>
+                <td>{{ craftsmanshipTableFooter.establishment }}</td>
+                <td>{{ craftsmanshipTableFooter.review }}</td>
+            </tr>
+        </table>
+        <!-- 尾部信息 end -->      
 	</div>
 </template>
 
@@ -332,8 +404,8 @@ export default {
     td {
         border: 1px solid black;
         border-collapse: collapse;
-        padding-left: 1mm;
-        padding-right: 1mm;
+        padding-left: 0mm;
+        padding-right: 0mm;
     }
 
     /* 表格头部 */
@@ -354,7 +426,7 @@ export default {
     }
     .craftsmanshipTableBody_1_img{
         width: 100%;
-        height: 270mm;
+        height: 150mm;
     }
     /* 模板二 */
     .tableSecondModel {
@@ -415,6 +487,9 @@ export default {
     }
     .pageOnetabSecond td {
         height: 7mm;
+    }
+    .page {
+        page-break-before: always;
     }
 
 
