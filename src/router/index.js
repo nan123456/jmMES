@@ -179,6 +179,13 @@ export default new Router({
                     path: '/cloudinteraction',
                     component: resolve => require(['../components/page/system/CloudInteraction.vue'], resolve),
                     meta: { title: '数据归档' }
+                },
+                {
+                    
+                    // 系统设置模块/注册新用户
+                    path: '/register',
+                    component: resolve => require(['../components/page/system/Register.vue'], resolve),
+                    meta: { title: '注册新用户' }
                 }
             ]
         },
