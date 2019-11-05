@@ -237,6 +237,10 @@ export default {
                   value:"29_DCGD"
                 }
               ]
+            },
+            {
+              label: "注册新用户",
+              value:"32",
             }
           ]
         }
