@@ -114,11 +114,11 @@ export default {
           children: [
             {
               label: "车间计划",
-              value:"15"
+              value:"16"
             },
             {
               label: "电子看板",
-              value:"16"
+              value:"17"
             },
             {
               label: "在建项目",
@@ -139,12 +139,16 @@ export default {
               ]
             },
             {
+              label: "已完成项目",
+              value:"15"
+            },
+            {
               label: "发货清单",
-              value:"31",
+              value:"32",
               children:[
                 {
                   label:"查看发货清单模块",
-                  value:"31"
+                  value:"32"
                 },
                 {
                   label:"新建装配清单",
@@ -164,15 +168,15 @@ export default {
         },
         {
           label: "工艺模块",
-          value:"18",
+          value:"19",
           children: [
             {
-              label: "工艺卡管理",
-              value:"19",
+              label: "工艺报表管理",
+              value:"20",
               children:[
                 {
-                  label:"查看工艺卡模块",
-                  value:"19"
+                  label:"查看工艺报表模块",
+                  value:"20"
                 },
                 {
                   label:"新建工艺卡",
@@ -192,7 +196,7 @@ export default {
                 }
               ]
             },{
-              label: "已完成项目",
+              label:"工艺卡模板",
               value:"21"
             }
           ]
@@ -201,28 +205,12 @@ export default {
           value:"22"
         },
         {
-          label: "工时统计",
-          value:"23"
-        },
-        {
-          label: "系统设置",
-          value:"24",
-          children: [
-            {
-              label: "员工信息管理",
-              value:"25"
-            },
-            {
-              label: "操作日志",
-              value:"26"
-            },
-            {
-              label: "权限管理",
-              value:"27"
-            },
+          label: "数据统计",
+          value:"23",
+          children:[
             {
               label: "数据归档",
-              value:"29",
+              value:"25",
               children:[
                 {
                   label:"查看数据归档模块",
@@ -235,8 +223,30 @@ export default {
               ]
             },
             {
+              label: "工时统计",
+              value:"24"           
+            }
+          ]
+        },
+        {
+          label: "系统设置",
+          value:"26",
+          children: [
+            {
+              label: "员工信息管理",
+              value:"27"
+            },
+            {
+              label: "操作日志",
+              value:"28"
+            },
+            {
+              label: "权限管理",
+              value:"29"
+            },
+            {
               label: "注册新用户",
-              value:"32",
+              value:"33",
             }
           ]
         }
