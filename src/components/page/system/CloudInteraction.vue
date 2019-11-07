@@ -61,8 +61,9 @@
                 </el-aside>
                 <!-- 内容 -->
                 <el-main class="part">
+                  <el-button type="primary" class="ReturnButton" @click="CacheReturn()" v-show="btn_state">返回</el-button>
                   <parttree v-if="this.lx=='xm'" :lxid="lxid"></parttree>
-                  <partfile v-if="this.lx=='bj'" :lxid="lxid"></partfile>
+                  <partfile @change="btn_state_change" v-if="this.lx=='bj'" :lxid="lxid"></partfile>
                 </el-main>
             </el-container>
           </el-container>
@@ -84,6 +85,7 @@ export default {
     name: 'CloudInteraction',
     data (){
       return {
+        btn_state:false,
         tabName:'ordinary',
         lx:'',
         lxid:'',
@@ -194,6 +196,11 @@ export default {
         handleNodeClick(data) {
         // console.log(data.id)
         // console.log(data.lx)
+        if(data.lx=='bj'){
+          var CacheArray = [];
+          CacheArray.push(data.id);
+          sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+        }
         this.lx = data.lx
         this.lxid = data.id 
         // console.log(this.$refs.tree.$children)
@@ -202,7 +209,7 @@ export default {
       loadNode(node, resolve){
           // 定义0级节点
           if(node.level === 0) {
-            return resolve([{name:'大类',id:0,lx:'dl'}])   
+            return resolve([{name:'产品大类',id:0,lx:'dl'}])   
             // console.log(node.data.id)     
           }
           // 大类节点
@@ -296,7 +303,28 @@ export default {
         this.getroot("29_DCGD").then(function(res){
           that.root_dcgd=res;
         });
-      }
+      },
+      //通过缓存进行返回
+      CacheReturn(){
+        var CacheArray = JSON.parse(sessionStorage.getItem('ReturnCache'));
+        this.lxid = '';
+        var new_lxid= CacheArray[CacheArray.length-2];
+        this.$nextTick(() => (this.lxid =new_lxid))
+        // this.lxid = CacheArray[CacheArray.length-2];
+        // console.log(this.lxid);
+        CacheArray.pop();
+        sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+        if(CacheArray.length>1){
+          this.btn_state=true
+        }else{
+          this.btn_state=false
+        }
+      },
+      btn_state_change(btn_state){
+        // console.log(btn_state)
+        this.btn_state=btn_state
+
+      },
     }
 }
 </script>
@@ -321,5 +349,12 @@ export default {
   .part{
     width: 800px;
     margin-top: 20px;
+  }
+  .ReturnButton{
+    z-index: 5;
+    position: relative;
+    top:0px;
+    float: right;
+    margin: 5px
   }
 </style>

@@ -133,7 +133,11 @@ export default {
   },
   methods: {
     handleChange(lxid){
-      this.$emit("change",lxid)
+      this.btn_state=true;
+      var CacheArray = JSON.parse(sessionStorage.getItem('ReturnCache'));
+      CacheArray.push(lxid);
+      sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+      this.$emit("change",lxid,this.btn_state)
     },
     selectionChanged(params) {
       // console.log(params.columnFilters);
