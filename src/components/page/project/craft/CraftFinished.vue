@@ -7,9 +7,9 @@
         </div> -->
         <el-tabs v-model="tabName" @tab-click="handleClick">
           <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
-          <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
-          <!-- <el-tab-pane label="全部部件" name="all"></el-tab-pane>
-          <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
+          <!-- <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane> -->
+          <el-tab-pane label="全部零部件" name="all"></el-tab-pane>
+          <!-- <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -109,7 +109,7 @@
 import axios from 'axios'
 import Project from '../components/Project'
 import Part from '../components/Part'
-var key = '1'
+var key = '6'
 export default {
   name: "CraftFinished",
   inject:["reload"],
@@ -274,7 +274,7 @@ export default {
       loadNode(node, resolve){
           // 定义0级节点
           if(node.level === 0) {
-            return resolve([{name:'大类',id:0,lx:'dl'}])   
+            return resolve([{name:'产品大类',id:0,lx:'dl'}])   
             // console.log(node.data.id)     
           }
           // 大类节点

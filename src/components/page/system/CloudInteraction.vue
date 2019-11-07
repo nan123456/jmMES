@@ -202,7 +202,7 @@ export default {
       loadNode(node, resolve){
           // 定义0级节点
           if(node.level === 0) {
-            return resolve([{name:'大类',id:0,lx:'dl'}])   
+            return resolve([{name:'产品大类',id:0,lx:'dl'}])   
             // console.log(node.data.id)     
           }
           // 大类节点

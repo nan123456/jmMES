@@ -121,10 +121,6 @@ export default {
               value:"16"
             },
             {
-              label: "设备安全点检",
-              value:"17"
-            },
-            {
               label: "在建项目",
               value:"14",
               children:[
@@ -143,11 +139,11 @@ export default {
               ]
             },
             {
-              label: "装配出仓",
+              label: "发货清单",
               value:"31",
               children:[
                 {
-                  label:"查看装配出仓模块",
+                  label:"查看发货清单模块",
                   value:"31"
                 },
                 {
