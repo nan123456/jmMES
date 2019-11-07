@@ -317,8 +317,9 @@ export default {
     handleChange(val) {
       // console.log(val);
     },
-    handleChangeBOX(id) {
+    handleChangeBOX(id,btn_state) {
       // console.log(id)
+      this.$emit("change",btn_state)
       this.mylxid = ''
       this.mylxid = id
       this.activeName = 'first'

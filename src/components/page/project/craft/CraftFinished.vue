@@ -7,9 +7,9 @@
         </div> -->
         <el-tabs v-model="tabName" @tab-click="handleClick">
           <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
-          <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane>
-          <!-- <el-tab-pane label="全部部件" name="all"></el-tab-pane>
-          <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
+          <!-- <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane> -->
+          <el-tab-pane label="全部部件" name="all"></el-tab-pane>
+          <!-- <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
         </el-tabs>
         <div class="container">
           <el-container style="height: 600px;">
@@ -60,8 +60,9 @@
                 </el-aside>
                 <!-- 内容 -->
                 <el-main>
+                  <el-button type="primary" class="ReturnButton" @click="CacheReturn()" v-show="btn_state">返回</el-button>
                   <project v-if="this.lx=='xm'" :lxid="lxid"></project>
-                  <part v-if="this.lx=='bj'" :lxid="lxid"></part>
+                  <part @change="btn_state_change" v-if="this.lx=='bj'" :lxid="lxid"></part>
                 </el-main>
             </el-container>
           </el-container>
@@ -109,7 +110,7 @@
 import axios from 'axios'
 import Project from '../components/Project'
 import Part from '../components/Part'
-var key = '1'
+var key = '6'
 export default {
   name: "CraftFinished",
   inject:["reload"],
@@ -119,6 +120,7 @@ export default {
   },
   data() {
       return {
+        btn_state:false,
         tabName:'ordinary',
         lx:'',
         lxid:'',
@@ -264,6 +266,11 @@ export default {
       handleNodeClick(data) {
         // console.log(data.id)
         // console.log(data.lx)
+        if(data.lx=='bj'){
+          var CacheArray = [];
+          CacheArray.push(data.id);
+          sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+        }
         this.lx = data.lx
         this.lxid = data.id 
         // console.log(this.$refs.tree.$children)
@@ -274,7 +281,7 @@ export default {
       loadNode(node, resolve){
           // 定义0级节点
           if(node.level === 0) {
-            return resolve([{name:'大类',id:0,lx:'dl'}])   
+            return resolve([{name:'产品大类',id:0,lx:'dl'}])   
             // console.log(node.data.id)     
           }
           // 大类节点
@@ -344,7 +351,28 @@ export default {
               }
             })
           }
-      }
+      },
+      //通过缓存进行返回
+      CacheReturn(){
+        var CacheArray = JSON.parse(sessionStorage.getItem('ReturnCache'));
+        this.lxid = '';
+        var new_lxid= CacheArray[CacheArray.length-2];
+        this.$nextTick(() => (this.lxid =new_lxid))
+        // this.lxid = CacheArray[CacheArray.length-2];
+        // console.log(this.lxid);
+        CacheArray.pop();
+        sessionStorage.setItem('ReturnCache', JSON.stringify(CacheArray));
+        if(CacheArray.length>1){
+          this.btn_state=true
+        }else{
+          this.btn_state=false
+        }
+      },
+      btn_state_change(btn_state){
+        // console.log(btn_state)
+        this.btn_state=btn_state
+
+      },
     }
 };
 </script>
@@ -363,5 +391,12 @@ export default {
   .selectdiv{
     margin-bottom: 10px;
     width: 275px
+  }
+  .ReturnButton{
+    z-index: 5;
+    position: relative;
+    top:0px;
+    float: right;
+    margin: 5px
   }
 </style>
