@@ -133,8 +133,11 @@
         {{props.formattedRow[props.column.field]}}
       </span>
     </template>
-    <div slot="table-actions">
+    <div slot="table-actions" class="inline">
       <el-button type="primary" v-if="newButtonShow[4]&&root_fzgyk" @click="getCopyAlltypeTreeData()">项目复制至</el-button>
+    </div> 
+    <div slot="table-actions" class="inline" style="margin-left:5px">
+      <el-button type="primary" @click="getCreatAlltypeTreeData()">项目生成报表</el-button>
     </div>            
     </vue-good-table>
 
@@ -166,6 +169,25 @@
 
     <!-- 机加工 -->
     <machining-dialog ref="machining" v-on:refreshTable="GetListData"></machining-dialog>
+
+    <el-dialog
+      title="选择要生成工艺清单到哪个项目" 
+      :visible.sync="dialogVisible3" 
+      :before-close="handleClose">
+      <el-tree 
+          :data="treeData" 
+          :props="defaultProps" 
+          ref="tree" 
+          node-key="thereId"
+          :show-checkbox ="true"
+          check-strictly 
+          :highlight-current="true">
+      </el-tree>      
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="cancelCopy3()">取 消</el-button>
+      <el-button type="primary" @click="creatListAll()">确 定</el-button>
+    </span>
+    </el-dialog>
 
     <el-dialog
       title="选择要生成工艺清单到哪个项目" 
@@ -377,6 +399,7 @@ export default {
       rows: [],    
       dialogVisible: false,
       dialogVisible2: false,
+      dialogVisible3:false,
       treeData: [
           {
               label: '焊接工艺及检验记录',
@@ -622,6 +645,13 @@ export default {
         message: '已取消生成工艺清单',
       });
     },
+    cancelCopy3(){
+      this.dialogVisible3 = false;
+      this.$message({
+        type: 'info',
+        message: '已取消生成工艺清单',
+      });
+    },
     // 删除列表中的信息
     deleteStaff(contactId,diff) {
       this.$confirm('将删除该记录, 是否继续?', '提示', {
@@ -815,6 +845,17 @@ export default {
           console.log(error)
       })
     },
+    getCreatAlltypeTreeData(){
+      this.dialogVisible3=true; 
+      axios.get(`${this.baseURL}/basicdata/documentTemplate.php?flag=getCopyAlltypeTreeData`)
+      .then((response) => {
+          this.treeData = response.data.data;
+
+      })
+      .catch(function(error){
+          console.log(error)
+      })  
+    },
     //加载Alltype树信息
     getCopyAlltypeTreeData(){
       this.copyButtonShow = [false,true];
@@ -827,6 +868,38 @@ export default {
       .catch(function(error){
           console.log(error)
       })           
+    },
+    creatListAll(){
+      //获取选中树节点thereId
+      var Nodes = this.$refs.tree.getCheckedKeys()
+      // console.log(Nodes);
+      if(Nodes.includes(undefined)){
+        alert("请只选择具体项目")
+      }else if(Nodes.length > 1){
+        alert("只能选择一个项目")
+      }else{
+        axios.get(`${this.baseURL}/basicdata/documentTemplate.php?flag=getAllCreat&thereId=${Nodes}&OldrelateId=${this.OldrelateId}`)
+      .then((response) => {
+        if(response.data.state == "success"){
+          this.GetListData(this.selectedTreeNode)
+          this.dialogVisible3=false;
+          this.$message({
+            type: 'success',
+            message: '复制成功'
+           })
+          }else{
+            console.log(response.data.message)
+            this.GetListData(this.selectedTreeNode)
+            this.$message({
+              type: 'error',
+              message: '复制失败'
+            })
+          }
+      })
+      .catch(function(error){
+          console.log(error)
+      })
+      }      
     },
     creatList(){
       //获取选中树节点thereId
@@ -960,7 +1033,11 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+.inline{
+  display: inline;
+}
+</style>
 <style>
   .vgt-left-align{
     text-align: center !important;

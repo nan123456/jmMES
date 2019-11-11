@@ -21,21 +21,21 @@
           <el-form-item label="项目备注">
             <el-input type="textarea" v-model="data.remark"></el-input>
           </el-form-item>
-          <el-form-item label="项目进度">
+          <!-- <el-form-item label="项目进度">
             <el-collapse v-model="activeNames" accordion>
                 <el-collapse-item name="1">
-                  <el-steps :space="100"  :align-center="true" >
+                  <el-steps :space="100"  :align-center="true" > -->
                   <!-- element-ui 一些标签不能注册点击事件@click  需使用@click.native -->
                     <!-- <el-step v-if="data.finished" v-for="(finished,f,index) in data.finished" :key="index" status="success" @click.native="handleStep(finished.id)" :title="finished.route" ></el-step>
                     <el-step v-if="data.build" v-for="(build,b,index) in data.build" :key="index" status="process" @click.native="handleStep(build.id)" :title="build.route" ></el-step>
                     <el-step v-if="data.unfinished" v-for="(unfinished,u,index) in data.unfinished" status="wait" @click.native="handleStep(unfinished.id)" :key="index" :title="unfinished.route"></el-step> -->
-                    <el-step v-if="data.finished" v-for="(finished,f,index) in data.finished" :key="index" status="success"  :title="finished.route" ></el-step>
+                    <!-- <el-step v-if="data.finished" v-for="(finished,f,index) in data.finished" :key="index" status="success"  :title="finished.route" ></el-step>
                     <el-step v-if="data.build" v-for="(build,b,index) in data.build" :key="index" status="process"  :title="build.route" ></el-step>
                     <el-step v-if="data.unfinished" v-for="(unfinished,u,index) in data.unfinished" status="wait"  :key="index" :title="unfinished.route"></el-step>
                   </el-steps>
                 </el-collapse-item>
             </el-collapse>
-          </el-form-item>
+          </el-form-item> -->
            <el-form-item>
             <el-button type="primary" v-if="showSave" @click="handleSave(data.id)">保存</el-button>
             <!-- <el-button type="primary" v-if="showAdd" @click="handleAdd(data.id)">增加子部件</el-button> -->
