@@ -111,7 +111,13 @@ export default new Router({
                     // 基础数据模块/文档管理
                     path: '/document',
                     component: resolve => require(['../components/page/basicdata/Document.vue'], resolve),
-                    meta: { title: '工艺卡管理' }
+                    meta: { title: '工艺报表管理' }
+                },
+                {
+                    // 基础数据模块/文档管理
+                    path: '/documenttemplate',
+                    component: resolve => require(['../components/page/basicdata/DocumentTemplate.vue'], resolve),
+                    meta: { title: '工艺模板管理' }
                 },
                 // {
                 //     // 基础数据模块/原材料管理
@@ -135,7 +141,7 @@ export default new Router({
                     // 车间模块/车间计划
                     path: '/listout',
                     component: resolve => require(['../components/page/workshop/listout.vue'], resolve),
-                    meta: { title: '装配出仓' }
+                    meta: { title: '发货清单' }
                 },
                 {
                     // 检验模块
@@ -282,6 +288,26 @@ export default new Router({
             path: '/craftsmanshipprinterAll',
             component: resolve => require(['../components/page/CraftsmanshipprinterAll.vue'], resolve),
             meta: { title: '制造工艺打印' }
+        },
+        {
+            path: '/weldingprinterTemplate',
+            component: resolve => require(['../components/page/WeldingprinterTemplate.vue'], resolve),
+            meta: { title: '焊接模板查看' }
+        },
+        {
+            path: '/craftsmanshipprinterTemplate',
+            component: resolve => require(['../components/page/CraftsmanshipprinterTemplate.vue'], resolve),
+            meta: { title: '制造工艺模板查看' }
+        },
+        {
+            path: '/machiningprinterTemplate',
+            component: resolve => require(['../components/page/MachiningprinterTemplate.vue'], resolve),
+            meta: { title: '机械加工工艺模板查看' }
+        },
+        {
+            path: '/HeattreatmentprinterTemplate',
+            component: resolve => require(['../components/page/HeattreatmentprinterTemplate.vue'], resolve),
+            meta: { title: '热处理模板查看' }
         },
         {
             path: '/login',
