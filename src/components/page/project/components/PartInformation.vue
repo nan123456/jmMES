@@ -35,6 +35,11 @@
               <el-radio v-model="data.radio" label="2">否</el-radio>
             </template>
           </el-form-item>
+          <el-form-item label="完成状态">
+            <el-col :span="10">
+              <el-input v-model="data.isfinish_state" :disabled="true"></el-input>
+            </el-col>
+          </el-form-item>
           <el-form-item label="子物料">
             <el-col :span="10">
               <el-input v-model="data.child_material" :disabled="true"></el-input>

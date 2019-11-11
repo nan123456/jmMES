@@ -8,10 +8,10 @@
         <el-tabs v-model="tabName" @tab-click="handleClick">
           <!-- <el-tab-pane label="普通零部件" name="ordinary"></el-tab-pane> -->
           <!-- <el-tab-pane label="关键零部件" name="momentous"></el-tab-pane> -->
-          <!-- <el-tab-pane label="进行中" name="ongoing"></el-tab-pane>
-          <el-tab-pane label="已完成" name="completed"></el-tab-pane>
-          <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
+          <!-- <el-tab-pane label="进行中" name="ongoing"></el-tab-pane> -->
+          <!-- <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
           <el-tab-pane label="全部零部件" name="all"></el-tab-pane>
+          <el-tab-pane label="已完成零部件" name="completed"></el-tab-pane>
           <el-tab-pane label="PLM数据图档读取" name="plm"></el-tab-pane> 
         </el-tabs>
         <div class="container">
