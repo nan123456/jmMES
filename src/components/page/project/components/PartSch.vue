@@ -6,6 +6,9 @@
         <!-- v-for(val,key,index) val是内容，key是键值名，index是索引 -->
         <el-collapse-item v-if="data.item.length>0" v-for="(item,key,index) in data.item" :key="index"  :title="item.name">
           <el-form>
+            <el-form-item label="部件进度：">
+              <Progress-Bar :ProgData="item"></Progress-Bar>
+            </el-form-item>
             <el-form-item label="工艺路线1"></el-form-item>
               <el-steps :space="100"  :align-center="true" >
                 <!-- 使用插槽嵌套循环 -->
@@ -70,6 +73,7 @@
 <script>
 import axios from 'axios'
 import { VueGoodTable } from "vue-good-table"
+import ProgressBar from "../../ProgressBar"
 export default {
   name: 'PartSch',
   props: {
@@ -78,7 +82,8 @@ export default {
     }
   },
   components:{
-    VueGoodTable
+    VueGoodTable,
+    ProgressBar
   },
   data () {
     return {
@@ -124,7 +129,7 @@ export default {
         // console.log(val)
         this.data = {}
         this.data = val
-        // console.log(this.data.item.length)
+        // console.log(this.data)
         if(val.key=='default'){
           this.data = {"item":[]}
           // console.log(this.data.item.length)

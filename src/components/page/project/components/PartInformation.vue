@@ -53,7 +53,7 @@
           <el-form-item label="备注">
             <el-input type="textarea" v-model="data.remark" ></el-input>
           </el-form-item>
-          <el-form-item label="部件进度">
+          <el-form-item label="工艺进度">
             <el-collapse accordion>
                 <el-collapse-item>
                   <el-steps :space="100" :align-center="true">
@@ -66,6 +66,13 @@
                     <el-step v-if="data.unfinished" v-for="(unfinished,u,index) in data.unfinished" status="wait"  :key="index" :title="unfinished.route"></el-step>                  
                   </el-steps>
                 </el-collapse-item>
+            </el-collapse>
+          </el-form-item>
+           <el-form-item label="部件进度">
+            <el-collapse accordion>
+              <el-collapse-item>
+                <progress-bar :ProgData="data"></progress-bar>
+              </el-collapse-item>
             </el-collapse>
           </el-form-item>
           <el-form-item>
@@ -163,10 +170,12 @@
 <script>
 import axios from 'axios'
 import { VueGoodTable } from "vue-good-table"
+import ProgressBar from "../../ProgressBar"
 export default {
   name: 'PartInformation',
   components: {
-    VueGoodTable
+    VueGoodTable,
+    ProgressBar
   },
   props: {
     partdata:Object
