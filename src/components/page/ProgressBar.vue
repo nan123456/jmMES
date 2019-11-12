@@ -26,28 +26,62 @@ export default {
     props: {
         ProgData:{
             type:Array
-        }
+        },
+        project:{
+            type:Object
+        },
     },
     watch:{
         ProgData : {
             immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
             handler(val) {
+                console.log(val)
+                this. DivHtml = ''
+                // this.belong_part = val.name
+                // this.pNumber = val.pNumber
+                if(val==undefined){
+
+                }else{
+                    this.part_getdata(val)
+                }
+                
+            }  
+        },
+        project : {
+            immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
+            handler(val) {
                 // console.log(val)
                 this. DivHtml = ''
-                this.belong_part = val.name
-                this.pNumber = val.pNumber
-                this.getdata()
-            }  
+                // this.pNumber = val.pNumber
+                if(val==undefined){
+
+                }else{
+                    this.project_getdata(val)
+                }
+                
+            } 
         }
     },
     // created(){
     //     this.getdata()
     // },
     methods:{
-        getdata(){
+        part_getdata(val){
+            this.belong_part = val.name
+            this.pNumber = val.pNumber
             var fd = new FormData
-            fd.append('flag',"Havebelong_part")
+            fd.append('flag',"part")
             fd.append('belong_part',this.belong_part)
+            fd.append('pNumber',this.pNumber)
+            axios.post(`${this.baseURL}/ProgressBar.php`,fd).then((res)=>{
+                // console.log(res.data)
+                this.LoadDiv(res.data)
+          })
+        },
+        project_getdata(val){
+            this.pNumber = val.pNumber
+            var fd = new FormData
+            fd.append('flag',"project")
             fd.append('pNumber',this.pNumber)
             axios.post(`${this.baseURL}/ProgressBar.php`,fd).then((res)=>{
                 // console.log(res.data)

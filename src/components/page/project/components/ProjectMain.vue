@@ -36,6 +36,13 @@
                 </el-collapse-item>
             </el-collapse>
           </el-form-item> -->
+          <el-form-item label="项目进度">
+            <el-collapse accordion>
+              <el-collapse-item>
+                <progress-bar :project="data"></progress-bar>
+              </el-collapse-item>
+            </el-collapse>
+          </el-form-item>
            <el-form-item>
             <el-button type="primary" v-if="showSave" @click="handleSave(data.id)">保存</el-button>
             <!-- <el-button type="primary" v-if="showAdd" @click="handleAdd(data.id)">增加子部件</el-button> -->
@@ -142,6 +149,7 @@
 
 <script>
 import axios from "axios"
+import ProgressBar from "../../ProgressBar"
 import { VueGoodTable } from "vue-good-table"
 export default {
   name: "ProjectMain",
@@ -149,7 +157,8 @@ export default {
     prodata: Object
   },
   components: {
-    VueGoodTable
+    VueGoodTable,
+    ProgressBar
   },
   data () {
     return {
