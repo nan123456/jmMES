@@ -7,7 +7,7 @@
         </div> -->
         <div class="container">
         	<el-tabs v-model="activeName2" type="card">
-				    <el-tab-pane label="车间任务" name="first"><workshop-task></workshop-task></el-tab-pane>
+				    <el-tab-pane label="车间看板" name="first"><workshop-task></workshop-task></el-tab-pane>
 				  </el-tabs>
         </div>
         <!--<div class="container" id="Workshop">
@@ -37,5 +37,7 @@ export default {
 }
 </script>
 <style scoped>
-  
+  .container{
+    height: 580px;
+  }
 </style>
