@@ -44,16 +44,14 @@
                 </div>
             </el-dialog>
         </el-container>
-        <ProgressBar></ProgressBar>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import ProgressBar from '../../page/ProgressBar.vue'
 export default {
     components:{
-        ProgressBar
+        
     },
     data(){
         return{

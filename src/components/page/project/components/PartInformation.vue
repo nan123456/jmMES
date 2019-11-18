@@ -69,8 +69,8 @@
             </el-collapse>
           </el-form-item>
            <el-form-item label="部件进度">
-            <el-collapse accordion>
-              <el-collapse-item>
+            <el-collapse v-model="activeNames" accordion>
+              <el-collapse-item  name="1">
                 <progress-bar :ProgData="data"></progress-bar>
               </el-collapse-item>
             </el-collapse>
@@ -202,7 +202,7 @@ export default {
       showHot:true,
       showMach:true,
       showDel:false,
-
+      activeNames:['1'],
       columns: [
         {
           label: "工序",

@@ -94,7 +94,6 @@ export default {
                 tableFlag:"",
                 proName:"",
                 proCode:"",
-
             },
             defaultProps: {
                 children: 'children',
