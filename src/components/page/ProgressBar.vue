@@ -7,7 +7,7 @@
         <div style="width:10px;height:10px;background-color:#E6A23C;float:left"></div>
         <p class="Pstyle">{{this.pdata[2].isfinish}}:{{this.pdata[2].count}}%</p>
         <br>
-        <div style="width:23.5%;height:20px;" v-html="DivHtml">
+        <div style="width:85%;height:50px;" v-html="DivHtml">
         </div>
     </div>
 </template>

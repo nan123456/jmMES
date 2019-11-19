@@ -129,6 +129,7 @@
             column-key="WorkstateBox"
             filter-placement="bottom-end"
           ></el-table-column>
+          <el-table-column prop="count" label="数量" sortable></el-table-column>
           <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
           <el-table-column width="120">
             <template slot-scope="scope">
@@ -191,6 +192,7 @@
             column-key="WorkstateBox1"
             filter-placement="bottom-end"
           ></el-table-column>
+          <el-table-column prop="count" label="数量" sortable></el-table-column>
           <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
           <el-table-column width="120">
             <template slot-scope="scope">
