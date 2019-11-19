@@ -89,7 +89,10 @@
             :key="props.index"
             v-if="props.row.show_img"
             target="_blank"          
-          >查看图片</router-link>
+          ><el-button 
+            type="primary">
+            查看图片
+          </el-button></router-link>
         </span>
         <span v-if="props.column.field == 'checkSituation'">
           <el-button 
