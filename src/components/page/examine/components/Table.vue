@@ -68,6 +68,7 @@
           <router-link
             :to="{path:'Photo',query: {url: props.row.photourl}}"
             :key="props.index"
+            v-if="props.row.photourl!=''"
             target="_blank">
           <el-button 
             type="primary">
@@ -87,7 +88,7 @@
             :to="{path:'Photo',query: {url: props.row.photourl}}"
             class="show_img"
             :key="props.index"
-            v-if="props.row.show_img"
+            v-if="props.row.photourl!=''"
             target="_blank"          
           ><el-button 
             type="primary">
