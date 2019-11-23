@@ -96,7 +96,7 @@
           <el-table-column
             prop="workshop"
             label="车间"
-            width="100"
+            width="80"
             :filters="WorkshopBox"
             :filter-method="filterRoute"
             column-key="WorkshopBox"
@@ -105,7 +105,7 @@
           <el-table-column
             prop="route"
             label="工序"
-            width="100"
+            width="60"
             filter-placement="bottom-end"
             :filters="RouteClass"
             :filter-method="filterHandler"
@@ -114,7 +114,7 @@
           <el-table-column
             prop="cuser"
             label="负责人"
-            width="100"
+            width="70"
             filter-placement="bottom-end"
             :filters="WorkcuserBox"
             :filter-method="filterLeader"
@@ -123,15 +123,15 @@
           <el-table-column
             prop="state"
             label="状态"
-            width="100"
+            width="60"
             :filters="WorkstateBox"
             :filter-method="filterState"
             column-key="WorkstateBox"
             filter-placement="bottom-end"
           ></el-table-column>
-          <el-table-column prop="count" label="数量" sortable></el-table-column>
-          <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
-          <el-table-column width="120">
+          <el-table-column prop="count" label="数量" sortable width="70"></el-table-column>
+          <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
+          <el-table-column width="100">
             <template slot-scope="scope">
               <el-button size="small" type="primary" @click="handleRead(scope.row)">标为已读</el-button>
             </template>
@@ -159,7 +159,7 @@
            <el-table-column
             prop="workshop"
             label="车间"
-            width="100"
+            width="80"
             :filters="WorkshopBox1"
             :filter-method="filterRoute"
             column-key="WorkshopBox1"
@@ -168,7 +168,7 @@
           <el-table-column
             prop="route"
             label="工序"
-            width="100"
+            width="60"
             filter-placement="bottom-end"
             :filters="RouteClass"
             :filter-method="filterHandler"
@@ -177,7 +177,7 @@
           <el-table-column
             prop="cuser"
             label="负责人"
-            width="100"
+            width="70"
             filter-placement="bottom-end"
             :filters="WorkcuserBox1"
             :filter-method="filterLeader"
@@ -186,17 +186,17 @@
           <el-table-column
             prop="state"
             label="状态"
-            width="100"
+            width="60"
             :filters="WorkstateBox1"
             :filter-method="filterState"
             column-key="WorkstateBox1"
             filter-placement="bottom-end"
           ></el-table-column>
-          <el-table-column prop="count" label="数量" sortable></el-table-column>
-          <el-table-column prop="date" label="日期" sortable width="180"></el-table-column>
-          <el-table-column width="120">
+          <el-table-column prop="count" width="70" label="数量" sortable></el-table-column>
+          <el-table-column prop="date" label="日期" sortable width="140"></el-table-column>
+          <el-table-column width="100">
             <template slot-scope="scope">
-              <el-button size="big" type="danger" @click="handleDel(scope.row)">删除消息</el-button>
+              <el-button size="small" type="danger" @click="handleDel(scope.row)">删除消息</el-button>
             </template>
           </el-table-column>
         </el-table>

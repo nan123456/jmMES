@@ -3,6 +3,7 @@
     <vue-good-table
       :columns="columns" 
       :rows="rows" 
+      :pagination-options="{enabled: true,mode: 'records'}"
       :search-options="{
         enabled: true
       }"
