@@ -10,7 +10,8 @@
         draggable>
         </el-tree> 
         <el-button type="primary" class="button_save" @click="save()">生成树结构json文件</el-button>
-        <el-button type="danger" class="button_cancel" @click="cancel()">取消</el-button> 
+        <!-- <el-button type="danger" class="button_cancel" @click="cancel()">取消</el-button>  -->
+        <!-- <el-button type="danger" class="button_cancel" @click="reloadtree()">重载树</el-button>  -->
         <el-dialog title="子部件信息" :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="子部件名称" :label-width="formLabelWidth">
@@ -85,6 +86,7 @@ export default {
                     }]
                 }]
             }], 
+            firstdata:{},
             defaultProps: {
                 children: 'children',
                 label: 'label'
@@ -109,6 +111,8 @@ export default {
             immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
             handler(val) {
                 this.data = val
+                this.firstdata=val
+                console.log(this.firstdata)
             }  
         },
     },
@@ -175,19 +179,22 @@ export default {
       },
       save(){
           alert('已生成json文件')
-          this.$emit('listen',false)
+        //   this.$emit('listen',false)
+      },
+      reloadtree(){
+          location.reload();
       }     
     }
 }
 </script>
 <style scoped>
     .main{
-        border-style: solid;
+        /* border-style: solid; */
         border-width: 1px;
         border-color:black ;
-        width: 70%;
+        width: 90%;
         position: relative;
-        left: 15%;
+        left: 5%;
     }
     .tree{
         margin-top: 30px;
@@ -196,8 +203,8 @@ export default {
     }
     .button_save{
         position:absolute;
-        right: 15%;
-        top: 10px;
+        right: 5%;
+        top: 0px;
     }
     .button_cancel{
         position:absolute;
