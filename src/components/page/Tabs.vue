@@ -452,7 +452,7 @@ export default {
             }  
           }
           let length3 = unread.WorkcuserBox.length;
-          for(let i=0; i < length2; i++) {
+          for(let i=0; i < length3; i++) {
             if(unread.WorkcuserBox[i].f7!==null&&unread.WorkcuserBox[i].f7!==''){
               this.WorkcuserBox.push({text:unread.WorkcuserBox[i].f7,value:unread.WorkcuserBox[i].f7})
             }  

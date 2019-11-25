@@ -878,7 +878,7 @@ export default {
       }else if(Nodes.length > 1){
         alert("只能选择一个项目")
       }else{
-        axios.get(`${this.baseURL}/basicdata/documentTemplate.php?flag=getAllCreat&thereId=${Nodes}&OldrelateId=${this.OldrelateId}`)
+        axios.get(`${this.baseURL}/basicdata/documentTemplate.php?flag=getAllCreat&thereId=${Nodes}&OldrelateId=${this.OldrelateId}&account=${localStorage.getItem('account')}`,)
       .then((response) => {
         if(response.data.state == "success"){
           this.GetListData(this.selectedTreeNode)
@@ -910,7 +910,7 @@ export default {
       }else if(Nodes.length > 1){
         alert("只能选择一个项目")
       }else{
-        axios.get(`${this.baseURL}/basicdata/documentTemplate.php?flag=getCreat&type=${Nodes}&contactId=${this.conid}&cardtype=${this.cardtype}`)
+        axios.get(`${this.baseURL}/basicdata/documentTemplate.php?flag=getCreat&type=${Nodes}&contactId=${this.conid}&cardtype=${this.cardtype}&account=${localStorage.getItem('account')}`)
       .then((response) => {
         if(response.data.state == "success"){
           this.GetListData(this.selectedTreeNode)
