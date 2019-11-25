@@ -47,7 +47,7 @@
                         <el-select v-model="selectvalue2" class="selectdiv2" placeholder="请选择需要读取的产品">
                           <el-option
                             v-for="item in options2"
-                            :key="item.value"
+                            :key="item.index"
                             :label="item.label"
                             :value="item.value">
                           </el-option>
@@ -101,6 +101,7 @@
                   <project v-if="this.lx=='xm'" :lxid="lxid"></project>
                   <part @change="btn_state_change" v-if="this.lx=='bj'" :lxid="lxid"></part>
                   <plm-part v-if="this.lx=='plm_part'" :lxid="lxid"></plm-part>
+                  <PlmTreeList v-if="this.lx=='plm_tree'" :name='name'></PlmTreeList>
                 </el-main>
             </el-container>
           </el-container>
@@ -171,6 +172,7 @@ import axios from 'axios'
 import Project from '../components/Project'
 import Part from '../components/Part'
 import PlmPart from '../components/PLM_Part'
+import PlmTreeList from '../components/PLM_tree_list'
 var key = '6'
 export default {
   name: "Craft",
@@ -178,7 +180,8 @@ export default {
   components:{
     Project,
     Part,
-    PlmPart
+    PlmPart,
+    PlmTreeList
   },
   data() {
       return {
@@ -213,6 +216,8 @@ export default {
         options2: [],
         selectvalue2:'',
         CacheLength:0,
+        dataplmtree:'',
+        name:''
       };
     },
   created() {
@@ -396,6 +401,7 @@ export default {
         }
         this.lx = data.lx
         this.lxid = data.id 
+        this.name = data.name 
         // console.log(this.$refs.tree.$children)
       },
 
@@ -421,7 +427,9 @@ export default {
         }) 
       },
       getPLM(){
-          alert("未检测到PLM数据源，请在同一局域网下读取");
+          // alert("未检测到PLM数据源，请在同一局域网下读取");
+          this.dataplmtree=this.loadNode2();
+          console.log(this.dataplmtree)
       },
       // Tree 控件显示
       loadNode1(node, resolve){
@@ -503,7 +511,7 @@ export default {
       loadNode2(node, resolve){
           // 定义0级节点
           if(node.level === 0) {
-            return resolve([{name:'产品大类',id:0,lx:'dl'}])      
+            return resolve([{name:'产品图号',id:0,lx:'dl'}])    
           }
           // 大类节点
           if(node.level === 1&node.data.id === 0 ){
@@ -519,27 +527,27 @@ export default {
               }
             })  
           }
-          // 项目节点
+          // // 项目节点
+          // if(node.level === 2)　{
+          //   console.log(node.data) 
+          //   var fd = new FormData()
+          //   fd.append('flag','plm_project')
+          //   fd.append('type',node.data.name) //node.data 父节点所带参数
+          //   axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+          //     // console.log(res)
+          //     if(res.data.success){
+          //       return resolve (res.data.data)
+          //     }else {
+          //       return resolve([])
+          //     }
+          //   })
+          // }
+          // tree 2级树节点
           if(node.level === 2)　{
             console.log(node.data) 
             var fd = new FormData()
-            fd.append('flag','plm_project')
-            fd.append('type',node.data.name) //node.data 父节点所带参数
-            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
-              // console.log(res)
-              if(res.data.success){
-                return resolve (res.data.data)
-              }else {
-                return resolve([])
-              }
-            })
-          }
-          // tree 3级树节点
-          if(node.level === 3)　{
-            console.log(node.data) 
-            var fd = new FormData()
             fd.append('flag','plm_mpart')
-            fd.append('number',node.data.number) //node.data 父节点所带参数
+            fd.append('number',node.data.name) //node.data 父节点所带参数
             axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
               // console.log(res)
               if(res.data.success){
@@ -549,8 +557,8 @@ export default {
               }
             })
           }
-          // 3级以下树子节点
-          if(node.level > 3)　{
+          // 2级以下树子节点
+          if(node.level > 2)　{
             console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','plm_part')
