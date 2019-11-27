@@ -98,10 +98,25 @@
           </el-table>
           </el-collapse-item>
           <el-collapse-item title="附件" name="3">
+            <span><b>完工未检验图片：</b></span>
             <div v-for="(tdata,index) in tableData" :key="index">
-              <span>{{tdata.route}}</span>
-              <div v-for="(photo,i) in photo[index]" :key="i">
-                <img v-if='item[index+i]' :src="item[index+i]" class="img"/>
+              <span>{{tdata.route}}路线：</span>
+              <div v-for="(photo,i) in finishphoto[index]" :key="i">
+                <img v-if='finishitem[index+i]' :src="finishitem[index+i]" class="img"/>
+              </div>
+            </div>
+            <span><b>检验图片：</b></span>
+            <div v-for="(tdata,index) in tableData" :key="index">
+              <span>{{tdata.route}}路线：</span>
+              <div v-for="(photo,i) in inspectphoto[index]" :key="i">
+                <img v-if='inspectitem[index+i]' :src="inspectitem[index+i]" class="img"/>
+              </div>
+            </div>
+            <span><b>不合格处理图片：</b></span>
+            <div v-for="(tdata,index) in tableData" :key="index">
+              <span>{{tdata.route}}路线：</span>
+              <div v-for="(photo,i) in unqualifiedphoto[index]" :key="i">
+                <img v-if='unqualifieditem[index+i]' :src="unqualifieditem[index+i]" class="img"/>
               </div>
             </div>
             <!-- <img :src="photourl" class="img"/> -->
@@ -133,8 +148,13 @@ export default {
       activeNames: ['1'],
       partfile:[],
       mylxid: '',
-      item:{},
+      finishitem:{},
+      inspectitem:{},
+      unqualifieditem:{},
       photo:[],//按车间顺序照片个数
+      finishphoto:[],
+      inspectphoto:[],
+      unqualifiedphoto:[],
       activeName: 'first',
       tableData: [],
       photourl:'',
@@ -175,15 +195,26 @@ export default {
   },
   methods: {
     getPartfiledataSucc(res) {
+      console.log(res)
       this.tableData = []
-      this.item = []
+      this.finishitem = []
+      this.inspectitem = []
+      this.unqualifieditem = []
       if(res.data.success =='success'){
         this.tableData = res.data.data
       }
       this.tableData.forEach(element => {
-        this.photo.push(element.photourl.length)
-        for(let i = 0;i<element.photourl.length;i++){
-          this.item.push(element.photourl[i])
+        this.finishphoto.push(element.finishurl.length)
+        for(let i = 0;i<element.finishurl.length;i++){
+          this.finishitem.push(element.finishurl[i])
+        }
+        this.inspectphoto.push(element.inspecturl.length)
+        for(let i = 0;i<element.inspecturl.length;i++){
+          this.inspectitem.push(element.inspecturl[i])
+        }
+        this.unqualifiedphoto.push(element.unqualifiedurl.length)
+        for(let i = 0;i<element.unqualifiedurl.length;i++){
+          this.unqualifieditem.push(element.unqualifiedurl[i])
         }
       });
       // this.photourl=res.data.data[0].photourl;
