@@ -15,7 +15,7 @@
             <el-button 
               type="primary"
               v-if="props.row.show_btn"
-              @click="mode(props.row.contactId,props.row.selectedTreeNode)"
+              @click="checkCard(props.row.figure_number,props.row.pNumber,'mode')"
               :name="props.row.figure_number"
             >
               查看工艺卡
@@ -27,7 +27,7 @@
             <el-button 
               type="primary" 
               v-if="props.row.show_btn1"
-              @click="check(props.row.weldingcontactId)"
+              @click="checkCard(props.row.figure_number,props.row.pNumber,'check')"
               :name="props.row.figure_number"
             >
               查看工艺卡
@@ -39,7 +39,7 @@
             <el-button 
               type="primary"
               v-if="props.row.show_btn2"
-              @click="heat(props.row.heatId,props.row.selectedTreeNode2)"
+              @click="checkCard(props.row.figure_number,props.row.pNumber,'heat')"
               :name="props.row.figure_number"
             >
               查看工艺卡
@@ -51,7 +51,7 @@
             <el-button 
               type="primary" 
               v-if="props.row.show_btn3"
-              @click="mach(props.row.machingId,props.row.selectedTreeNode3)"
+              @click="checkCard(props.row.figure_number,props.row.pNumber,'mach')"
               :name="props.row.figure_number"
             >
               查看工艺卡
@@ -109,6 +109,30 @@
       </template>
     </vue-good-table>
     <examine-dialog :config="dialog"></examine-dialog>
+    <!-- 工艺卡Dialog -->
+    <el-dialog
+      :title="Cardtitle"
+      width="40%"
+      :before-close="handleClose"
+      :visible.sync="dialogVisible"
+    >
+    <div v-if="modeshow">
+      <el-button type="primary" size="small" v-for="(item,key) in CardData.data" :key="key" @click="mode(item.contactId,item.selectedTreeNode)">工艺卡{{key+1}}</el-button>
+    </div>
+    <div v-if="checkshow">
+      <el-button type="primary" size="small" v-for="(item,key) in CardData.data" :key="key" @click="check(item.weldingcontactId)">工艺卡{{key+1}}</el-button>
+    </div>
+    <div v-if="heatshow">
+      <el-button type="primary" size="small" v-for="(item,key) in CardData.data" :key="key" @click="mode(item.heatId,item.selectedTreeNode2)">工艺卡{{key+1}}</el-button>
+    </div>
+    <div v-if="machshow">
+      <el-button type="primary" size="small" v-for="(item,key) in CardData.data" :key="key" @click="mode(item.machingId,item.selectedTreeNode3)">工艺卡{{key+1}}</el-button>
+    </div>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">关 闭</el-button>
+    </span>
+    </el-dialog>
+
     <!-- 焊接信息 -->
     <welding-dialog ref="weldcomponent"></welding-dialog>
 
@@ -126,7 +150,7 @@
 <script>
 import { VueGoodTable } from "vue-good-table";
 import axios from "axios";
-import { Loading } from 'element-ui';
+import { Loading, Form } from 'element-ui';
 import ExamineDialog from './Dialog';
 import WeldingDialog from "../../basicdata/components/WeldingDialog.vue"
 import CraftsmanshipDialog from "../../basicdata/components/CraftsmanshipDialog.vue"
@@ -159,6 +183,13 @@ export default {
       show_btn:true,
       show_btn1:true,
       loadingInstance: '',
+      dialogVisible:false,
+      Cardtitle:'工艺卡',
+      CardData:'',
+      modeshow:false,
+      checkshow:false,
+      heatshow:false,
+      machshow:false,
     }
   },
   computed: {
@@ -379,7 +410,78 @@ export default {
     btn_reload(){
       this.show_goodtable=false
       this.$nextTick(() => (this.show_goodtable = true))
-    }
+    },
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      //后台查多张工艺卡
+      checkCard(figure_number,pNumber,type){
+        var fd = new FormData()
+        fd.append("flag","getCard")
+        fd.append("figure_number",figure_number)
+        fd.append("pNumber",pNumber)
+        fd.append("type",type)
+        this.modeshow=false
+        this.checkshow=false
+        this.heatshow=false
+        this.machshow=false
+        switch (type){
+          case 'mode':
+            axios.post(`${this.baseURL}/examine.php`,fd).then((res)=>{
+              if(res.data.success=='success'){
+                this.modeshow = true
+                this.CardData = res.data
+                this.Cardtitle = "制造工艺卡"
+                this.dialogVisible = true
+              }else{
+                this.$message.error('加载工艺卡错误！');
+              }
+            })
+            break;
+          case 'check':
+            axios.post(`${this.baseURL}/examine.php`,fd).then((res)=>{
+              if(res.data.success=='success'){
+                this.checkshow = true
+                this.CardData = res.data
+                this.Cardtitle = "焊接工艺卡"
+                this.dialogVisible = true
+              }else{
+                this.$message.error('加载工艺卡错误！');
+              }
+            })
+            break;
+          case 'heat':
+            axios.post(`${this.baseURL}/examine.php`,fd).then((res)=>{
+              if(res.data.success=='success'){
+                this.heatshow = true
+                this.CardData = res.data
+                this.Cardtitle = "热处理工艺卡"
+                this.dialogVisible = true
+              }else{
+                this.$message.error('加载工艺卡错误！');
+              }
+            })
+            break;
+          case 'mach':
+            axios.post(`${this.baseURL}/examine.php`,fd).then((res)=>{
+              if(res.data.success=='success'){
+                this.machshow = true
+                this.CardData = res.data
+                this.Cardtitle = "加工工艺卡"
+                this.dialogVisible = true
+              }else{
+                this.$message.error('加载工艺卡错误！');
+              }
+            })
+            break;
+          default:
+            this.$message.error('加载工艺卡错误！');
+        }
+      }
   },
 
   mounted () {
