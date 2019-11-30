@@ -3,16 +3,17 @@
         <el-tree
         class="tree"
         :data="data"
-        node-key="id"
-        default-expand-all
+        node-key="label"
+        @node-drag-end="handleDragEnd"
+        @node-drag-enter="handleDragEnter"
+        :default-expanded-keys="expandlabel"
         :render-content="renderContent"
         :expand-on-click-node="false"
         draggable>
         </el-tree> 
-        <el-button type="primary" class="button_save" @click="save()">生成树结构json文件</el-button>
-        <!-- <el-button type="danger" class="button_cancel" @click="cancel()">取消</el-button>  -->
-        <!-- <el-button type="danger" class="button_cancel" @click="reloadtree()">重载树</el-button>  -->
-        <el-dialog title="子部件信息" :visible.sync="dialogFormVisible">
+        <el-button type="primary" class="button_save" @click="save()">保存</el-button>
+        <el-button type="danger" class="button_cancel" @click="cancel()">取消</el-button> 
+        <el-dialog title="子部件信息" :visible.sync="dialogFormVisible" :modal="false">
             <el-form :model="form">
                 <el-form-item label="子部件名称" :label-width="formLabelWidth">
                     <el-input v-model="form.label" placeholder="例如：飓风飞椅挡圈"></el-input>
@@ -32,7 +33,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" >确 定</el-button>
+                <el-button type="primary" @click="formClick()">确 定</el-button>
             </div>
         </el-dialog> 
     </div>
@@ -41,51 +42,8 @@
 export default {
     data(){
         return{
-            data: [{
-                id: 1,
-                label: '一级 1',
-                children: [{
-                    id: 4,
-                    label: '二级 1-1',
-                    children: [{
-                    id: 9,
-                    label: '三级 1-1-1'
-                    }, {
-                    id: 10,
-                    label: '三级 1-1-2'
-                    }]
-                }]
-                }, {
-                id: 2,
-                label: '一级 2',
-                children: [{
-                    id: 5,
-                    label: '二级 2-1'
-                }, {
-                    id: 6,
-                    label: '二级 2-2'
-                }]
-                }, {
-                id: 3,
-                label: '一级 3',
-                children: [{
-                    id: 7,
-                    label: '二级 3-1'
-                }, {
-                    id: 8,
-                    label: '二级 3-2',
-                    children: [{
-                    id: 11,
-                    label: '三级 3-2-1'
-                    }, {
-                    id: 12,
-                    label: '三级 3-2-2'
-                    }, {
-                    id: 13,
-                    label: '三级 3-2-3'
-                    }]
-                }]
-            }], 
+            data: [], 
+            expandlabel:[],
             firstdata:{},
             defaultProps: {
                 children: 'children',
@@ -100,7 +58,8 @@ export default {
             },
             dialogFormVisible:false,
             formLabelWidth:"120px",
-            nodedata:{}
+            triggerCurrenNodeData :{},
+            triggerCurrenNode:{}
         }
     },
     props: {
@@ -112,7 +71,6 @@ export default {
             handler(val) {
                 this.data = val
                 this.firstdata=val
-                console.log(this.firstdata)
             }  
         },
     },
@@ -122,39 +80,24 @@ export default {
           <span>
             <span>{node.label}</span>
             <span>
-              <el-button size="mini" type="text" on-click={ () => this.append(data) }>添加子部件</el-button>
-              <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>删除部件</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.append(store,data,node) }>添加子部件</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.remove(node,data) }>删除部件</el-button>
             </span>
           </span>);
       },
       
-      append(data) {
-        // this.nodedata=data
-        // this.form={
-        //         label: '',
-        //         figure_number: '',
-        //         material: '',
-        //         count: '',
-        //         remark: ''
-        //     }
-        // this.dialogFormVisible=true
-        this.$prompt('请输入子部件名称', '添加子部件', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(({ value }) => {
-            const newChild = {  label: value, children: [] };
-            if (!data.children) {
-                this.$set(data, 'children', []);
+      append(store,data,node) {
+        this.triggerCurrenNodeData=data
+        this.triggerCurrenNode=node
+        console.log(store)
+        this.form={
+                label: '',
+                figure_number: '',
+                material: '',
+                count: '',
+                remark: ''
             }
-            data.children.push(newChild);
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消添加'
-          });       
-        });
-        
-
+        this.dialogFormVisible=true
       },
       remove(node, data) {
         const parent = node.parent;
@@ -163,38 +106,42 @@ export default {
         children.splice(index, 1);
       }, 
       formClick(){
-        var data=this.nodedata;
-        console.log(data)
-        var formdata=this.form;
-        const newChild = { id: data.id++, label: 'testtest1', children: [] };
+        var data=this.triggerCurrenNodeData;
+        const newChild = { id: data.id++, label: this.form.label, children: [] };
         if (!data.children) {
             this.$set(data, 'children', []);
         }
         data.children.push(newChild);
-        console.log(data)
         this.dialogFormVisible=false;
       },
       cancel(){
           this.$emit('listen',false)
       },
       save(){
-          alert('已生成json文件')
-        //   this.$emit('listen',false)
+        //   alert('已生成json文件')
+          this.$emit('listen',false)
       },
-      reloadtree(){
-          location.reload();
-      }     
+      handleDragEnter(draggingNode, dropNode, ev) {
+        // console.log('tree drag enter: ', dropNode.label);
+        this.expandlabel=[];
+        this.expandlabel.push(dropNode.label);
+      },
+      handleDragEnd(){
+        this.expandlabel=[];
+      }          
     }
 }
 </script>
 <style scoped>
     .main{
-        /* border-style: solid; */
+        border-style: solid;
         border-width: 1px;
-        border-color:black ;
+        border-color:rgba(0,0,0,0.5) ;
         width: 90%;
         position: relative;
         left: 5%;
+        height: 450px;
+        background-color: white;
     }
     .tree{
         margin-top: 30px;
@@ -204,11 +151,11 @@ export default {
     .button_save{
         position:absolute;
         right: 5%;
-        top: 0px;
+        top: 10px;
     }
     .button_cancel{
         position:absolute;
-        right: 3%;
-        top: 10px;
+        right: 5%;
+        top: 50px;
     }
 </style>
