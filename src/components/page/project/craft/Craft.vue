@@ -660,6 +660,6 @@ export default {
     height: 730px;
   }
   .el-main{
-    height: 1000px;
+    height: 800px;
   }
 </style>
