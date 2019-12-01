@@ -12,7 +12,7 @@
             <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
         </div>
         <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata"></PlmChangeTree>
-        <div class='popContainer' v-show="this.popContainershow"></div>
+        <!-- <div class='popContainer' v-show="this.popContainershow"></div> -->
       </el-tab-pane>
     </el-tabs>
   </div>

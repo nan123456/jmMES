@@ -13,6 +13,13 @@
         </el-tree> 
         <el-button type="primary" class="button_save" @click="save()">保存</el-button>
         <el-button type="danger" class="button_cancel" @click="cancel()">取消</el-button> 
+        <div class="AllInputDiv">
+            <div class="SingleInputDiv"><label>部件名称:</label><el-input v-model="inputdata.label" readonly="true" class="input"></el-input></div>
+            <div class="SingleInputDiv"><label>部件图号:</label><el-input v-model="inputdata.figure_number" readonly="true" class="input"></el-input></div>
+            <div class="SingleInputDiv"><label>材料规格:</label><el-input v-model="inputdata.material" readonly="true" class="input"></el-input></div>
+            <div class="SingleInputDiv"><label>数量:</label><el-input v-model="inputdata.count" readonly="true" class="input"></el-input></div>
+            <div class="SingleInputDiv"><label>备注:</label><el-input v-model="inputdata.remark" readonly="true" class="input"></el-input></div>
+        </div>
         <el-dialog title="子部件信息" :visible.sync="dialogFormVisible" :modal="false">
             <el-form :model="form">
                 <el-form-item label="子部件名称" :label-width="formLabelWidth">
@@ -59,7 +66,14 @@ export default {
             dialogFormVisible:false,
             formLabelWidth:"120px",
             triggerCurrenNodeData :{},
-            triggerCurrenNode:{}
+            triggerCurrenNode:{},
+            inputdata:{
+                label: '',
+                figure_number: '',
+                material: '',
+                count: '',
+                remark: ''                
+            }
         }
     },
     props: {
@@ -81,6 +95,7 @@ export default {
             <span>{node.label}</span>
             <span>
               <el-button size="mini" type="text" on-click={ () => this.append(store,data,node) }>添加子部件</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.check(store,data,node) }>查看部件信息</el-button>
               <el-button size="mini" type="text" on-click={ () => this.remove(node,data) }>删除部件</el-button>
             </span>
           </span>);
@@ -104,12 +119,19 @@ export default {
         const children = parent.data.children || parent.data;
         const index = children.findIndex(d => d.id === data.id);
         children.splice(index, 1);
+      },
+      check(store,data,node){
+        this.inputdata.label=data.label;
+        this.inputdata.figure_number=data.figure_number;
+        this.inputdata.material=data.material;
+        this.inputdata.count=data.count;
+        this.inputdata.remark=data.remark;
       }, 
       formClick(){
         var data=this.triggerCurrenNodeData;
-        const newChild = { id: data.id++, label: this.form.label, children: [] };
+        const newChild = { "hierarchy": data.hierarchy++, "label": this.form.label, "figure_number": this.form.figure_number, "material": this.form.material,"belong_part": data.figure_number,"count": this.form.count,"remark": this.form.remark,"children": [] };
         if (!data.children) {
-            this.$set(data, 'children', []);
+            this.$set(data, "children", []);
         }
         data.children.push(newChild);
         this.dialogFormVisible=false;
@@ -118,7 +140,6 @@ export default {
           this.$emit('listen',false)
       },
       save(){
-        //   alert('已生成json文件')
           this.$emit('listen',false)
       },
       handleDragEnter(draggingNode, dropNode, ev) {
@@ -142,11 +163,13 @@ export default {
         left: 5%;
         height: 450px;
         background-color: white;
+        
     }
     .tree{
         margin-top: 30px;
         margin-bottom: 30px;
-        width: 70%;
+        width: 60%;
+        overflow: scroll;
     }
     .button_save{
         position:absolute;
@@ -157,5 +180,18 @@ export default {
         position:absolute;
         right: 5%;
         top: 50px;
+    }
+    .AllInputDiv{
+        width: 30%;
+        position:fixed;
+        right: 10%;
+        top:400px;
+    }
+    .input{
+        width: 70%;
+    }
+    .SingleInputDiv{
+        margin-top: 10px;
+        text-align:right;
     }
 </style>

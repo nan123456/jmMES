@@ -1,9 +1,9 @@
 <template>
     <div class="header">
         <!-- 折叠按钮 -->
-        <div class="collapse-btn" @click="collapseChage">
+        <!-- <div class="collapse-btn" @click="collapseChage">
             <i class="el-icon-menu"></i>
-        </div>
+        </div> -->
         <div class="logo">金马MES系统</div>
         <div class="header-right">
             <div class="header-user-con">
@@ -112,9 +112,9 @@
 </script>
 <style scoped>
     .header {
-        position: relative;
+        position: absolute;
         box-sizing: border-box;
-        width: 100%;
+        width: 150px;
         height: 60px;
         font-size: 22px;
         color: #fff;
@@ -126,8 +126,9 @@
         line-height: 70px;
     }
     .header .logo{
+        padding: 0 7px;
         float: left;
-        width:250px;
+        width:140px;
         line-height: 70px;
     }
     .header-right{
