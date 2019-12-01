@@ -96,7 +96,7 @@ export default {
         z-index: 1;
     }
     .main{
-      height: 500px;
+      height: 400px;
       overflow: scroll;
     }
     .popContainer{

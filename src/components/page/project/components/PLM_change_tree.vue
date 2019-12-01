@@ -159,9 +159,10 @@ export default {
         border-width: 1px;
         border-color:rgba(0,0,0,0.5) ;
         width: 90%;
-        position: relative;
+        position: absolute;
+        top: 15px;
         left: 5%;
-        height: 450px;
+        height: 400px;
         background-color: white;
         
     }
@@ -185,7 +186,7 @@ export default {
         width: 30%;
         position:fixed;
         right: 10%;
-        top:400px;
+        top:350px;
     }
     .input{
         width: 70%;

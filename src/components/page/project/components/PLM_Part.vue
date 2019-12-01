@@ -2,48 +2,52 @@
   <div>
     <!-- el-tabs的v-model对应el-tab-pane的name ,即显示对应标签页 -->
     <el-tabs type="border-card" v-model="activeName">
-      <el-tab-pane name="first" label="部件信息">
+      <el-tab-pane class="main" name="first" label="部件信息">
         <el-form ref="form"  label-width="100px">
-          <el-form-item label="项目图号">
-            <el-col :span="10">
-              <el-input v-model="partdata.product_id" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="名称">
-            <el-col :span="10">
-              <el-input v-model="partdata.label" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="零件图号">
-            <el-col :span="10">
-              <el-input v-model="partdata.figure_number" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="所属图号">
-            <el-col :span="10">
-              <el-input v-model="partdata.belong_part" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="层级">
-            <el-col :span="10">
-              <el-input v-model="partdata.hierarchy" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="材料">
-            <el-col :span="10">
-              <el-input v-model="partdata.material" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="数量">
-            <el-col :span="10">
-              <el-input v-model="partdata.count" readonly></el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-col :span="10">
-              <el-input v-model="partdata.remark" readonly></el-input>
-            </el-col>
-          </el-form-item>
+          <div class="leftInput">
+            <el-form-item label="项目图号">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.product_id" readonly></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="名称">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.label" readonly></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="零件图号">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.figure_number" readonly></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="所属图号">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.belong_part" readonly></el-input>
+              </el-col>
+            </el-form-item>
+          </div>
+          <div class="rightInput">
+            <el-form-item label="层级">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.hierarchy" readonly></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="材料">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.material" readonly></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="数量">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.count" readonly></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-col :span="10">
+                <el-input class="input" v-model="partdata.remark" readonly></el-input>
+              </el-col>
+            </el-form-item>
+          </div>
         </el-form>
       </el-tab-pane>
     </el-tabs>
@@ -106,5 +110,21 @@ export default {
     padding-left:7.5% ;
     height: 600px;
     width: 600px;
+  }
+  .leftInput{
+    position: absolute;
+    top: 15px;
+    right: 650px;
+  }
+  .rightInput{
+    position: absolute;
+    top: 15px;
+    right: 200px;
+  }
+  .main{
+    height: 200px;
+  }
+  .input{
+    width: 300px;
   }
 </style>

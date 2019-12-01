@@ -100,8 +100,8 @@
                   <el-button type="primary" class="ReturnButton" @click="CacheReturn()" v-show="btn_state">返回</el-button>
                   <project v-if="this.lx=='xm'" :lxid="lxid"></project>
                   <part @change="btn_state_change" v-if="this.lx=='bj'" :lxid="lxid"></part>
-                  <plm-part v-if="this.lx=='plm_part'" :lxid="lxid"></plm-part>
-                  <PlmTreeList v-if="this.lx=='plm_tree'" :name='name'></PlmTreeList>
+                  <PlmTreeList class="PlmTreeList" v-if="this.lx=='plm_tree'||this.lx=='plm_part'" :name='name'></PlmTreeList>
+                  <plm-part v-if="this.lx=='plm_tree'||this.lx=='plm_part'" :lxid="lxid"></plm-part>
                 </el-main>
             </el-container>
           </el-container>
@@ -652,5 +652,14 @@ export default {
     top:0px;
     float: right;
     margin: 5px
+  }
+  .PlmTreeList{
+    margin-top: -20px;
+  }
+  .container{
+    height: 730px;
+  }
+  .el-main{
+    height: 1000px;
   }
 </style>
