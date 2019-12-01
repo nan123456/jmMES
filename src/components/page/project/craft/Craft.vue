@@ -401,7 +401,7 @@ export default {
         }
         this.lx = data.lx
         this.lxid = data.id 
-        this.name = data.name 
+        this.name = data.product_id 
         // console.log(this.$refs.tree.$children)
       },
 

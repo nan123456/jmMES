@@ -46,12 +46,14 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     data(){
         return{
             data: [], 
             expandlabel:[],
             firstdata:{},
+            product_id:'',
             defaultProps: {
                 children: 'children',
                 label: 'label'
@@ -77,14 +79,20 @@ export default {
         }
     },
     props: {
-        treedata: String
+        treedata: String,
+        name: String
     },
     watch: {
         treedata : {
             immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
             handler(val) {
-                this.data = val
-                this.firstdata=val
+                this.data=val
+            }  
+        },
+        name : {
+            immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
+            handler(val) {
+                this.product_id = val
             }  
         },
     },
@@ -140,7 +148,26 @@ export default {
           this.$emit('listen',false)
       },
       save(){
-          this.$emit('listen',false)
+            this.$prompt('请输入BOM生成树的名称', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            inputPlaceholder:'输入内容不得超过40个字',
+            }).then(({value}) => {
+                if(value.length>40){
+                    this.$message({
+                        type: 'error',
+                        message: '超过最大限制字数'
+                    }); 
+                }else{
+                    this.saveTree(value);
+                }
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消保存'
+            });          
+            });          
+
       },
       handleDragEnter(draggingNode, dropNode, ev) {
         // console.log('tree drag enter: ', dropNode.label);
@@ -149,6 +176,31 @@ export default {
       },
       handleDragEnd(){
         this.expandlabel=[];
+      },
+      saveTree(value){
+        const that=this;
+        var fd = new FormData()
+        var useraccount=localStorage.account;
+        const tree_json = JSON.stringify(this.data);
+        fd.append("flag","savePlmJson")
+        fd.append("product_id",this.product_id)
+        fd.append("tree_json",tree_json)
+        fd.append("tree_name",value)
+        fd.append("create_user_account",useraccount)
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+            if(res.data.success=='success'){
+                that.$message({
+                    type: 'success',
+                    message: '保存成功'
+                });  
+                that.$emit('listen',false)
+            }else{
+                that.$message({
+                    type: 'error',
+                    message: '保存失败'
+                }); 
+            }
+        })    
       }          
     }
 }
@@ -186,7 +238,7 @@ export default {
         width: 30%;
         position:fixed;
         right: 10%;
-        top:350px;
+        top:300px;
     }
     .input{
         width: 70%;

@@ -122,7 +122,7 @@ export default {
     right: 200px;
   }
   .main{
-    height: 200px;
+    height: 180px;
   }
   .input{
     width: 300px;

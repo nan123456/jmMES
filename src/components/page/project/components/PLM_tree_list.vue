@@ -4,15 +4,37 @@
     <el-tabs type="border-card" v-model="activeName">
       <el-tab-pane name="first" class="main" label="制造BOM生成树">
         <el-button class="button_new" type="primary" @click="creatBOMTree()">新建BOM生成树</el-button><br/><br/>
-        <!-- <el-button class="button_new" type="danger" @click="reloadTree">重载树</el-button> -->
-        <!-- <div>暂无制造BOM生成树</div> -->
+        <div class="tittle">{{treename}}</div>
+        <div v-if="showNULL">暂无制造BOM生成树</div>
         <div class="TreeList">
-            <label style="font-size:18px">树名称</label>
+            <label style="font-size:18px">树名称1</label>
             <el-button type="primary" class="checkTreeBtn">查看树</el-button>
             <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
         </div>
-        <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata"></PlmChangeTree>
-        <!-- <div class='popContainer' v-show="this.popContainershow"></div> -->
+        <div class="TreeList">
+            <label style="font-size:18px">树名称2</label>
+            <el-button type="primary" class="checkTreeBtn">查看树</el-button>
+            <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
+        </div>
+        <div class="TreeList">
+            <label style="font-size:18px">树名称3</label>
+            <el-button type="primary" class="checkTreeBtn">查看树</el-button>
+            <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
+        </div>
+        <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata" :name="treename"></PlmChangeTree>
+        <!-- 遮罩层
+        <div class='popContainer' v-show="this.popContainershow"></div> -->
+      </el-tab-pane>
+      <el-tab-pane name="second" class="main" label="操作记录">
+          <div class="TreeList">
+            <label style="font-size:18px">操作记录1</label>
+          </div>
+          <div class="TreeList">
+            <label style="font-size:18px">操作记录2</label>
+          </div>
+          <div class="TreeList">
+            <label style="font-size:18px">操作记录3</label>
+          </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -29,6 +51,9 @@ export default {
   props: {
     name: String
   },
+  created(){
+    this.getTreeList(this.treename)
+  },
   data () {
     return {
       partdata:{},
@@ -36,7 +61,9 @@ export default {
       treedata:{},
       activeName: 'first',
       treeDisplay:false,
-      popContainershow:false
+      popContainershow:false,
+      treename:'',
+      showNULL:false
     }
   },// 监听数据的变化
   watch: {
@@ -72,7 +99,16 @@ export default {
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
             that.treedata=res.data;
         }) 
-    }
+    },
+    getTreeList(product_id){
+        const that=this;
+        var fd = new FormData()
+        fd.append("flag","getTreeList")
+        fd.append("product_id",product_id)
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+            that.treedata=res.data;
+        })       
+    },
   }
 }
 </script>
@@ -92,7 +128,7 @@ export default {
         z-index: 10;
     }
     .TreeList{
-        position:absolute;
+        margin-top: 15px;
         z-index: 1;
     }
     .main{
@@ -107,5 +143,10 @@ export default {
       bottom: 0;
       background: rgba(0,0,0,0.5);
       z-index: 9;
+    }
+    .tittle{
+      position: absolute;
+      top: 15px;
+      font-size: 18px;
     }
 </style>

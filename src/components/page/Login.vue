@@ -67,6 +67,7 @@
                         // console.log(res.data)
                         localStorage.setItem('ms_username',this.ruleForm.username);
                         localStorage.setItem('ms_department',res.data.department);
+                        localStorage.setItem('username',res.data.name);
                         // localStorage.setItem('seeModule',res.data.seeModule);
                         localStorage.setItem('userid',res.data.id);
                         if(res.data.status == "success"){
