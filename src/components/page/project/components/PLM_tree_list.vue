@@ -6,12 +6,15 @@
         <el-button class="button_new" type="primary" @click="creatBOMTree()">新建BOM生成树</el-button><br/><br/>
         <div class="tittle">{{treename}}</div>
         <div v-if="showNULL">暂无制造BOM生成树</div>
-        <div v-for="(item,index) in ListData" v-if="showList" class="TreeList">
-            <label style="font-size:18px">{{item.tree_name}}</label>
-            <el-button type="primary" class="checkTreeBtn">查看树</el-button>
-            <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
+        <div v-for="(item,index) in ListData" v-if="showList" :class="generateClassName(index)">
+          <div style="line-height:50px">
+              <div class="label">{{item.tree_name}}</div>
+              <el-button type="primary" class="checkTreeBtn" @click="checkTree(item.list_id)">查看/修改树</el-button>
+              <el-button type="danger" class="deleteTreeBtn" @click="deleteit(item.list_id,item.tree_name)">删除树</el-button>
+          </div>
         </div>
         <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata" :name="treename"></PlmChangeTree>
+        <PlmRechange class="PlmChangeTree" v-if="RechangeTreeDisplay" @listen="listenRechangeChild" :treedata="rechangeTreedata" :list_id="list_id"></PlmRechange>
         <!-- 遮罩层
         <div class='popContainer' v-show="this.popContainershow"></div> -->
       </el-tab-pane>
@@ -33,10 +36,12 @@
 <script>
 import axios from 'axios'
 import PlmChangeTree from './PLM_change_tree'
+import PlmRechange from './PLM_rechange'
 export default {
   name: 'ProjectPart',
   components: {
-      PlmChangeTree
+      PlmChangeTree,
+      PlmRechange
   },
   props: {
     name: String
@@ -49,13 +54,16 @@ export default {
       partdata:{},
       item:{},
       treedata:{},
+      rechangeTreedata:{},
+      list_id:'',
       activeName: 'first',
       treeDisplay:false,
       popContainershow:false,
       treename:'',
       showNULL:false,
       ListData:[],
-      showList:false
+      showList:false,
+      RechangeTreeDisplay:false
     }
   },// 监听数据的变化
   watch: {
@@ -82,8 +90,11 @@ export default {
     },
     listenChild(data){
         this.treeDisplay=data;
-        this.popContainershow=data;
+        // this.popContainershow=data;
         this.getTreeList(this.treename) 
+    },
+    listenRechangeChild(data){
+        this.RechangeTreeDisplay=data;
     },
     reloadTree(){
         const that=this;
@@ -111,6 +122,58 @@ export default {
           }
         })       
     },
+    checkTree(list_id){
+        const that=this;
+        this.list_id=list_id;
+        var fd = new FormData()
+        fd.append("flag","getRechangeTreeData")
+        fd.append("list_id",list_id)
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+          console.log(res.data)
+            that.rechangeTreedata=res.data;
+        })       
+        this.RechangeTreeDisplay=true;
+    },
+    generateClassName(index){
+      if(index%2==0){
+        return 'TreeList0';
+      }else{
+        return 'TreeList1';
+      }
+    },
+    deleteit(id,name){
+      this.$confirm('是否确认删除'+name, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        }).then(() => {
+            this.suredelete(id);             
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '取消删除'
+            });          
+      });  
+    },
+    suredelete(id){
+      const that=this;
+      var fd = new FormData()
+      fd.append("flag","deletePLMTree")
+      fd.append("id",id)
+      axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+        if(res.data.success=='success'){
+            that.getTreeList(that.treename) 
+            that.$message({
+                type: 'success',
+                message: '删除成功'
+            });  
+        }else{
+            that.$message({
+                type: 'error',
+                message: '删除失败'
+            }); 
+        }
+      })  
+    }
   }
 }
 </script>
@@ -118,9 +181,11 @@ export default {
     .button_new{
         position: relative;
         float: right;
+        right: 50px;
     }
     .checkTreeBtn{
-        margin-left: 20px
+        margin-left: 20px;
+
     }
     .deleteTreeBtn{
         margin-left: 10px
@@ -129,9 +194,14 @@ export default {
         position: absolute;
         z-index: 10;
     }
-    .TreeList{
-        margin-top: 15px;
+    .TreeList0{
         z-index: 1;
+        background-color: #f5f5f5;
+        height: 50px;
+    }
+    .TreeList1{
+        z-index: 1;
+        height: 50px;      
     }
     .main{
       height: 400px;
@@ -147,8 +217,12 @@ export default {
       z-index: 9;
     }
     .tittle{
-      position: absolute;
-      top: 15px;
+      margin-top: -30px;
       font-size: 18px;
+    }
+    .label{
+      font-size:18px;
+      float: left;
+      width: 830px;
     }
 </style>
