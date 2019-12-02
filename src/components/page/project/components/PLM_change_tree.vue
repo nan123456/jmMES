@@ -162,10 +162,10 @@ export default {
                     this.saveTree(value);
                 }
             }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消保存'
-            });          
+                this.$message({
+                    type: 'info',
+                    message: '已取消保存'
+                });          
             });          
 
       },

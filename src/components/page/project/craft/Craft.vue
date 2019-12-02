@@ -544,7 +544,7 @@ export default {
           // }
           // tree 2级树节点
           if(node.level === 2)　{
-            console.log(node.data) 
+            // console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','plm_mpart')
             fd.append('number',node.data.name) //node.data 父节点所带参数
@@ -559,7 +559,7 @@ export default {
           }
           // 2级以下树子节点
           if(node.level > 2)　{
-            console.log(node.data) 
+            // console.log(node.data) 
             var fd = new FormData()
             fd.append('flag','plm_part')
             fd.append('figure_number',node.data.figure_number) //node.data 父节点所带参数

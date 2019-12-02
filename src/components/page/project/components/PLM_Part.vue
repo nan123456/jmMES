@@ -84,7 +84,7 @@ export default {
     mylxid: {
       immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
       handler(val) {
-        console.log(val)
+        // console.log(val)
         var sch = new FormData() //定义获取partschdata的传值
         sch.append('id',val)
         sch.append('flag','plm_part')

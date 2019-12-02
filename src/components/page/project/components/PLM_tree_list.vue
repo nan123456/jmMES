@@ -6,18 +6,8 @@
         <el-button class="button_new" type="primary" @click="creatBOMTree()">新建BOM生成树</el-button><br/><br/>
         <div class="tittle">{{treename}}</div>
         <div v-if="showNULL">暂无制造BOM生成树</div>
-        <div class="TreeList">
-            <label style="font-size:18px">树名称1</label>
-            <el-button type="primary" class="checkTreeBtn">查看树</el-button>
-            <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
-        </div>
-        <div class="TreeList">
-            <label style="font-size:18px">树名称2</label>
-            <el-button type="primary" class="checkTreeBtn">查看树</el-button>
-            <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
-        </div>
-        <div class="TreeList">
-            <label style="font-size:18px">树名称3</label>
+        <div v-for="(item,index) in ListData" v-if="showList" class="TreeList">
+            <label style="font-size:18px">{{item.tree_name}}</label>
             <el-button type="primary" class="checkTreeBtn">查看树</el-button>
             <el-button type="danger" class="deleteTreeBtn">删除树</el-button>
         </div>
@@ -52,7 +42,7 @@ export default {
     name: String
   },
   created(){
-    this.getTreeList(this.treename)
+
   },
   data () {
     return {
@@ -63,7 +53,9 @@ export default {
       treeDisplay:false,
       popContainershow:false,
       treename:'',
-      showNULL:false
+      showNULL:false,
+      ListData:[],
+      showList:false
     }
   },// 监听数据的变化
   watch: {
@@ -77,8 +69,9 @@ export default {
         fd.append("product_id",val)
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
             that.treedata=res.data;
-        })  
-      }  
+        })
+        this.getTreeList(val)  
+      },
     },
   },
   methods: {
@@ -89,7 +82,8 @@ export default {
     },
     listenChild(data){
         this.treeDisplay=data;
-        this.popContainershow=data
+        this.popContainershow=data;
+        this.getTreeList(this.treename) 
     },
     reloadTree(){
         const that=this;
@@ -106,7 +100,15 @@ export default {
         fd.append("flag","getTreeList")
         fd.append("product_id",product_id)
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
-            that.treedata=res.data;
+          if(res.data.success=='null'){
+            that.showNULL=true;
+            that.showList=false;
+          }else if(res.data.success=='success'){
+            console.log(res.data.data)
+            that.showNULL=false;
+            that.showList=true;
+            that.ListData=res.data.data;
+          }
         })       
     },
   }
