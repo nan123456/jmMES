@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <el-container style="height: 600px;">
-            <el-form :model="form" label-width="450px">
+        <el-container>
+            <el-form :model="form" label-width="40vw">
                 <el-form-item label="用户名：">
                     <el-input v-model="form.account" @change="SearchAcc(form.account)" onkeyup="this.value=this.value.replace(/\s+/g,'')"></el-input>
                     <div v-if="SearchDiv=='error'">
@@ -288,3 +288,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.container{
+    height: 85vh;
+}
+</style>
