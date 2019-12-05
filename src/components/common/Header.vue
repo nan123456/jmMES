@@ -74,7 +74,9 @@
             // 侧边栏折叠
             collapseChage(){
                 this.collapse = !this.collapse;
-                bus.$emit('collapse', this.collapse);
+                this.$nextTick(function () {
+                    bus.$emit('collapse', this.collapse);
+                })
             },
             // 全屏事件
             handleFullScreen(){

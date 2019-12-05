@@ -53,6 +53,17 @@
                           </el-option>
                         </el-select>
                       <el-button type="primary" @click="getPLM()" class="tree_btn2" style="margin-right:-2px">读取设计文档</el-button>
+                      <el-select class="selectdiv3" v-model="selectvalue3" placeholder="请选择项目">
+                        <el-option
+                        v-for="item in options3"
+                        :key="item.index"
+                        :label="item.label"
+                        :value="item.value"
+                        >
+                        </el-option>
+                      </el-select>
+                      <el-button type="primary" class="tree_btn3" @click="PLMhandleFifter()">查询</el-button>
+                      <el-button class="tree_btn3" @click="resolve1()">重置</el-button>
                     </el-form-item>
                   </el-form>
                   <!-- tree控件 -->
@@ -92,6 +103,20 @@
                     :accordion="true"
                     :auto-expand-parent="false"
                     ref="tree">
+                  </el-tree>
+                  <!-- 搜索PLM-tree控件 -->
+                  <el-tree
+                    v-if="updateTree4"
+                     class="filter-tree"
+                    lazy
+                    :load="loadNode3"
+                    :props="defaultProps"
+                    @node-click="handleNodeClick"
+                    node-key="id"
+                    :default-expanded-keys="[0]"
+                    :accordion="true"
+                    :auto-expand-parent="false"
+                    ref="SelPlmTree">
                   </el-tree>
 
                 </el-aside>
@@ -195,6 +220,7 @@ export default {
         updateTree1:true,
         updateTree2:false,
         updateTree3:false,
+        updateTree4:false,
         dialogUpload:false,
         form:{},
         formLabelWidth: "120px",
@@ -210,11 +236,14 @@ export default {
         inputshow:true,
         arr:[],
         result_arr:[],
+        result_arr2:[],
         options: [],
         selectvalue:'',
         inputshow2:false,
         options2: [],
+        options3:[],
         selectvalue2:'',
+        selectvalue3:'',
         CacheLength:0,
         dataplmtree:'',
         name:''
@@ -224,6 +253,7 @@ export default {
     this.getProject();
     this.getPLMProject();
     this.getroot_apply();
+    this.selectPLM();
   },
     mounted:function(){
       if(key=='1'){
@@ -252,6 +282,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.updateTree4=false;
           this.reload()
           break
           case 'ongoing':
@@ -261,6 +292,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.updateTree4=false;
           this.reload()
           break
           case 'ordinary':
@@ -270,6 +302,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.updateTree4=false;
           this.reload()
           break
           case 'momentous':
@@ -279,6 +312,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.updateTree4=false;
           this.reload()
           break
           case 'exterior':
@@ -288,6 +322,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.updateTree4=false;
           this.reload()
           break
           case 'all':
@@ -297,6 +332,7 @@ export default {
           this.updateTree1=true;
           this.updateTree2=false;
           this.updateTree3=false;
+          this.updateTree4=false;
           this.reload()
           break
           case 'plm':
@@ -306,6 +342,7 @@ export default {
           this.updateTree1=false;
           this.updateTree2=false;
           this.updateTree3=true;
+          this.updateTree4=false;
           break
         }
         // this.reload()
@@ -342,6 +379,38 @@ export default {
         }
 
       },
+      // PLM过滤查询
+      PLMhandleFifter() {
+        if(this.selectvalue3==''){
+          alert("请选择要查询的项目")
+        }else{
+          this.updateTree3=false;
+          this.updateTree4=false;
+          this.$nextTick(() =>(this.updateTree4=true))
+          // this.updateTree3=false;
+          // this.updateTree4=true;
+          // var fd = new FormData()
+          // fd.append('flag','treefilter')
+          // fd.append('name',this.filterText)
+          // fd.append('pnumber',this.selectvalue)
+          // // fd.append('state',0)
+          // axios.post(`${this.baseURL}/tree.php`,fd).then((res)=>{
+          //   // console.log(res.data.data[0])
+          //   if(res.data.success == "success"){
+          //     for(var i=0;i<res.data.data.length;i++){
+          //       // console.log(i)
+          //       // console.log(res.data.data[i])
+          //       // console.log(res.data.data[i])
+          //       this.arr[i]=res.data.data[i];   
+          //     }  
+          //     // console.log(this.nest(this.arr));
+          //     this.result_arr=[];
+          //     this.result_arr.push(this.nest(this.arr));
+          //     // console.log(this.result_arr)
+          //   }
+          // })
+        }
+      },
       //重制树
       resolve(){
         this.lx='reload';
@@ -349,6 +418,12 @@ export default {
         this.filterText='';
         this.updateTree1=true;
         this.updateTree2=false;
+      },
+      //PLM重制树
+      resolve1(){
+        this.selectvalue3='';
+        this.updateTree3=true;
+        this.updateTree4=false;
       },
       //查询出来的一维数组转为嵌套数组
       nest(arrs){
@@ -574,6 +649,62 @@ export default {
             })
           }
       },
+      loadNode3(node, resolve){
+          // 定义0级节点
+          if(node.level === 0) {
+            return resolve([{name:'产品图号',id:0,lx:'dl'}])    
+          }
+          // 大类节点
+          if(node.level === 1&node.data.id === 0 ){
+            return resolve ([{"name":`${this.selectvalue3}`,"product_id":`${this.selectvalue3}`,"lx":"plm_tree"}])
+          }
+          // // 项目节点
+          // if(node.level === 2)　{
+          //   console.log(node.data) 
+          //   var fd = new FormData()
+          //   fd.append('flag','plm_project')
+          //   fd.append('type',node.data.name) //node.data 父节点所带参数
+          //   axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+          //     // console.log(res)
+          //     if(res.data.success){
+          //       return resolve (res.data.data)
+          //     }else {
+          //       return resolve([])
+          //     }
+          //   })
+          // }
+          // tree 2级树节点
+          if(node.level === 2)　{
+            // console.log(node.data) 
+            var fd = new FormData()
+            fd.append('flag','plm_mpart')
+            fd.append('number',node.data.name) //node.data 父节点所带参数
+            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+              // console.log(res)
+              if(res.data.success){
+                return resolve (res.data.data)
+              }else {
+                return resolve([])
+              }
+            })
+          }
+          // 2级以下树子节点
+          if(node.level > 2)　{
+            // console.log(node.data) 
+            var fd = new FormData()
+            fd.append('flag','plm_part')
+            fd.append('figure_number',node.data.figure_number) //node.data 父节点所带参数
+            fd.append('level',node.level)  //判断当前节点处于何级
+            axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+              // console.log(res)
+              if(res.data.success){
+                return resolve (res.data.data)
+              }else {
+                return resolve([])
+              }
+            })
+          }
+      },
       //通过缓存进行返回
       CacheReturn(){
         var CacheArray = JSON.parse(sessionStorage.getItem('ReturnCache'));
@@ -618,7 +749,17 @@ export default {
         this.getroot("14_DRZJ").then(function(res){
           that.root_drzj=res;
         });
-      }
+      },
+      //PLM筛选项目框
+      selectPLM(){
+        var fd=new FormData();
+        fd.append('flag','selectPLM');
+        axios.post(`${this.baseURL}/part.php`,fd).then((res)=>{
+          // console.log(res.data.data)
+          this.options3=res.data.data;
+          // this.selectvalue=res.data.data[0].value;
+        }) 
+      },
     }
 };
 </script>
@@ -642,8 +783,16 @@ export default {
     margin-bottom: 10px;
     width: 180px   
   }
+  .selectdiv3{
+    margin-bottom: 10px;
+    width: 147px   
+  }
   .tree_btn2{
     width: 100px;
+    text-align: center;   
+  }
+  .tree_btn3{
+    width: 60px;
     text-align: center;   
   }
   .ReturnButton{
