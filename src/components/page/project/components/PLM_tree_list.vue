@@ -7,10 +7,13 @@
         <div class="tittle">{{treename}}</div>
         <div v-if="showNULL">暂无制造BOM生成树</div>
         <div v-for="(item,index) in ListData" v-if="showList" :class="generateClassName(index)">
-          <div style="line-height:50px">
+          <div class="row" style="line-height:40px">
               <div class="label">{{item.tree_name}}</div>
-              <el-button type="primary" class="checkTreeBtn" @click="checkTree(item.list_id)">查看/修改树</el-button>
-              <el-button type="danger" class="deleteTreeBtn" @click="deleteit(item.list_id,item.tree_name)">删除树</el-button>
+              <div class="btnGourd">
+                <el-button type="primary" class="checkTreeBtn" @click="checkTree(item.list_id)">查看/修改树</el-button>
+                <el-button type="danger" class="deleteTreeBtn" @click="deleteit(item.list_id,item.tree_name)">删除树</el-button>
+                <el-button type="primary" class="jsonTreeBtn">生成json文件</el-button>
+              </div>
           </div>
         </div>
         <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata" :name="treename"></PlmChangeTree>
@@ -19,15 +22,17 @@
         <div class='popContainer' v-show="this.popContainershow"></div> -->
       </el-tab-pane>
       <el-tab-pane name="second" class="main" label="操作记录">
-          <div class="TreeList">
-            <label style="font-size:18px">操作记录1</label>
+        <div class="tittle2">{{treename}}</div>
+        <div v-if="showOprateNULL">暂无制造BOM树操作记录</div>
+        <div v-for="(item,index) in OprateListData" v-if="showOprateList" :class="generateClassName(index)">
+          <div class="row" style="line-height:40px">
+              <div class="label">{{item.tree_name}}</div>
+              <div class="btnGourd">
+                <el-button type="primary" class="jsonTreeBtn" @click="checkOprate(item.tree_id)">查看操作记录</el-button>
+              </div>
           </div>
-          <div class="TreeList">
-            <label style="font-size:18px">操作记录2</label>
-          </div>
-          <div class="TreeList">
-            <label style="font-size:18px">操作记录3</label>
-          </div>
+        </div>
+        <PlmOprateData class="PlmChangeTree" v-if="OprateDataDisplay" @listen="listenOprateChild" :OprateListID="OprateListID"></PlmOprateData>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -37,11 +42,13 @@
 import axios from 'axios'
 import PlmChangeTree from './PLM_change_tree'
 import PlmRechange from './PLM_rechange'
+import PlmOprateData from './PLM_oprate_data'
 export default {
   name: 'ProjectPart',
   components: {
       PlmChangeTree,
-      PlmRechange
+      PlmRechange,
+      PlmOprateData
   },
   props: {
     name: String
@@ -63,7 +70,13 @@ export default {
       showNULL:false,
       ListData:[],
       showList:false,
-      RechangeTreeDisplay:false
+      RechangeTreeDisplay:false,
+      showOprateNULL:false,
+      showOprateList:false,
+      OprateListData:[],
+      OprateDataDisplay:false,
+      OprateListID:'',
+      operating_data:[]
     }
   },// 监听数据的变化
   watch: {
@@ -78,7 +91,9 @@ export default {
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
             that.treedata=res.data;
         })
-        this.getTreeList(val)  
+        this.getTreeList(val)
+        this.getOprateTreeList(val)
+
       },
     },
   },
@@ -91,10 +106,16 @@ export default {
     listenChild(data){
         this.treeDisplay=data;
         // this.popContainershow=data;
-        this.getTreeList(this.treename) 
+        this.getTreeList(this.treename)
+        this.getOprateTreeList(this.treename)  
     },
     listenRechangeChild(data){
         this.RechangeTreeDisplay=data;
+        this.getOprateTreeList(this.treename)
+    },
+    listenOprateChild(data){
+        this.OprateDataDisplay=data;
+        this.getOprateTreeList(this.treename)  
     },
     reloadTree(){
         const that=this;
@@ -115,12 +136,29 @@ export default {
             that.showNULL=true;
             that.showList=false;
           }else if(res.data.success=='success'){
-            console.log(res.data.data)
+            // console.log(res.data.data)
             that.showNULL=false;
             that.showList=true;
             that.ListData=res.data.data;
           }
         })       
+    },
+    getOprateTreeList(product_id){
+        const that=this;
+        var fd = new FormData()
+        fd.append("flag","getOprateTreeList")
+        fd.append("product_id",product_id)
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+          if(res.data.success=='null'){
+            that.showOprateNULL=true;
+            that.showOprateList=false;
+          }else if(res.data.success=='success'){
+            // console.log(res.data.data)
+            that.showOprateNULL=false;
+            that.showOprateList=true;
+            that.OprateListData=res.data.data;
+          }
+        })
     },
     checkTree(list_id){
         const that=this;
@@ -146,7 +184,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         }).then(() => {
-            this.suredelete(id);             
+            this.suredelete(id,name);             
         }).catch(() => {
             this.$message({
                 type: 'info',
@@ -154,18 +192,19 @@ export default {
             });          
       });  
     },
-    suredelete(id){
+    suredelete(id,name){
       const that=this;
       var fd = new FormData()
       fd.append("flag","deletePLMTree")
       fd.append("id",id)
       axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
         if(res.data.success=='success'){
-            that.getTreeList(that.treename) 
-            that.$message({
-                type: 'success',
-                message: '删除成功'
-            });  
+            that.getTreeList(that.treename)
+            that.insertDeleteData(id,name) 
+            // that.$message({
+            //     type: 'success',
+            //     message: '删除成功'
+            // });  
         }else{
             that.$message({
                 type: 'error',
@@ -173,6 +212,33 @@ export default {
             }); 
         }
       })  
+    },
+    checkOprate(tree_id){ 
+      this.OprateDataDisplay=true;
+      this.OprateListID=tree_id;
+    },
+    insertDeleteData(id,name){
+        var operating='删除了BOM树：'+name;
+        this.operating_data.push(operating)
+        var product_id=this.treename;
+        const that=this;
+        var fd = new FormData()
+        fd.append("flag","savePlmOperatingData")
+        fd.append("treename",name)
+        fd.append("treeid",id)
+        fd.append("product_id",product_id)
+        fd.append("username",localStorage.username)
+        fd.append("content",JSON.stringify(this.operating_data))
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+            if(res.data.success=='success'){
+                that.operating_data=[];
+                that.getOprateTreeList(that.treename)  
+                that.$message({
+                    type: 'success',
+                    message: '删除成功'
+                });   
+            }
+        }) 
     }
   }
 }
@@ -181,14 +247,15 @@ export default {
     .button_new{
         position: relative;
         float: right;
-        right: 50px;
     }
     .checkTreeBtn{
         margin-left: 20px;
+        height: 30px;
 
     }
     .deleteTreeBtn{
-        margin-left: 10px
+        margin-left: 10px;
+        height: 30px;
     }
     .PlmChangeTree{
         position: absolute;
@@ -197,11 +264,11 @@ export default {
     .TreeList0{
         z-index: 1;
         background-color: #f5f5f5;
-        height: 50px;
+        height: 40px;
     }
     .TreeList1{
         z-index: 1;
-        height: 50px;      
+        height: 40px;      
     }
     .main{
       height: 400px;
@@ -217,12 +284,28 @@ export default {
       z-index: 9;
     }
     .tittle{
-      margin-top: -30px;
-      font-size: 18px;
+      margin-top: -40px;
+      font-size: 25px;
+    }
+    .tittle2{
+      font-size: 25px;
     }
     .label{
       font-size:18px;
       float: left;
-      width: 830px;
+      width: 600px;
+    }
+    .jsonTreeBtn{
+      margin-left: 10px;
+      height: 30px;
+    }
+    .btnGourd{
+      display: flex;
+      flex-direction: row;
+    }
+    .row{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
 </style>

@@ -17,6 +17,7 @@
             <div class="SingleInputDiv"><label>部件名称:</label><el-input v-model="inputdata.label" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>部件图号:</label><el-input v-model="inputdata.figure_number" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>材料规格:</label><el-input v-model="inputdata.material" readonly="true" class="input"></el-input></div>
+            <!-- <div class="SingleInputDiv"><label>部件层级:</label><el-input v-model="inputdata.hierarchy" readonly="true" class="input"></el-input></div> -->
             <div class="SingleInputDiv"><label>数量:</label><el-input v-model="inputdata.count" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>备注:</label><el-input v-model="inputdata.remark" readonly="true" class="input"></el-input></div>
         </div>
@@ -74,8 +75,10 @@ export default {
                 figure_number: '',
                 material: '',
                 count: '',
-                remark: ''                
-            }
+                remark: '',
+                hierarchy:''                 
+            },
+            operating_data:[]
         }
     },
     props: {
@@ -112,7 +115,7 @@ export default {
       append(store,data,node) {
         this.triggerCurrenNodeData=data
         this.triggerCurrenNode=node
-        console.log(store)
+        // console.log(store)
         this.form={
                 label: '',
                 figure_number: '',
@@ -125,8 +128,10 @@ export default {
       remove(node, data) {
         const parent = node.parent;
         const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
+        const index = children.findIndex(d => d.label === data.label);
         children.splice(index, 1);
+        var operating='删除了“'+parent.data.label+'“的子部件”'+data.label+'“';
+        this.operating_data.push(operating)
       },
       check(store,data,node){
         this.inputdata.label=data.label;
@@ -134,6 +139,7 @@ export default {
         this.inputdata.material=data.material;
         this.inputdata.count=data.count;
         this.inputdata.remark=data.remark;
+        this.inputdata.hierarchy=data.hierarchy;
       }, 
       formClick(){
         var data=this.triggerCurrenNodeData;
@@ -142,6 +148,8 @@ export default {
             this.$set(data, "children", []);
         }
         data.children.push(newChild);
+        var operating='“'+data.label+'“增加了子部件”'+this.form.label+'“';
+        this.operating_data.push(operating)
         this.dialogFormVisible=false;
       },
       cancel(){
@@ -166,7 +174,31 @@ export default {
         this.expandlabel=[];
         this.expandlabel.push(dropNode.label);
       },
-      handleDragEnd(){
+      handleDragEnd(draggingNode, dropNode, dropType, ev){
+        //   if(dropType=='inner'){
+        //     var fatherHierarchy=parseInt(dropNode.data.hierarchy);
+        //     if(dropNode.data.hierarchy==undefined){
+        //         fatherHierarchy=0;
+        //     }
+        //     draggingNode.data.hierarchy=fatherHierarchy+1;              
+        //   }else if(dropType=='after'||dropType=='before'){
+        //     var fatherHierarchy=parseInt(dropNode.data.hierarchy);
+        //     draggingNode.data.hierarchy=fatherHierarchy;
+        //   }
+
+        if(dropType=='after'){
+            var type='兄弟部件'
+            var operating='“'+draggingNode.data.label+'“经过移动变成了”'+dropNode.data.label+'“的'+type;
+            this.operating_data.push(operating)
+        }else if(dropType=='before'){
+            var type='兄弟部件'
+            var operating='“'+draggingNode.data.label+'“经过移动变成了”'+dropNode.data.label+'“的'+type;
+            this.operating_data.push(operating)
+        }else if(dropType=='inner'){
+            var type='子部件'
+            var operating='“'+draggingNode.data.label+'“经过移动变成了”'+dropNode.data.label+'“的'+type;
+            this.operating_data.push(operating)
+        }
         this.expandlabel=[];
       },
       saveTree(){
@@ -178,11 +210,14 @@ export default {
         fd.append("tree_json",tree_json)
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
             if(res.data.success=='success'){
-                that.$message({
-                    type: 'success',
-                    message: '保存成功'
-                });  
-                that.$emit('listen',false)
+                const tree_name=res.data.data.tree_name;
+                const product_id=res.data.data.product_id;
+                that.saveOperating(tree_name,product_id);
+                // that.$message({
+                //     type: 'success',
+                //     message: '保存成功'
+                // });  
+                // that.$emit('listen',false)
             }else{
                 that.$message({
                     type: 'error',
@@ -190,7 +225,28 @@ export default {
                 }); 
             }
         })    
-      }          
+      },
+      saveOperating(tree_name,product_id){
+        const that=this;
+        var fd = new FormData()
+        fd.append("flag","savePlmOperatingData")
+        fd.append("treename",tree_name)
+        fd.append("treeid",this.id)
+        fd.append("product_id",product_id)
+        fd.append("username",localStorage.username)
+        fd.append("content",JSON.stringify(this.operating_data))
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+            if(res.data.success=='success'){
+                that.operating_data=[];
+                that.$message({
+                    type: 'success',
+                    message: '保存成功'
+                });  
+                that.$emit('listen',false)
+            }
+        })         
+
+      }           
     }
 }
 </script>
