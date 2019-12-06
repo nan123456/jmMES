@@ -24,14 +24,32 @@
       <el-tab-pane name="second" class="main" label="操作记录">
         <div class="tittle2">{{treename}}</div>
         <div v-if="showOprateNULL">暂无制造BOM树操作记录</div>
-        <div v-for="(item,index) in OprateListData" v-if="showOprateList" :class="generateClassName(index)">
+        <!-- <div v-for="(item,index) in OprateListData" v-if="showOprateList" :class="generateClassName(index)">
           <div class="row" style="line-height:40px">
               <div class="label">{{item.tree_name}}</div>
               <div class="btnGourd">
                 <el-button type="primary" class="jsonTreeBtn" @click="checkOprate(item.tree_id)">查看操作记录</el-button>
               </div>
           </div>
-        </div>
+        </div> -->
+         <el-table
+          :data="ListData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+          style="width: 100%">
+          <el-table-column
+            label="树列名称"
+            prop="tree_name">
+          </el-table-column>
+          <el-table-column
+            align="right">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="primary"
+                @click="checkOprate(scope.row.list_id)"
+               >查看操作记录</el-button>
+            </template>
+            </el-table-column>
+          </el-table>
         <PlmOprateData class="PlmChangeTree" v-if="OprateDataDisplay" @listen="listenOprateChild" :OprateListID="OprateListID"></PlmOprateData>
       </el-tab-pane>
     </el-tabs>
@@ -76,7 +94,8 @@ export default {
       OprateListData:[],
       OprateDataDisplay:false,
       OprateListID:'',
-      operating_data:[]
+      operating_data:[],
+      search:''
     }
   },// 监听数据的变化
   watch: {

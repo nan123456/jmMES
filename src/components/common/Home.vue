@@ -10,12 +10,14 @@
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
-                <div class="globalFoot">
-                    Copyright
-                    <img class="globalFoot-img" src="../../assets/globalFoot.svg">
-                    2019-2020 金马 版权所有<br>
-                    <a href="http://www.beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">粤ICP备14006151号-5</a>
-                </div>
+                <el-footer>
+                    <div class="globalFoot">
+                        Copyright
+                        <img class="globalFoot-img" src="../../assets/globalFoot.svg">
+                        2019-2020 金马 版权所有<br>
+                        <a href="http://www.beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">粤ICP备14006151号-5</a>
+                    </div>
+                </el-footer>
             </div>
         </div>
     </div>

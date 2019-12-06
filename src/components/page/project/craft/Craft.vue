@@ -23,7 +23,7 @@
                 </el-col>
               </el-row>
             </el-header>
-            <el-container style="height: 600px;">
+            <el-container style="height: 85vh;">
               <el-aside width="350px">
                   <el-form :inline="true">
                     <el-form-item v-show="inputshow"> 
@@ -805,10 +805,10 @@ export default {
   .PlmTreeList{
     margin-top: -20px;
   }
-  .container{
-    height: 730px;
-  }
   .el-main{
-    height: 800px;
+    height: 85vh;
+  }
+  .container{
+    height: 85vh;
   }
 </style>

@@ -12,8 +12,8 @@
           <!-- <el-tab-pane label="外部协助" name="exterior"></el-tab-pane> -->
         </el-tabs>
         <div class="container">
-          <el-container style="height: 600px;">
-            <el-container style="height: 600px;">
+          <el-container style="height: 85vh;">
+            <el-container style="height: 85vh;">
               <el-aside width="300px">
                   <el-form :inline="true">
                     <el-form-item v-show="inputshow"> 
@@ -398,5 +398,8 @@ export default {
     top:0px;
     float: right;
     margin: 5px
+  }
+  .el-main{
+    height: 85vh;
   }
 </style>

@@ -146,20 +146,25 @@ export default {
 };
 </script>
 
-<style lang="">
-.btn{
-  background-color:cornflowerblue;
-  color: white
-}
-</style>
 <style scoped>
+  .btn{
+    background-color:cornflowerblue;
+    color: white
+  }
   .box{
-    position: relative;
-    margin-right: 10px;
     width: 185px;
     height: 185px;
-    background-color: #409EFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
     color: white;
+    box-shadow:0px 0px 5px 5px rgba(0, 0, 0, 0.15);
+    background:linear-gradient(0deg,rgba(35,134,255,1),rgba(44,178,252,1));
   };
+  .TxtTitle{
+    text-align: center;
+  }
 
 </style>
