@@ -284,7 +284,7 @@ export default {
       z-index: 9;
     }
     .tittle{
-      margin-top: -40px;
+      margin-top: -30px;
       font-size: 25px;
     }
     .tittle2{
