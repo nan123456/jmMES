@@ -24,7 +24,7 @@
               </el-row>
             </el-header>
             <el-container style="height: 600px;">
-              <el-aside width="300px">
+              <el-aside width="350px">
                   <el-form :inline="true">
                     <el-form-item v-show="inputshow"> 
                         <el-select v-model="selectvalue" class="selectdiv" placeholder="请选择需要查询的项目">

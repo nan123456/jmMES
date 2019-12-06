@@ -293,7 +293,7 @@ export default {
         margin-top: 30px;
         margin-bottom: 30px;
         width: 60%;
-        overflow: scroll;
+        /* overflow: scroll; */
     }
     .button_save{
         position:absolute;
