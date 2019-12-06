@@ -8,31 +8,31 @@
     <el-row :gutter="12">
       <el-col :span="4">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=K')">
-          <h3>K开料车间</h3>
+          <h3 class="TxtTitle">K开料车间</h3>
           <p>车间任务：{{count[0]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="1">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=TK')">
-          <h3>TK开料车间</h3>
+          <h3 class="TxtTitle">TK开料车间</h3>
           <p>车间任务：{{count[1]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="2">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=S')">
-          <h3>安装S</h3>
+          <h3 class="TxtTitle">安装S</h3>
           <p>车间任务：{{count[2]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="3">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=F')">
-          <h3>玻璃钢F</h3>
+          <h3 class="TxtTitle">玻璃钢F</h3>
           <p>车间任务：{{count[3]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="4">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=G')">
-          <h3>电气G</h3>
+          <h3 class="TxtTitle">电气G</h3>
           <p>车间任务：{{count[4]}}条</p>
         </el-card>
       </el-col>
@@ -45,31 +45,31 @@
     <el-row :gutter="12">
       <el-col :span="4">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=T')">
-          <h3>机加T</h3>
+          <h3 class="TxtTitle">机加T</h3>
           <p>车间任务：{{count[5]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="1">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=I')">
-          <h3>机械车间</h3>
+          <h3 class="TxtTitle">机械车间</h3>
           <p>车间任务：{{count[6]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="2">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=L')">
-          <h3>结构L</h3>
+          <h3 class="TxtTitle">结构L</h3>
           <p>车间任务：{{count[7]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="3">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=J')">
-          <h3>探伤</h3>
+          <h3 class="TxtTitle">探伤</h3>
           <p>车间任务：{{count[8]}}条</p>
         </el-card>
       </el-col>
       <el-col :span="4" :push="4">
         <el-card shadow="hover" class="box" @click.native="WorkshopType('http://jinmabrand.work/jmlook/#/?workshop=W')">
-          <h3>外协W</h3>
+          <h3 class="TxtTitle">外协W</h3>
           <p>车间任务：{{count[9]}}条</p>
         </el-card>
       </el-col>
@@ -158,6 +158,8 @@ export default {
     margin-right: 10px;
     width: 185px;
     height: 185px;
+    background-color: #409EFF;
+    color: white;
   };
 
 </style>

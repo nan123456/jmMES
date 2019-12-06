@@ -10,6 +10,12 @@
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
+                <div class="globalFoot">
+                    Copyright
+                    <img class="globalFoot-img" src="../../assets/globalFoot.svg">
+                    2019-2020 金马 版权所有<br>
+                    <a href="http://www.beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">粤ICP备14006151号-5</a>
+                </div>
             </div>
         </div>
     </div>
@@ -57,5 +63,15 @@ padding: 10px !important;
 }
 .main{
     top: 0px;
+}
+.globalFoot{
+    position: relative;
+    bottom: 0px;
+    text-align:center;
+    font-size: 13px;
+}
+.globalFoot-img{
+    width: 1.3em;
+    height: 1.3em;
 }
 </style>

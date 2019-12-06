@@ -1,10 +1,10 @@
 <template>
     <div class="header">
         <!-- 折叠按钮 -->
-        <div class="collapse-btn" @click="collapseChage();Logoshow=true" v-if="Logoshow==false">
+        <!-- <div class="collapse-btn" @click="collapseChage();Logoshow=true" v-if="Logoshow==false">
             <i class="el-icon-menu"></i>
-        </div>
-        <div class="logo" @click="collapseChage();Logoshow=false" v-if="Logoshow==true" style="cursor:pointer">金马MES系统</div>
+        </div> -->
+        <div class="logo">金马MES系统</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
