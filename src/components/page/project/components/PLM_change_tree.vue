@@ -13,7 +13,7 @@
         </el-tree> 
         <el-button type="primary" class="button_save" @click="save()">保存</el-button>
         <el-button type="danger" class="button_cancel" @click="cancel()">取消</el-button> 
-        <div class="AllInputDiv">
+        <div class="AllInputDiv" v-if="showInput">
             <div class="SingleInputDiv"><label>部件名称:</label><el-input v-model="inputdata.label" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>部件图号:</label><el-input v-model="inputdata.figure_number" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>材料规格:</label><el-input v-model="inputdata.material" readonly="true" class="input"></el-input></div>
@@ -21,7 +21,7 @@
             <div class="SingleInputDiv"><label>数量:</label><el-input v-model="inputdata.count" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>备注:</label><el-input v-model="inputdata.remark" readonly="true" class="input"></el-input></div>
         </div>
-        <el-dialog title="子部件信息" :visible.sync="dialogFormVisible" :modal="false">
+        <el-dialog class="dialog" title="子部件信息" :visible.sync="dialogFormVisible" :modal="false">
             <el-form :model="form">
                 <el-form-item label="子部件名称" :label-width="formLabelWidth">
                     <el-input v-model="form.label" placeholder="例如：飓风飞椅挡圈"></el-input>
@@ -78,7 +78,8 @@ export default {
                 remark: '',
                 hierarchy:''                
             },
-            operating_data:[]
+            operating_data:[],
+            showInput:false
         }
     },
     props: {
@@ -141,6 +142,7 @@ export default {
         this.inputdata.count=data.count;
         this.inputdata.remark=data.remark;
         this.inputdata.hierarchy=data.hierarchy;
+        this.showInput=true
       }, 
       formClick(){
         var data=this.triggerCurrenNodeData;
@@ -317,5 +319,8 @@ export default {
     .SingleInputDiv{
         margin-top: 10px;
         text-align:right;
+    }
+    .dialog{
+        left:25%; 
     }
 </style>
