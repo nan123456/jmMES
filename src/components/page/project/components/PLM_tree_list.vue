@@ -6,7 +6,7 @@
         <el-button class="button_new" type="primary" @click="creatBOMTree()">新建BOM生成树</el-button><br/><br/>
         <div class="tittle">{{treename}}</div>
         <div v-if="showNULL">暂无制造BOM生成树</div>
-        <div v-for="(item,index) in ListData" v-if="showList" :class="generateClassName(index)">
+        <!-- <div v-for="(item,index) in ListData" v-if="showList" :class="generateClassName(index)">
           <div class="row" style="line-height:40px">
               <div class="label">{{item.tree_name}}</div>
               <div class="btnGourd">
@@ -15,7 +15,34 @@
                 <el-button type="primary" class="jsonTreeBtn">生成json文件</el-button>
               </div>
           </div>
-        </div>
+        </div> -->
+        <el-table
+          :data="ListData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+          style="width: 100%">
+          <el-table-column
+            label="树列名称"
+            width="200"
+            prop="tree_name">
+          </el-table-column>
+          <el-table-column
+            label="创建人"
+            width="200"
+            prop="user_name">
+          </el-table-column>
+          <el-table-column
+            label="创建时间"
+            width="200"
+            prop="create_time">
+          </el-table-column>
+          <el-table-column
+            align="right">
+            <template slot-scope="scope">
+              <el-button size="mini" type="primary" class="checkTreeBtn" @click="checkTree(scope.row.list_id)">查看/修改树</el-button>
+                <el-button size="mini" type="danger" class="checkTreeBtn" @click="deleteit(scope.row.list_id,scope.row.tree_name)">删除树</el-button>
+                <el-button size="mini" type="primary" class="checkTreeBtn">生成json文件</el-button>
+            </template>
+            </el-table-column>
+          </el-table>
         <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata" :name="treename"></PlmChangeTree>
         <PlmRechange class="PlmChangeTree" v-if="RechangeTreeDisplay" @listen="listenRechangeChild" :treedata="rechangeTreedata" :list_id="list_id"></PlmRechange>
         <!-- 遮罩层
@@ -32,12 +59,20 @@
               </div>
           </div>
         </div> -->
-         <el-table
-          :data="ListData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        <el-table
+          :data="OprateListData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           style="width: 100%">
           <el-table-column
             label="树列名称"
             prop="tree_name">
+          </el-table-column>
+          <el-table-column
+            label="创建人"
+            prop="user_name">
+          </el-table-column>
+          <el-table-column
+            label="创建时间"
+            prop="create_time">
           </el-table-column>
           <el-table-column
             align="right">
@@ -45,7 +80,7 @@
               <el-button
                 size="mini"
                 type="primary"
-                @click="checkOprate(scope.row.list_id)"
+                @click="checkOprate(scope.row.tree_id)"
                >查看操作记录</el-button>
             </template>
             </el-table-column>
