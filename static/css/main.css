@@ -35,6 +35,7 @@ a {
 .content {
     width: auto;
     padding: 40px;
+
 }
 
 .content-collapse {
@@ -46,6 +47,7 @@ a {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    min-height: 100vh;
 }
 
 .crumbs {
