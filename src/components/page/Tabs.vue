@@ -123,7 +123,7 @@
           <el-table-column
             prop="state"
             label="状态"
-            width="60"
+            width="70"
             :filters="WorkstateBox"
             :filter-method="filterState"
             column-key="WorkstateBox"

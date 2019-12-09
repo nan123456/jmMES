@@ -1,6 +1,8 @@
 <template>
     <div class="main">
         <el-button type="danger" class="button_close" @click="close()">关闭</el-button>
+        <br>
+        <br>
         <div>
             <el-table
                 class="table"
@@ -31,13 +33,13 @@
                     label="更改时间"
                     width="150">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                     label="操作"
                     width="140">
                     <template slot-scope="scope">
                         <el-button @click="deleteSingle(scope.row.id)" type="primary" size="small">删除</el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>  
         </div>       
     </div>
