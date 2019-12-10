@@ -305,6 +305,7 @@ export default {
 </script>
 <style scoped>
   .el-main{
-      width: 85vh;
+      width: 83vh;
+      padding: 0px
   }
 </style>

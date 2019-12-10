@@ -21,7 +21,7 @@
             <div class="SingleInputDiv"><label>数量:</label><el-input v-model="inputdata.count" readonly="true" class="input"></el-input></div>
             <div class="SingleInputDiv"><label>备注:</label><el-input v-model="inputdata.remark" readonly="true" class="input"></el-input></div>
         </div>
-        <el-dialog class="dialog" title="子部件信息" :visible.sync="dialogFormVisible" :modal="false">
+        <el-dialog class="tree-dialog" title="子部件信息" :visible.sync="dialogFormVisible" :modal="false">
             <el-form :model="form">
                 <el-form-item label="子部件名称" :label-width="formLabelWidth">
                     <el-input v-model="form.label" placeholder="例如：飓风飞椅挡圈"></el-input>
@@ -289,7 +289,7 @@ export default {
         left: 5%;
         height: 400px;
         background-color: white;
-        
+        overflow: auto;
     }
     .tree{
         margin-top: 30px;
@@ -320,7 +320,13 @@ export default {
         margin-top: 10px;
         text-align:right;
     }
-    .dialog{
+    .tree-dialog{
         left:25%; 
+        top: 53px;
     }
+</style>
+<style>
+.tree-dialog .el-dialog__body{
+        padding: 5px 30px !important; 
+}
 </style>

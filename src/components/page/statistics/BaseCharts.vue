@@ -18,4 +18,3 @@ import TableList from "./components/BaseChartsList.vue";
         })
     }
 </script>
-

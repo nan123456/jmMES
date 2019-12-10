@@ -23,7 +23,7 @@
                 </el-col>
               </el-row>
             </el-header>
-            <el-container style="height: 85vh;">
+            <el-container style="min-height: 83vh;">
               <el-aside width="350px">
                   <el-form :inline="true">
                     <el-form-item v-show="inputshow"> 
@@ -806,9 +806,10 @@ export default {
     margin-top: -20px;
   }
   .el-main{
-    height: 85vh;
+    height: 82vh;
+    padding: 0px 20px 20px 20px
   }
   .container{
-    min-height: 78vh
+    min-height: 82vh
   }
 </style>

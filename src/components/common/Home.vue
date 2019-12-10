@@ -10,7 +10,7 @@
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
-                <el-footer>
+                <el-footer style="height:4vh">
                     <div class="globalFoot">
                         Copyright
                         <img class="globalFoot-img" src="../../assets/globalFoot.svg">
