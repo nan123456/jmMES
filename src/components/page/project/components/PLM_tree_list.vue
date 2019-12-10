@@ -39,7 +39,7 @@
             <template slot-scope="scope">
               <el-button size="mini" type="primary" class="checkTreeBtn" @click="checkTree(scope.row.list_id)">查看/修改树</el-button>
                 <el-button size="mini" type="danger" class="checkTreeBtn" @click="deleteit(scope.row.list_id,scope.row.tree_name)">删除树</el-button>
-                <el-button size="mini" type="primary" class="checkTreeBtn">生成json文件</el-button>
+                <el-button size="mini" type="primary" class="checkTreeBtn" @click="creatJsonFile(scope.row.list_id)">生成json文件</el-button>
             </template>
             </el-table-column>
           </el-table>
@@ -293,6 +293,15 @@ export default {
                 });   
             }
         }) 
+    },
+    creatJsonFile(listid){
+        const that=this;
+        var fd = new FormData()
+        fd.append("flag","creatPlmJsonFile")
+        fd.append("listid",listid)
+        axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
+
+        })      
     }
   }
 }
@@ -314,6 +323,7 @@ export default {
     .PlmChangeTree{
         position: absolute;
         z-index: 10;
+        box-shadow:0 0 20px 5px gray
     }
     .TreeList0{
         z-index: 1;

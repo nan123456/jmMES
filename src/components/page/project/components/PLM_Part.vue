@@ -114,12 +114,12 @@ export default {
   .leftInput{
     position: absolute;
     top: 15px;
-    right: 650px;
+    left: 80px;
   }
   .rightInput{
     position: absolute;
     top: 15px;
-    right: 200px;
+    left: 500px;
   }
   .main{
     height: 180px;
