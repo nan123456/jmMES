@@ -83,6 +83,7 @@ export default {
     padding: 30px;
     border-radius: 5px;
     background: #fff;
+    min-height: 95vh;
   }
   
 </style>
