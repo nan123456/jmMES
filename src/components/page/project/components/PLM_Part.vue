@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-show="PLM_partshow">
     <!-- el-tabs的v-model对应el-tab-pane的name ,即显示对应标签页 -->
-    <el-tabs type="border-card" v-model="activeName">
+    <el-tabs type="border-card" v-model="activeName" class="part-tabs">
       <el-tab-pane class="main" name="first" label="部件信息">
         <el-form ref="form"  label-width="100px">
           <div class="leftInput">
@@ -56,6 +56,7 @@
 
 <script>
 import axios from 'axios'
+import bus from '../../../common/bus'
 export default {
   name: 'ProjectPart',
   components: {
@@ -69,7 +70,8 @@ export default {
       partdata:{},
       mylxid: '',
       item:{},
-      activeName: 'first'
+      activeName: 'first',
+      PLM_partshow:true
     }
   },// 监听数据的变化
   watch: {
@@ -91,6 +93,14 @@ export default {
         axios.post(`${this.baseURL}/part.php`,sch).then(this.getPartschdataSucc)
       }  
     }
+  },
+  created(){
+    // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+    bus.$on('PLM_partshow', msg => {
+      this.PLM_partshow = msg;
+    })
+
+      this.getDataInfo();
   },
   methods: {
     getPartschdataSucc(res) {
@@ -122,7 +132,7 @@ export default {
     left: 500px;
   }
   .main{
-    height: 180px;
+    height: 20vh;
   }
   .input{
     width: 300px;

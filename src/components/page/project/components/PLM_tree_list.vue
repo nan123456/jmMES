@@ -2,8 +2,11 @@
   <div>
     <!-- el-tabs的v-model对应el-tab-pane的name ,即显示对应标签页 -->
     <el-tabs type="border-card" v-model="activeName">
-      <el-tab-pane name="first" class="main" label="制造BOM生成树">
-        <el-button class="button_new" type="primary" @click="creatBOMTree()">新建BOM生成树</el-button><br/><br/>
+      <el-tab-pane name="first" :class="{'mainA':isOK,'mainB':isNOT}" label="制造BOM生成树">
+        <el-button class="button_new" type="primary" @click="creatBOMTree()">新建BOM生成树</el-button>
+        <el-button class="button_new" style="right:5px" v-show="minishow" @click="minimize()">部件信息隐藏</el-button>
+        <el-button class="button_new" style="right:5px" v-show="maxshow" @click="Maximization()">部件信息显示</el-button>
+        <br/><br/>
         <div class="tittle">{{treename}}</div>
         <div v-if="showNULL">暂无制造BOM生成树</div>
         <!-- <div v-for="(item,index) in ListData" v-if="showList" :class="generateClassName(index)">
@@ -48,7 +51,7 @@
         <!-- 遮罩层
         <div class='popContainer' v-show="this.popContainershow"></div> -->
       </el-tab-pane>
-      <el-tab-pane name="second" class="main" label="操作记录">
+      <el-tab-pane name="second" :class="{'mainA':isOK,'mainB':isNOT}" label="操作记录">
         <div class="tittle2">{{treename}}</div>
         <div v-if="showOprateNULL">暂无制造BOM树操作记录</div>
         <!-- <div v-for="(item,index) in OprateListData" v-if="showOprateList" :class="generateClassName(index)">
@@ -96,6 +99,7 @@ import axios from 'axios'
 import PlmChangeTree from './PLM_change_tree'
 import PlmRechange from './PLM_rechange'
 import PlmOprateData from './PLM_oprate_data'
+import bus from '../../../common/bus'
 export default {
   name: 'ProjectPart',
   components: {
@@ -130,7 +134,11 @@ export default {
       OprateDataDisplay:false,
       OprateListID:'',
       operating_data:[],
-      search:''
+      search:'',
+      minishow:true,
+      maxshow:false,
+      isOK:true,
+      isNOT:false
     }
   },// 监听数据的变化
   watch: {
@@ -302,6 +310,25 @@ export default {
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
 
         })      
+    },
+    //组件通信使部件信息最小化和最大化
+    minimize(){
+      this.minishow=false
+      this.maxshow=true
+      this.$nextTick(function () {
+          bus.$emit('PLM_partshow', this.minishow);
+      })
+      this.isOK=false
+      this.isNOT=true
+    },
+    Maximization(){
+      this.minishow=true
+      this.maxshow=false
+      this.$nextTick(function () {
+          bus.$emit('PLM_partshow', this.minishow);
+      })
+      this.isOK=true
+      this.isNOT=false
     }
   }
 }
@@ -334,9 +361,13 @@ export default {
         z-index: 1;
         height: 40px;      
     }
-    .main{
-      height: 400px;
-      overflow: scroll;
+    .mainA{
+      height: 44vh;
+      overflow: auto;
+    }
+    .mainB{
+      height: 72vh;
+      overflow: auto
     }
     .popContainer{
       position: fixed;
