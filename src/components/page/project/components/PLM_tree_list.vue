@@ -46,8 +46,8 @@
             </template>
             </el-table-column>
           </el-table>
-        <PlmChangeTree class="PlmChangeTree" v-if="treeDisplay" @listen="listenChild" :treedata="treedata" :name="treename"></PlmChangeTree>
-        <PlmRechange class="PlmChangeTree" v-if="RechangeTreeDisplay" @listen="listenRechangeChild" :treedata="rechangeTreedata" :list_id="list_id"></PlmRechange>
+        <PlmChangeTree :class="treeclass" v-if="treeDisplay" @listen="listenChild" :treedata="treedata" :name="treename"></PlmChangeTree>
+        <PlmRechange :class="treeclass" v-if="RechangeTreeDisplay" @listen="listenRechangeChild" :treedata="rechangeTreedata" :list_id="list_id"></PlmRechange>
         <!-- 遮罩层
         <div class='popContainer' v-show="this.popContainershow"></div> -->
       </el-tab-pane>
@@ -88,7 +88,7 @@
             </template>
             </el-table-column>
           </el-table>
-        <PlmOprateData class="PlmChangeTree" v-if="OprateDataDisplay" @listen="listenOprateChild" :OprateListID="OprateListID"></PlmOprateData>
+        <PlmOprateData :class="treeclass" v-if="OprateDataDisplay" @listen="listenOprateChild" :OprateListID="OprateListID"></PlmOprateData>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -138,7 +138,8 @@ export default {
       minishow:true,
       maxshow:false,
       isOK:true,
-      isNOT:false
+      isNOT:false,
+      treeclass:'PlmChangeTree1'
     }
   },// 监听数据的变化
   watch: {
@@ -320,8 +321,9 @@ export default {
       })
       this.isOK=false
       this.isNOT=true
+      this.treeclass='PlmChangeTree2'
     },
-    Maximization(){
+  Maximization(){
       this.minishow=true
       this.maxshow=false
       this.$nextTick(function () {
@@ -329,6 +331,7 @@ export default {
       })
       this.isOK=true
       this.isNOT=false
+      this.treeclass='PlmChangeTree1'
     }
   }
 }
@@ -347,10 +350,17 @@ export default {
         margin-left: 10px;
         height: 30px;
     }
-    .PlmChangeTree{
+    .PlmChangeTree1{
         position: absolute;
         z-index: 10;
-        box-shadow:0 0 20px 5px gray
+        box-shadow:0 0 20px 5px gray;
+        height: 400px;
+    }
+    .PlmChangeTree2{
+        position: absolute;
+        z-index: 10;
+        box-shadow:0 0 20px 5px gray;
+        height: 650px;
     }
     .TreeList0{
         z-index: 1;

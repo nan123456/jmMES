@@ -287,7 +287,6 @@ export default {
         position: absolute;
         top: 15px;
         left: 5%;
-        height: 400px;
         background-color: white;
         overflow: auto;
     }

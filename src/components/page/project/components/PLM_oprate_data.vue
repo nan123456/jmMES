@@ -7,8 +7,7 @@
             <el-table
                 class="table"
                 :data="OprateListData"
-                style="width: 100%"
-                height="400px">
+                style="width: 100%">
                 <el-table-column
                     prop="product_id"
                     label="产品图号"
@@ -120,9 +119,8 @@ export default {
         position: absolute;
         top: 15px;
         left: 5%;
-        height: 400px;
         background-color: white;
-        
+        overflow-y: auto;
     }
     .button_close{
         position:absolute;
