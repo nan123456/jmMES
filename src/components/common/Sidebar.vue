@@ -1,5 +1,27 @@
 <template>
     <div class="sidebar">
+        <div class="Other-btn">
+                <!-- 用户头像 -->
+                <div class="user-avator">
+                    <img src="static/img/img.jpg">
+                    <el-dropdown class="user-name" trigger="click" @command="handleCommand" v-if="collapse==false">
+                        <span class="el-dropdown-link">
+                            {{username}} <i class="el-icon-caret-bottom"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <!-- <a href="http://blog.gdfengshuo.com/about/" target="_blank">
+                                <el-dropdown-item>关于作者</el-dropdown-item>
+                            </a> -->
+                            <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank"> -->
+                                <!-- <el-dropdown-item>
+                                    <router-link to = "/personal_settings">个人设置</router-link>
+                                </el-dropdown-item> -->
+                            <!-- </a> -->
+                            <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+            </div>
         <!-- el-menu 参数 router 为是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转-->
         <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
@@ -21,7 +43,7 @@
                 </template>
             </template>
             <div class="Other-btn">
-                 <!-- 消息中心 -->
+                <!-- 消息中心 -->
                 <div class="btn-bell">
                     <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
                         <router-link to="/tabs">
@@ -35,26 +57,6 @@
                     <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
-                </div>
-                <!-- 用户头像 -->
-                <div class="user-avator">
-                    <img src="static/img/img.jpg">
-                    <el-dropdown class="user-name" trigger="click" @command="handleCommand" v-if="collapse==false">
-                        <span class="el-dropdown-link">
-                            {{username}} <i class="el-icon-caret-bottom"></i>
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <!-- <a href="http://blog.gdfengshuo.com/about/" target="_blank">
-                                <el-dropdown-item>关于作者</el-dropdown-item>
-                            </a> -->
-                            <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank"> -->
-                                <!-- <el-dropdown-item>
-                                    <router-link to = "/personal_settings">个人设置</router-link>
-                                </el-dropdown-item> -->
-                            <!-- </a> -->
-                            <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
                 </div>
             </div>
         </el-menu>
@@ -358,6 +360,7 @@
         top: 60px;
         bottom:0;
         overflow-y: scroll;  /*裁剪内容 - 提供滚动机制。 */
+        background-color: #324157;
     }
     .sidebar::-webkit-scrollbar{
         width: 0;
@@ -419,7 +422,9 @@
         color: #fff;
     }
     .Other-btn{
-        position: fixed;
-        bottom: 0px;
+        /* position: fixed; */
+        /* position: absolute;
+        bottom: 0px; */
+        position: relative;
     }
 </style>
