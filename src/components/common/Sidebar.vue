@@ -1,6 +1,9 @@
 <template>
     <div class="sidebar">
-        <div class="Other-btn">
+        <!-- el-menu 参数 router 为是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转-->
+        <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
+            text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
+            <div class="Other-btn">
                 <!-- 用户头像 -->
                 <div class="user-avator">
                     <img src="static/img/img.jpg">
@@ -22,9 +25,6 @@
                     </el-dropdown>
                 </div>
             </div>
-        <!-- el-menu 参数 router 为是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转-->
-        <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
-            text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
             <template v-for="item in items">
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index">
@@ -356,7 +356,7 @@
         display: block;
         position: absolute;
         left: 0;
-        height: 100%;
+        /* height: 100%; */
         top: 60px;
         bottom:0;
         overflow-y: scroll;  /*裁剪内容 - 提供滚动机制。 */
