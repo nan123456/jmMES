@@ -2,10 +2,12 @@
     <div class="main">
         <el-tree
         class="tree"
+        ref="vuetree"
         :data="data"
         node-key="label"
         @node-drag-end="handleDragEnd"
         @node-drag-enter="handleDragEnter"
+        @node-drop='handleDrag'
         :default-expanded-keys="expandlabel"
         :render-content="renderContent"
         :expand-on-click-node="false"
@@ -43,7 +45,25 @@
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="formClick()">确 定</el-button>
             </div>
-        </el-dialog> 
+        </el-dialog>
+        <el-form class="save_form" :label-position="right" label-width="180px" :model="formLabelAlign" v-if="formshow">
+            <el-form-item class="name_form_item" label="请输入BOM生成树的名称">
+                <el-input class="name_input" placeholder="输入内容不得超40个字，BOM树名称不能重复" v-model="formLabelAlign.name"></el-input>
+            </el-form-item>
+            <el-form-item class="date_form_item" label="请输入计划排产时间">
+                <el-date-picker
+                    v-model="formLabelAlign.date"
+                    class="date_input"
+                    type="date"
+                    placeholder="选择日期"
+                    value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </el-form-item>
+            <el-button type="danger" class="button_cancel_input" @click="cancel_input()">取 消</el-button>
+            <el-button type="primary" class="button_save_input" @click="save_input()">确 定</el-button>
+        </el-form>
+        <!-- 遮罩层 -->
+        <div class='popContainer' v-show="popContainershow"></div> 
     </div>
 </template>
 <script>
@@ -66,6 +86,10 @@ export default {
                 count: '',
                 remark: ''
             },
+            formLabelAlign:{
+                name:'',
+                date:''
+            },
             dialogFormVisible:false,
             formLabelWidth:"120px",
             triggerCurrenNodeData :{},
@@ -79,7 +103,9 @@ export default {
                 hierarchy:''                
             },
             operating_data:[],
-            showInput:false
+            showInput:false,
+            popContainershow:false,
+            formshow:false,
         }
     },
     props: {
@@ -160,26 +186,54 @@ export default {
           this.$emit('listen',false)
       },
       save(){
-            this.$prompt('请输入BOM生成树的名称', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            inputPlaceholder:'输入内容不得超过40个字，BOM树名称不能重复',
-            }).then(({value}) => {
-                if(value.length>40){
-                    this.$message({
-                        type: 'error',
-                        message: '超过最大限制字数'
-                    }); 
-                }else{
-                    this.saveTree(value);
-                }
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消保存'
-                });          
-            });          
+          this.formshow=true;
+          this.popContainershow=true;
+          
+            // this.$prompt('请输入BOM生成树的名称', '提示', {
+            // confirmButtonText: '确定',
+            // cancelButtonText: '取消',
+            // inputPlaceholder:'输入内容不得超过40个字，BOM树名称不能重复',
+            // }).then(({value}) => {
+            //     if(value.length>40){
+            //         this.$message({
+            //             type: 'error',
+            //             message: '超过最大限制字数'
+            //         }); 
+            //     }else{
+            //         this.saveTree(value);
+            //     }
+            // }).catch(() => {
+            //     this.$message({
+            //         type: 'info',
+            //         message: '已取消保存'
+            //     });          
+            // });          
 
+      },
+      cancel_input(){
+        this.formshow=false;
+        this.popContainershow=false;
+        this.$message({
+            type: 'info',
+            message: '已取消保存'
+        });            
+      },
+      save_input(){
+        var name=this.formLabelAlign.name;
+        var date=this.formLabelAlign.date;
+        if(name.length>40){
+            this.$message({
+                type: 'error',
+                message: 'BOM树名称超过最大限制字数'
+            }); 
+        }else if(name.length==0||date==''){
+            this.$message({
+                type: 'error',
+                message: '请填写完整信息'
+            }); 
+        }else{
+            this.saveTree(name,date);
+        }
       },
       handleDragEnter(draggingNode, dropNode, ev) {
         // console.log('tree drag enter: ', dropNode.label);
@@ -216,7 +270,11 @@ export default {
         }
         this.expandlabel=[];
       },
-      saveTree(value){
+      handleDrag(ev){
+        //   console.log(ev)
+          this.$refs['vuetree'].setCurrentNode(ev);
+      },
+      saveTree(value,date){
         const that=this;
         var fd = new FormData()
         var useraccount=localStorage.account;
@@ -225,6 +283,7 @@ export default {
         fd.append("product_id",this.product_id)
         fd.append("tree_json",tree_json)
         fd.append("tree_name",value)
+        fd.append("plan_date",date)
         fd.append("create_user_account",useraccount)
         axios.post(`${this.baseURL}/tree.php`,fd).then(function (res){
             if(res.data.success=='success'){
@@ -323,9 +382,59 @@ export default {
         left:25%; 
         top: 53px;
     }
+    .save_form{
+        background-color: white;
+        position: fixed;
+        z-index: 10;
+        width: 550px;
+        height: 230px;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .name_input{
+        width: 300px;
+    }
+    .date_input{
+        width: 300px;
+    }
+    .name_form_item{
+        position: relative;
+        top: 30px;
+        left: 20px;
+    }
+    .date_form_item{
+        position: relative;
+        top: 50px;
+        left: 20px;
+    }
+    .button_cancel_input{
+        position: relative;
+        top: 70px;
+        left: 390px;
+    }
+    .button_save_input{
+        position: relative;
+        top: 70px;
+        left: 400px;
+    }
+    .popContainer{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 9;
+    }
 </style>
 <style>
 .tree-dialog .el-dialog__body{
-        padding: 5px 30px !important; 
+    padding: 5px 30px !important; 
+}
+.el-tree-node:focus > .el-tree-node__content {
+    background-color: #DDDDDD !important;
 }
 </style>

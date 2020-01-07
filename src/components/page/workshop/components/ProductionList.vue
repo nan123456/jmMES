@@ -52,6 +52,7 @@
             stripe
             @selection-change="handleSelectionChange"
             @filter-change="filterChange"
+            class="production_table"
           >
             <!-- reserve-selection属性保持选中状态 -->
             <el-table-column
@@ -191,6 +192,7 @@
             stripe
             @selection-change="handleSelectionChange"
             @filter-change="filterChange"
+            class="production_table"
           >
             <el-table-column
               type="selection"
@@ -364,6 +366,7 @@
             stripe
             @selection-change="handleSelectionChange"
             @filter-change="filterChange"
+            class="production_table"
           >
             <!-- reserve-selection属性保持选中状态 -->
             <el-table-column
@@ -507,6 +510,7 @@
             stripe
             @selection-change="handleSelectionChange"
             @filter-change="filterChange"
+            class="production_table"
           >
             <el-table-column
               type="selection"
@@ -1573,5 +1577,8 @@ export default {
   .el-table-filter {
     max-height: 300px !important; 
     overflow: auto ;
+  }
+  .production_table .el-table__row{
+    height: 64px;
   }
 </style>

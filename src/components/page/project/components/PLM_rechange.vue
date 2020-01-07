@@ -1,11 +1,13 @@
 <template>
     <div class="main">
         <el-tree
+        ref="vuetree"
         class="tree"
         :data="data"
         node-key="label"
         @node-drag-end="handleDragEnd"
         @node-drag-enter="handleDragEnter"
+        @node-drop='handleDrag'
         :default-expanded-keys="expandlabel"
         :render-content="renderContent"
         :expand-on-click-node="false"
@@ -203,6 +205,10 @@ export default {
         }
         this.expandlabel=[];
       },
+      handleDrag(ev){
+        //   console.log(ev)
+          this.$refs['vuetree'].setCurrentNode(ev);
+      },
       saveTree(){
         const that=this;
         var fd = new FormData()
@@ -300,6 +306,9 @@ export default {
 </style>
 <style>
 .tree-dialog .el-dialog__body{
-        padding: 5px 30px !important; 
+    padding: 5px 30px !important; 
+}
+.el-tree-node:focus > .el-tree-node__content {
+    background-color: #DDDDDD !important;
 }
 </style>

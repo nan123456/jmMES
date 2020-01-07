@@ -24,17 +24,22 @@
           style="width: 100%">
           <el-table-column
             label="树列名称"
-            width="200"
+            width="150"
             prop="tree_name">
           </el-table-column>
           <el-table-column
             label="创建人"
-            width="200"
+            width="150"
             prop="user_name">
           </el-table-column>
           <el-table-column
+            label="计划排产日期"
+            width="150"
+            prop="plan_date">
+          </el-table-column>
+          <el-table-column
             label="创建时间"
-            width="200"
+            width="150"
             prop="create_time">
           </el-table-column>
           <el-table-column
