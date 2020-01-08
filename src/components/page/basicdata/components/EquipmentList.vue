@@ -11,7 +11,7 @@
         <span v-if="props.column.field == 'operate'">
           <el-button type="primary"   @click="equipmentQRcode(props.row)">点检二维码</el-button>
           <el-button type="primary"   @click="equipmentBarcode(props.row)">条形码</el-button>
-          <el-button type="primary"   @click="handleTabledata(props.row)">查看</el-button>
+          <el-button type="primary"   @click="handleTabledata(props.row)">查看月检表</el-button>
           <el-button type="primary" icon="el-icon-edit" circle @click="handleData(props.row)"></el-button>
           <el-button type="danger" icon="el-icon-delete" circle @click="deleteEquipment(props.row)" ></el-button>
           
@@ -65,16 +65,24 @@
           <el-button type="primary" @click="updateDataInfo()">确 定</el-button>
         </div>
     </el-dialog>
-    <!-- 设备点检记录 -->
-    <el-dialog title="点检记录" :visible.sync="dialogTableVisible">
+    <!-- 月检表列表 -->
+    <el-dialog title="月检表列表" :visible.sync="dialogTableVisible">
         <el-form :model="form">
           <vue-good-table 
             :columns="checkcolumns" 
             :rows="checkrows" 
             @on-column-filter="selectionChanged"
             :search-options="{enabled: true}"
-            :pagination-options="{enabled: true,mode: 'records',perPage: 5,perPageDropdown: [5],dropdownAllowAll: false,}"
-          />
+            :pagination-options="{enabled: true,mode: 'records',perPage: 5,perPageDropdown: [5],dropdownAllowAll: false,}">
+            <template slot="table-row" slot-scope="props">
+              <span v-if="props.column.field == 'operate'">
+                <el-button type="primary"   @click="examineCkeckTable(props.row.id)">查看</el-button>               
+              </span>
+              <span v-else>
+                {{props.formattedRow[props.column.field]}}
+              </span>
+            </template>            
+          </vue-good-table>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogTableVisible = false">取 消</el-button>
@@ -152,23 +160,31 @@ export default {
       checkcolumns: [
         {
           label: "设备编号",
-          field: "number",
+          field: "e_number",
         },
         {
-          label: "设备名称",
-          field: "name"
+          label: "设备类型名称",
+          field: "e_name"
         },
         {
-          label: "点检结果",
-          field: "checkresult"
+          label: "设备型号",
+          field: "e_type"
         },
         {
-          label: "点检时间",
-          field: "checkdate"
+          label: "点检月份",
+          field: "year_month"
         },
         {
-          label: "点检人",
-          field: "checkperson"
+          label: "车间",
+          field: "workshop"
+        },
+        {
+          label: "班组",
+          field: "group"
+        },
+        {
+          label: "操作",
+          field: "operate"          
         }
       ],
       checkrows: []
@@ -283,13 +299,14 @@ export default {
       this.dialogFormdata = row
       this.dialogFormVisible = true
     },
-    // 点检记录异步数据获取
+    // 月检表数据获取
     handleTabledata(row) {
       // console.log(row.id)
       var fd = new FormData()
       this.checkrows = []
+      fd.append("flag",'getCheckList')
       fd.append("id",row.id)
-      axios.post(`${this.baseURL}/basicdata/equipment.php`,fd).then(this.getcheckDataSucc)
+      axios.post(`${this.baseURL}/basicdata/equipment_check.php`,fd).then(this.getcheckDataSucc)
       this.dialogTableVisible = true
     },
     getcheckDataSucc(res) {
@@ -325,6 +342,10 @@ export default {
       sessionStorage.setItem('number',row.number)
       //打开生成二维码页面
       window.open('#/equipmentBar', '_blank');
+    },
+    // 查看月检表
+    examineCkeckTable(id){
+      alert(id)
     }
   }
 };
