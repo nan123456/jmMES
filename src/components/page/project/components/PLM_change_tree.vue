@@ -272,7 +272,16 @@ export default {
       },
       handleDrag(ev){
         //   console.log(ev)
+          var key=ev.data.label;
+          var that=this;
+        //   console.log(key)
+        //   this.$refs.vuetree.setCurrentKey(key)
+        // this.$nextTick(() => {
+        //     // treeBox 元素的ref   value 绑定的node-key
+        //     this.$refs.vuetree.setCurrentKey(key); 
+        // });
           this.$refs['vuetree'].setCurrentNode(ev);
+        //   this.$refs['vuetree'].setCurrentKey('头轮装置');
       },
       saveTree(value,date){
         const that=this;
