@@ -338,6 +338,12 @@ export default new Router({
             component: resolve => require(['../components/page/examine/Photo.vue'],resolve),
             meta: {title: '图片'}
         },
+        {
+            // 查看设备月检表
+            path: '/Checklist',
+            component: resolve => require(['../components/page/basicdata/components/Checklist.vue'],resolve),
+            meta: {title: 'checklist'}
+        },
         // ,
         // {
         //     path: '*',
