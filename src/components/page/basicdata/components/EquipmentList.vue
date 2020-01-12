@@ -90,7 +90,8 @@
             :pagination-options="{enabled: true,mode: 'records',perPage: 5,perPageDropdown: [5],dropdownAllowAll: false,}">
             <template slot="table-row" slot-scope="props">
               <span v-if="props.column.field == 'operate'">
-                <el-button type="primary"   @click="examineCkeckTable(props.row.id)">查看</el-button>               
+                <el-button type="primary"   @click="examineCkeckTable(props.row.id)">查看</el-button>  
+                <el-button type="danger"   @click="deleteCkeckTable(props.row.id)">删除</el-button>              
               </span>
               <span v-else>
                 {{props.formattedRow[props.column.field]}}
@@ -101,7 +102,7 @@
         <div slot="footer" class="dialog-footer">
           <el-button type="danger" @click="closeList()">关 闭</el-button>
         </div>
-        <el-form class="newCheckForm" :label-position="right" v-if="newCheckTableShow" label-width="180px">
+        <el-form class="newCheckForm" label-position="right" v-if="newCheckTableShow" label-width="180px">
             <el-form-item  class="newCheckFormMonth"  label="请选择点检月份">
                 <el-date-picker
                   style="width:250px"
@@ -120,6 +121,7 @@
             <el-button class="newCheckTableCancelBtn" type="danger" @click="newCheckTableCancel()">取 消</el-button>
             <el-button class="newCheckTableSaveBtn" type="primary" @click="saveNewCheckTable(equipmentID)">确 定</el-button>
         </el-form>
+        <Checklist  v-if="checkTableShow" class="checklist" :checkTableId='checkTableId' @listen='listenChild'></Checklist>
     </el-dialog>
   </div>  
 </template>
@@ -127,12 +129,21 @@
 <script>
 import { VueGoodTable } from "vue-good-table"
 import axios from 'axios'
+import Checklist from './Checklist'
 export default {
   name: "EquipmentList",
+  components: {
+    VueGoodTable,
+    Checklist
+  },
+  props:{
+    name:String
+  },
   data() {
     return {
       dialogFormVisible: false,
       dialogTableVisible: false,
+      checkTableShow:false,
       form: {
         name: "",
         region: "",
@@ -246,11 +257,9 @@ export default {
       newCheckTableShow:false,
       newFormMonth:'',
       newFormUser:'',
-      newFormGroup:''
+      newFormGroup:'',
+      checkTableId:''
     };
-  },
-  components: {
-    VueGoodTable
   },
   created () {
     this.getDataInfo()
@@ -408,7 +417,41 @@ export default {
     },
     // 单月检表查看
     examineCkeckTable(id){
-      alert(id)
+      this.checkTableShow=true;
+      this.checkTableId=id;
+    },
+    //单月检表删除
+    deleteCkeckTable(id){
+      var that=this;
+      this.$confirm('此操作将删除该月检表, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var fd = new FormData();
+        fd.append("flag",'deleteCheckTable')
+        fd.append("id",id)
+        axios.post(`${this.baseURL}/basicdata/equipment_check.php`,fd).then(function (res){
+            if(res.data.res=='success'){
+              that.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              that.handleTabledata(that.equipmentID);
+            }else{
+              that.$message({
+                type: 'info',
+                message: '删除失败!'
+              });
+            }
+          }
+        ) 
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });            
     },
     // 新建月检表
     newCheckTable(){
@@ -462,6 +505,11 @@ export default {
             }
         }
       )
+    },
+    //监听子部件
+    listenChild(val){
+      this.checkTableShow=false;
+      this.checkTableId=0;
     }
   }
 };
@@ -472,7 +520,7 @@ export default {
     position: absolute;
     right: 20px;
     top: 20px;
-    z-index: 10;
+    z-index: 5;
   }
   .new_input{
     width: 300px;
@@ -511,5 +559,17 @@ export default {
     position: absolute;
     top: 190px;
     right: 30px;
+  }
+  .checklist{
+    width: 90%;
+    height:600px;
+    position: fixed;
+    background: #fff;
+    z-index: 9;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: -20px;
+    bottom: 0;
   }
 </style>

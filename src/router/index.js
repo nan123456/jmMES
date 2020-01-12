@@ -342,7 +342,13 @@ export default new Router({
             // 查看设备月检表
             path: '/Checklist',
             component: resolve => require(['../components/page/basicdata/components/Checklist.vue'],resolve),
-            meta: {title: 'checklist'}
+            meta: {title: '查看设备月检表'}
+        },
+        {
+            // 打印设备月检表
+            path: '/ChecklistPrint',
+            component: resolve => require(['../components/page/basicdata/components/ChecklistPrint.vue'],resolve),
+            meta: {title: '打印设备月检表'}
         },
         // ,
         // {

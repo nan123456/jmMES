@@ -4,10 +4,6 @@
             <td colspan="37" rowspan="2">
                 <h4 style="text-align: center">中山市金马科技娱乐设备股份有限公司</h4>
                 <p style="text-align: end;text-align: right">YZ[Y]A-019</p>
-                <el-button class="print_btn" type="primary" @click="printTable()">打印</el-button>
-                <el-button class="change_btn" type="primary" @click="changeText()" v-if="btn_state">修改内容</el-button>
-                <el-button class="save_btn" type="primary" @click="saveText()" v-else="btn_state">保存内容</el-button>
-                <el-button class="close_btn" type="danger" @click="closeTable()">关闭</el-button>
             </td>
         </tr>
         <tr></tr>
@@ -23,12 +19,12 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">{{header.workshop}}</td>
-            <td style="text-align: center"><input type="text" maxlength='20' :disabled="disabled" :class='backgrondColor' style="width:90px;font-size:17px;text-align:center" v-model="header.group"></td>
+            <td style="text-align: center">{{header.group}}</td>
             <td style="text-align: center">{{header.year_month}}</td>
             <td style="text-align: center">{{header.e_number}}</td>
             <td colspan="7" style="text-align: center">{{header.e_name}}</td>
             <td colspan="7" style="text-align: center">{{header.e_type}}</td>
-            <td colspan="6" style="text-align: center"><input type="text" maxlength='20' :disabled="disabled" :class='backgrondColor' style="width:110px;font-size:17px;text-align:center" v-model="header.e_user"></td>
+            <td colspan="6" style="text-align: center">{{header.e_user}}</td>
         </tr>   
         <tr>
             <td rowspan="2" style="width:30px"></td>
@@ -466,27 +462,27 @@
             <td style="text-align: center">{{tabledata[10]["31"]}}</td>
         </tr>
         <tr>
-            <td colspan="6" style="text-align: center">开  动  台  时 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;全月<input type="text" maxlength='5' :disabled="disabled" :class='backgrondColor' style="width:30px;font-size:17px;text-align:center" v-model="state_time.running">小时</td>
+            <td colspan="6" style="text-align: center">开  动  台  时 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;全月{{state_time.running}}小时</td>
             <td colspan="31" rowspan="2" style="text-align: center">注：每天将检点情况，按符号列入格内，良好"√"尚可"△"待修"×"已修"○"</td>
         </tr>
         <tr>
             <td colspan="2" rowspan="4" style="text-align: center">停开<br>台时</td>
             <td style="text-align: center">故障停台</td>
-            <td colspan="3" style="text-align: right">全月<input type="text" maxlength='5' :disabled="disabled" :class='backgrondColor' style="width:30px;font-size:17px;text-align:center" v-model="state_time.fault">小时</td>
+            <td colspan="3" style="text-align: right">全月{{state_time.fault}}小时</td>
         </tr>
         <tr>
             <td style="text-align: center">其他原因</td>
-            <td colspan="3" style="text-align: right">（待料、停电、调休、无任务）<br>全月<input type="text" maxlength='5' :disabled="disabled" :class='backgrondColor' style="width:30px;font-size:17px;text-align:center" v-model="state_time.other">小时</td>
+            <td colspan="3" style="text-align: right">（待料、停电、调休、无任务）<br>全月{{state_time.other}}小时</td>
             <td colspan="5" rowspan="5" style="text-align: center">设备状况与修理意见</td>
             <td colspan="26" rowspan="5"></td>
         </tr>
         <tr>
             <td style="text-align: center">保    养</td>
-            <td colspan="3" style="text-align: right">全月<input type="text" maxlength='5' :disabled="disabled" :class='backgrondColor' style="width:30px;font-size:17px;text-align:center" v-model="state_time.mantain">小时</td>
+            <td colspan="3" style="text-align: right">全月{{state_time.mantain}}小时</td>
         </tr> 
         <tr>
             <td style="text-align: center">计划小修</td>
-            <td colspan="3" style="text-align: right">全月<input type="text" maxlength='5' :disabled="disabled" :class='backgrondColor' style="width:30px;font-size:17px;text-align:center" v-model="state_time.plan">小时</td>
+            <td colspan="3" style="text-align: right">全月{{state_time.plan}}小时</td>
         </tr> 
         <tr>
             <td colspan="2" rowspan="2" style="text-align: center">区域巡检</td>
@@ -521,7 +517,7 @@ export default {
             ],
             state_time:
             {
-                "running":"","fault":"","other":"","mantain":"","plan":""
+                    "running":"","fault":"","other":"","mantain":"","plan":""
             },
             header:{
                 "workshop":"",
@@ -532,26 +528,12 @@ export default {
                 "e_type":"",
                 "e_user":""
             },
-            btn_state:true,
-            disabled:true,
-            backgrondColor:'gray',
             id:''
         }
     },
-    props:{
-        checkTableId: String,
-    },
-    watch:{
-        checkTableId:{
-            immediate: true,   //如果不加这个属性，父组件第一次传进来的值监听不到
-            handler(val){
-                this.getCheckData(val)
-                this.id=val;
-            }
-        }
-    },
-    created() {
-        
+    created(){
+        this.id=sessionStorage.getItem('id');
+        this.getCheckData(this.id);
     },
     methods:{
         getCheckData(id){
@@ -571,58 +553,6 @@ export default {
                     that.state_time=JSON.parse(res.data.data.state_time);
                 }
             )
-        },
-        closeTable(){
-            this.$emit('listen',false)
-        },
-        changeText(){
-            this.disabled=false;
-            this.btn_state=false;
-            this.backgrondColor='white';
-        },
-        saveText(){
-            this.$confirm('是否确定保存修改？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                var that=this;
-                var fd = new FormData();
-                var state_time=JSON.stringify(this.state_time);
-                fd.append("flag",'saveChangeCheckData')
-                fd.append("state_time",state_time)
-                fd.append("group",this.header.group)
-                fd.append("e_user",this.header.e_user)
-                fd.append("id",this.id)
-                axios.post(`${this.baseURL}/basicdata/equipment_check.php`,fd).then(function (res){
-                    if(res.data.res=='success'){
-                        that.disabled=true;
-                        that.btn_state=true;
-                        that.backgrondColor='gray';
-                        that.$message({
-                            type: 'success',
-                            message: '保存成功!'
-                        });
-                    }else{
-                        that.$message({
-                            type: 'info',
-                            message: '保存失败!'
-                        });
-                    }
-                })                
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消保存'
-                });          
-            });
-        },
-        printTable(){
-            //清空缓存
-            sessionStorage.removeItem('id');
-            //添加缓存id
-            sessionStorage.setItem('id',this.id)
-            window.open('#/ChecklistPrint', '_blank');
         }
     }
 }
@@ -632,31 +562,5 @@ export default {
         width: 22px;
         height: 22px;
         text-align: center;
-    }
-    .print_btn{
-        position: absolute;
-        top: 10px;
-        right: 265px;
-    }
-    .close_btn{
-        position: absolute;
-        top: 10px;
-        right: 100px;
-    }
-    .change_btn{
-        position: absolute;
-        top: 10px;
-        right: 170px;
-    }
-    .save_btn{
-        position: absolute;
-        top: 10px;
-        right: 170px;
-    }
-    .gray{
-        background-color: #C0C0C0;
-    }
-    .white{
-        background-color: white;
     }
 </style>
