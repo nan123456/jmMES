@@ -49,10 +49,11 @@
                             v-for="item in options2"
                             :key="item.index"
                             :label="item.label"
-                            :value="item.value">
+                            :value="item.product_id">
                           </el-option>
-                        </el-select>
-                      <el-button type="primary" @click="getPLM()" class="tree_btn2" style="margin-right:-2px">读取设计文档</el-button>
+                        </el-select><br/>
+                      <el-button type="primary" @click="upDateList()" class="tree_btn2" style="margin-right:-2px">更新项目列表</el-button>
+                      <el-button type="primary" @click="getPLM()" class="tree_btn2" style="margin-right:-2px">读取设计文档</el-button><br/>
                       <el-select class="selectdiv3" v-model="selectvalue3" placeholder="请选择项目">
                         <el-option
                         v-for="item in options3"
@@ -502,9 +503,17 @@ export default {
         }) 
       },
       getPLM(){
-          // alert("未检测到PLM数据源，请在同一局域网下读取");
-          this.dataplmtree=this.loadNode2();
-          console.log(this.dataplmtree)
+        alert('读取时间比较漫长，请耐心等待！在此期间请不要关闭或刷新页面，直到弹出读取成功或读取失败的结果为止！')
+        var fd = new FormData()
+        fd.append('ProductID',this.selectvalue2)
+        axios.post(`${this.baseURL}/getPlm/bodyDispose.php`,fd).then((res)=>{
+          if(res.data=='success'){
+            alert('读取成功！')
+            location.reload();
+          }else{
+            alert('读取失败！')
+          }
+        })           
       },
       // Tree 控件显示
       loadNode1(node, resolve){
@@ -760,6 +769,17 @@ export default {
           // this.selectvalue=res.data.data[0].value;
         }) 
       },
+      //更新PLM获取项目列表
+      upDateList(){
+        axios.post(`${this.baseURL}/getPlm/getProjectList.php`).then((res)=>{
+          if(res.data=='success'){
+            alert('更新成功！')
+            location.reload();
+          }else{
+            alert('更新失败！')
+          }
+        }) 
+      }
     }
 };
 </script>
@@ -781,14 +801,15 @@ export default {
   }
   .selectdiv2{
     margin-bottom: 10px;
-    width: 180px   
+    width: 280px   
   }
   .selectdiv3{
     margin-bottom: 10px;
     width: 147px   
   }
   .tree_btn2{
-    width: 100px;
+    width: 130px;
+    margin-bottom:10px ;
     text-align: center;   
   }
   .tree_btn3{
